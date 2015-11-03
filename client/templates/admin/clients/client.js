@@ -1,3 +1,4 @@
+/*Added the dv branch for happyveggie from bitbucket.*/
 AutoForm.addHooks(['add_client_form','edit_client_form'],{
   onSuccess: function(operation,result,template){
     FlashMessages.sendSuccess('Client Saved Successfully');
