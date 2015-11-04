@@ -4,7 +4,7 @@
       <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-4 col-lg-offset-2">
               <h3>Add a Business Partner</h3>
-              {{> quickForm collection="BusinessPartners" doc=this id="add_bp_form" type="insert"}}
+              {{> quickForm collection="BusinessPartners" doc=this id="add_bp_form" type="insert" omitFields="associatedUsers,isSelf,updatedBy,updatedAt,isSearchable"}}
               <!-- <button type="submit" class="btn btn-primary">Submit</button>
               <a href="/admin/bp" class="btn btn-default">Go Back</a> -->
           </div>
