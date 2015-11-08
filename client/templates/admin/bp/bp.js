@@ -5,6 +5,22 @@ Template.list_bp.helpers({
   }
 });
 
+Template.edit_bp.helpers({
+  selectedBP: function(){
+    return BusinessPartners.findOne({"_id":this._id});
+  }
+});
+
+Template.edit_bp.helpers({
+  selectedBP: function(){
+    return BusinessPartners.findOne({
+      "_id":this._id,
+      "isSelf":true
+    });
+  }
+});
+
+
 Template.list_bp.events({
   'click #add_event': function(event){
     Session.set('bpId',this._id);

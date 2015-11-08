@@ -369,6 +369,11 @@ input[type="text"]:focus, search_glow {
 .autoform-add-item:hover,.autoform-remove-item:hover{
   background-color: #fff;
 }
+
+.btn-primary:hover{
+  border-color: #3E3d35;
+  background-color: #fff;
+}
 /*Message CSS Begins here*/
 .modalClose{
   margin-top: -18px;
