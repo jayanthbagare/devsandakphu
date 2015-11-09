@@ -12,10 +12,11 @@ Template.edit_bp.helpers({
 });
 
 Template.edit_bp.helpers({
-  selectedBP: function(){
+  selfProfile: function(){
     return BusinessPartners.findOne({
-      "_id":this._id,
-      "isSelf":true
+      //"_id":this._id,
+      "isSelf":true,
+      "updatedBy":Meteor.userId()
     });
   }
 });
@@ -49,5 +50,12 @@ Template.list_bp.events({
   'click #view_timeline': function(event){
     //Set the client session id to be retrieved in timeline.
     Session.set('bpId',this._id);
+  }
+});
+
+Template.onboard_bp.events({
+  'click onboard_submit': function(event){
+    console.log('Inside Submit onboarding');
+    console.log(event.target);
   }
 });
