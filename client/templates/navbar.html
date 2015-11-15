@@ -16,12 +16,19 @@
 
         <div class="collapse navbar-collapse navbar-responsive-collapse" id="menu_section">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{pathFor 'projects'}}">Services Offered</a></li>
-            <li><a href="{{pathFor 'about'}}">About</a></li>
-            <li><a href="{{pathFor 'contact'}}">Contact</a></li>
             {{#if currentUser}}
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">
+                Business Partner
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="{{pathFor 'list_customers'}}">Customers</a></li>
+                <li><a href="{{pathFor 'list_vendors'}}">Vendors</a></li>
+              </ul>
+            </li>
+
             <li><a href="{{pathFor 'list_events'}}">Appointments</a></li>
-            <li><a href="{{pathFor 'list_clients'}}">Clients</a></li>
             <li><a href="{{pathFor 'list_products'}}">Products</a></li>
             <li><a class="logout">Logout</a></li>
             {{/if}}

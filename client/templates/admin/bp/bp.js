@@ -1,4 +1,24 @@
 
+AutoForm.addHooks(['onboard_bp'],{
+  onSuccess: function(operation,result,template){
+    //Get the latest insert by id
+    current_bp = BusinessPartners.findOne({"_id":result});
+    Meteor.call('createUserOnboardBP',current_bp,function(error,result){
+      if(error){
+        console.log('Could not create user after creating BP');
+        return false;
+      }
+    });
+
+    FlashMessages.sendSuccess('Business Onboarded Successfully');
+    Router.go('/admin/');
+  },
+  onError: function(operation,result,template){
+    FlashMessages.sendError('Could not save ' + result);
+  }
+});
+
+
 Template.list_bp.helpers({
   allBP: function(){
     return BusinessPartners.find();
@@ -50,12 +70,5 @@ Template.list_bp.events({
   'click #view_timeline': function(event){
     //Set the client session id to be retrieved in timeline.
     Session.set('bpId',this._id);
-  }
-});
-
-Template.onboard_bp.events({
-  'click onboard_submit': function(event){
-    console.log('Inside Submit onboarding');
-    console.log(event.target);
   }
 });
