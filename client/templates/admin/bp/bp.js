@@ -1,28 +1,10 @@
 AutoForm.addHooks(['onboard_bp'], {
-  onSubmit: function(insertDoc) {
-    console.log('Coming into onboard');
-    checkBPId = BusinessPartners.findOne({
-      emails: insertDoc.emails[0]
-    });
-
-    if (!checkBPId) {
-      console.log('No problems');
-      this.done();
-      return true;
-    } else {
-      console.log('Problems');
-      this.done(new Error('Another business found with the same email id, cannot onboard the business'));
-      return false;
-    }
-
-  },
   onSuccess: function(operation, result, template) {
     //Get the latest insert by id
     current_bp = BusinessPartners.findOne({
       "_id": result
     });
-    console.log('Current BP is');
-    console.log(current_bp);
+
     //Check if the user exists with the same email id
     checkUserId = Meteor.users.find(current_bp.emails[0]);
     if (!checkUserId) {

@@ -35,7 +35,14 @@ if (Meteor.isServer) {
         }
       });
 
-      console.log(currentUserId);
+      //Setup the email template.
+      // Accounts.emailTemplates.siteName="Feliz";
+      // Accounts.emailTemplates.from="info@fazo21.com";
+      // subject = bp.name + " has added you as a Business Partner";
+      // Accounts.emailTemplates.enrollAccount.subject = function(user){
+      //   return "Hello " + user.username;
+      // };
+
       //Send a email to change the password
       Accounts.sendEnrollmentEmail(currentUserId,bp.emails[0]);
 
