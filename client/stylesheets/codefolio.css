@@ -1,3 +1,5 @@
+/*#1abc9c*/
+/*1abc9c*/
 @import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,300);
 @import url(http://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css);
@@ -38,7 +40,8 @@ p {
 /* Links */
 
 a {
-  color: #1abc9c;
+  /*color: #1abc9c;*/
+  color:#1abc9c;
   word-wrap: break-word;
   -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
   -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
@@ -75,6 +78,7 @@ hr {
   padding-top: 10px;
 }
 .navbar-inverse {
+  /*background-color: #1abc9c;*/
   background-color: #1abc9c;
   border-color: #16a085;
 }
@@ -96,6 +100,7 @@ hr {
   border-color: transparent;
 }
 .progress-bar-theme {
+  /*background-color: #1abc9c;*/
   background-color: #1abc9c;
 }
 
@@ -209,10 +214,12 @@ bt {
 
 .glyphicon {
   /*font-size: 20px;*/
+  /*color: #1abc9c;*/
   color: #1abc9c;
 }
 .glyphicon, .footer-icons {
   color: #3E3d35;
+  /*border-color: #1abc9c;*/
   border-color: #1abc9c;
 }
 .panel-info, .panel-rating, .panel-more1 {
@@ -237,6 +244,7 @@ input[type="text"] {
   color: #3E3d35;
 }
 input[type="text"]:focus, search_glow {
+  /*border-color: #1abc9c;*/
   border-color: #1abc9c;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(26, 188, 156, 1);
   outline: 0 none;
@@ -261,6 +269,7 @@ input[type="text"]:focus, search_glow {
 }
 .glyphicon-menu-left, .glyphicon-menu-right {
   font-size: 2.3em;
+  /*color: #1abc9c;*/
   color: #1abc9c;
 }
 .chosenDate {
@@ -275,6 +284,7 @@ input[type="text"]:focus, search_glow {
   padding: 0;
   cursor: pointer;
   color: #3E3d35;
+  /*border-color: #1abc9c;*/
   border-color: #1abc9c;
 }
 
@@ -282,6 +292,7 @@ input[type="text"]:focus, search_glow {
 
 .spinDate {
   color: #3E3d35;
+  /*border-color: #1abc9c;*/
   border-color: #1abc9c;
   display: inline-block;
   padding: 6px 12px;
@@ -313,6 +324,7 @@ input[type="text"]:focus, search_glow {
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 15px;
+  /*border-color: #1abc9c;*/
   border-color: #1abc9c;
 }
 
@@ -324,11 +336,13 @@ input[type="text"]:focus, search_glow {
   text-align: center;
   font-size: 12px;
   border-radius: 35px;
+  /*border-color: #1abc9c;*/
   border-color: #1abc9c;
   z-index: 100;
   float: left;
   margin-left: -12px;
   margin-top: 25px;
+  /*background-color: #1abc9c;*/
   background-color: #1abc9c;
 }
 .timeline-badge::after {
@@ -338,6 +352,7 @@ input[type="text"]:focus, search_glow {
   left: 14px;
   height: 100%;
   width: 3px;
+  /*background: #1abc9c;*/
   background: #1abc9c;
   z-index: 106;
 }
@@ -362,6 +377,7 @@ input[type="text"]:focus, search_glow {
 /*Timeline CSS Ends here*/
 /**/
 .autoform-add-item, .autoform-remove-item{
+  /*border-color: #1abc9c;*/
   border-color: #1abc9c;
   background-color: #fff;
 }
@@ -384,7 +400,8 @@ input[type="text"]:focus, search_glow {
   width: auto;
   height: auto;
 
-  border-color: #1abc9c;
+  /*border-color: #1abc9c;*/
+  border-color:#1abc9c;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(26, 188, 156, 1);
   outline: 0 none;
 }
