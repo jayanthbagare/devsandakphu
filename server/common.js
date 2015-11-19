@@ -46,6 +46,7 @@ if (Meteor.isServer) {
       return client;
     },
     createUserOnboardBP: function(bp) {
+      console.log('Inside User Creation ', bp);
       //Create the account
       currentUserId = Accounts.createUser({
         username: bp.emails[0],

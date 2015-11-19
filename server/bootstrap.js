@@ -4,7 +4,10 @@ Meteor.startup(function(){
     Accounts.createUser({
       username: "rashmi",
       mail: "admin@admin.com",
-      password: "initial1"
+      password: "initial1",
+      profile:{
+        BusinessPartnerId:''
+      }
     });
   }
 

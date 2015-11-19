@@ -6,8 +6,10 @@ AutoForm.addHooks(['onboard_bp'], {
     });
 
     //Check if the user exists with the same email id
-    checkUserId = Meteor.users.find(current_bp.emails[0]);
-    if (!checkUserId) {
+    checkUserId = Meteor.users.find({"emails":current_bp.emails[0]}).fetch();
+    console.log('well well ', checkUserId);
+    if (!checkUserId || checkUserId == '') {
+      console.log('Before Creating user');
       Meteor.call('createUserOnboardBP', current_bp, function(error, result) {
         if (error) {
           console.log('Could not create user after creating BP');
