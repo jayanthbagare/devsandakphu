@@ -64,6 +64,7 @@ Template.list_clients.events({
   'click #sms_message': function(event){
     //Call the Modal for SMS here.
     $('#smsModal').modal("show");
+    Session.set('clientId',this._id);
   }
 });
 
@@ -88,6 +89,18 @@ Template.smsModal.events({
       var text_remaining = 160 - text_length;
       console.log(text_remaining);
       $('#chars_left').html(text_remaining + ' characters remaining.');
+  },
+  'click #sendMessage': function(event){
+    //Get the number of the client
+    client = Clients.findOne({_id:Session.get('clientId')});
+    smstext = $('#smsText').val();
+    Meteor.call('sendSMS',client.phone,smstext,function(result,error){
+      if(error){
+        throw new Meteor.Error('Could not send SMS, please try in some time again');
+      }
+    });
+    $('#smsModal').modal("hide");
+
   }
 });
 
