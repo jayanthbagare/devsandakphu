@@ -15,7 +15,6 @@ Template.edit_client.helpers({
   }
 });
 
-
 Template.list_clients.helpers({
 	clients: function(){
 		return Clients.find();

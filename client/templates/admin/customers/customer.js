@@ -25,6 +25,13 @@ AutoForm.addHooks(['add_customer_form'], {
       relation: 'sells_to',
       bp_predicate: [result]
     });
+
+    //Also insert the reverse
+    BusinessPartnerRelations.insert({
+      bp_subject: [result],
+      relation: 'buys_from',
+      bp_predicate: [currentUser.profile.BusinessPartnerId]
+    });
     //If all is well Flash a Success message.
     FlashMessages.sendSuccess('Customer Onboarded Successfully');
     Router.go('/admin/customers');
