@@ -4,9 +4,11 @@ AutoForm.addHooks(['add_customer_form'], {
     current_bp = BusinessPartners.findOne({
       "_id": result
     });
-    checkUserId = Meteor.users.find(current_bp.emails[0]);
+    checkUserId = Meteor.users.find({username:current_bp.emails[0]}).fetch();
+    console.log('User is ',checkUserId);
     //If not invite the customer to Feliz
-    if (!checkUserId) {
+    if (!checkUserId || checkUserId.length <= 0) {
+      console.log('Make the user here');
       Meteor.call('createUserOnboardBP', current_bp, function(error, result) {
         if (error) {
           console.log('Could not create user after creating Customer');

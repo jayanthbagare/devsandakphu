@@ -2,9 +2,9 @@ Meteor.startup(function(){
   if(Meteor.users.find().count() === 0 )
   {
     Accounts.createUser({
-      username: "rashmi",
-      mail: "admin@admin.com",
-      password: "initial1",
+      username: "fazo21",
+      mail: "praveen@fazo21.com",
+      password: "initial12",
       profile:{
         BusinessPartnerId:''
       }
