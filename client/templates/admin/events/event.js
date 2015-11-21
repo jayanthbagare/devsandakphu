@@ -3,16 +3,10 @@
 //******************************************
 Template.add_event.onRendered(function() {
   /*If the call is coming from Client screen then set the options*/
-  var client = Session.get('clientId');
-  var bp = Session.get('bpId');
-  if(client){
-    $('select[id="client"]').find('option[value='+ '"' + client + '"' + ']').attr("selected",true);
-    delete Session.keys['clientId'];
-  }
-  else {
+//  var client = Session.get('clientId');
+  var bp = customerId.get();
     $('select[id="client"]').find('option[value='+ '"' + bp + '"' + ']').attr("selected",true);
-    delete Session.keys['bpId'];
-  }
+
   ///End Call from client screen
     this.$('.datetimepicker').datetimepicker({
     });

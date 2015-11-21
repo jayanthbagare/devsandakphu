@@ -42,6 +42,7 @@ AutoForm.addHooks(['add_customer_form'], {
     FlashMessages.sendError('Could not save ' + result);
   }
 });
+
 Template.list_customers.helpers({
   getMyCustomers: function() {
     //Get the current user and its BP Id
@@ -71,6 +72,12 @@ Template.list_customers.helpers({
   }
 });
 
+Template.list_customers.events({
+  'click add_event': function(event){
+    customerId = new ReactiveVar('');
+    customerId.set(this._id);
+  }
+});
 
 Template.edit_customer.helpers({
   selectedCustomer: function(){
