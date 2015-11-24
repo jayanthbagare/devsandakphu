@@ -1,10 +1,12 @@
 AutoForm.addHooks(['onboard_bp'], {
   onSuccess: function(operation, result, template) {
     //Get the latest insert by id
-    current_bp = BusinessPartners.findOne({
-      "_id": result
-    });
+    Meteor.subscribe("getOneBP",result);
+    current_bp = BusinessPartners.find({
+      _id: result
+    }).fetch();
 
+    console.log('BP is ', current_bp);
     //Check if the user exists with the same email id
     checkUserId = Meteor.users.find({"emails":current_bp.emails[0]}).fetch();
     console.log('well well ', checkUserId);

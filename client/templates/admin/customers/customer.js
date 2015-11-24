@@ -1,23 +1,49 @@
 AutoForm.addHooks(['add_customer_form'], {
   onSuccess: function(operation, result, template) {
-    //See if the customer is already onboarded
-    Meteor.subscribe("getCustomerRelations");
-    Meteor.subscribe("getOneBP");
-    Meteor.subscribe("getBusinessPartners");
-    try{
-      console.log(result);
-      var current_bp = BusinessPartners.findOne({
-        _id:result
+
+    //Get Self Business Partner ID.
+    Meteor.subscribe("getUser",Meteor.userId());
+    currentUser = Meteor.users.find({
+      _id: Meteor.userId()
+    });
+    //Insert the relation between current business and customer.
+    try {
+      console.log('Before insert 1');
+      BusinessPartnerRelations.insert({
+        bp_subject: [currentUser.profile.BusinessPartnerId],
+        relation: 'sells_to',
+        bp_predicate: [result]
       });
-      console.log('Getting current BP ', current_bp);
+    } catch (e) {
+      throw new Meteor.Error(500, 'Could not state the relation 1', e);
+    }
+
+    //Also insert the reverse
+    try {
+      console.log('Before insert 2');
+      BusinessPartnerRelations.insert({
+        bp_subject: [result],
+        relation: 'buys_from',
+        bp_predicate: [currentUser.profile.BusinessPartnerId]
+      });
+    } catch (e) {
+      throw new Meteor.Error(500, 'Could not state the relation 2', e);
+    }
+
+    //See if the customer is already onboarded
+    try {
+      Meteor.subscribe("getOneBP", result);
+      current_bp = BusinessPartners.find({
+        _id: result
+      }).fetch();
 
       var userEmail = current_bp.emails[0];
-      console.log('User Email is ', userEmail);
-
-      var checkUserId = Meteor.users.find({username:userEmail}).fetch();
+      var checkUserId = Meteor.users.find({
+        username: userEmail
+      }).fetch();
       //If not invite the customer to Feliz
       if (!checkUserId || checkUserId.length <= 0) {
-        console.log('Make the user here');
+
         Meteor.call('createUserOnboardBP', current_bp, function(error, result) {
           if (error) {
             console.log('Could not create user after creating Customer');
@@ -25,28 +51,11 @@ AutoForm.addHooks(['add_customer_form'], {
           }
         });
       }
-    }
-    catch(e){
-      throw new Meteor.Error(500,'Could not find Customer',e);
+    } catch (e) {
+      throw new Meteor.Error(500, 'Could not find Customer', e);
     }
 
-    //Get Self Business Partner ID.
-    currentUser = Meteor.users.findOne({
-      _id: Meteor.userId()
-    });
-    //Insert the relation between current business and customer.
-    BusinessPartnerRelations.insert({
-      bp_subject: [currentUser.profile.BusinessPartnerId],
-      relation: 'sells_to',
-      bp_predicate: [result]
-    });
 
-    //Also insert the reverse
-    BusinessPartnerRelations.insert({
-      bp_subject: [result],
-      relation: 'buys_from',
-      bp_predicate: [currentUser.profile.BusinessPartnerId]
-    });
     //If all is well Flash a Success message.
     FlashMessages.sendSuccess('Customer Onboarded Successfully');
     Router.go('/admin/customers');
@@ -58,50 +67,45 @@ AutoForm.addHooks(['add_customer_form'], {
 
 Template.list_customers.helpers({
   getMyCustomers: function() {
-    Meteor.subscribe("getCustomerRelations");
-    Meteor.subscribe("getOneBP");
-    Meteor.subscribe("getBusinessPartners");
-
     // //Get the current user and its BP Id
     currentUser = Meteor.users.findOne({
       _id: Meteor.userId()
     });
-    currentUserBPId = currentUser.profile.BusinessPartnerId;
 
-    console.log(currentUserBPId);
+    currentUserBPId = currentUser.profile.BusinessPartnerId;
     //Get all the BP's which the logged in BP sells to
 
+    Meteor.subscribe("getCustomerRelations", currentUserBPId);
     customer_cursor = BusinessPartnerRelations.find({
       "bp_subject": currentUserBPId,
       "relation": "sells_to"
     }).fetch();
 
-
-    customers = [];
-
-    //Loop thru each BP and get BP details
-    customer_cursor.forEach(function(doc) {
-      //For each BP ID get the details of each BP
-      var bp_predicate = doc.bp_predicate.toString();
-      each_customer = BusinessPartners.find({
-        _id: bp_predicate
-      }).fetch();
-      customers.push(each_customer);
+    bp_predicates = customer_cursor.map(function(c) {
+      return c.bp_predicate[0]
     });
-    console.log(customers);
+    Meteor.subscribe("getCustomers", bp_predicates);
+    customers = BusinessPartners.find({
+      _id: {
+        $in: bp_predicates
+      }
+    }).fetch();
+
     return customers;
   }
 });
 
 Template.list_customers.events({
-  'click add_event': function(event){
+  'click add_event': function(event) {
     customerId = new ReactiveVar('');
     customerId.set(this._id);
   }
 });
 
 Template.edit_customer.helpers({
-  selectedCustomer: function(){
-    return BusinessPartners.findOne({"_id":this._id});
+  selectedCustomer: function() {
+    return BusinessPartners.findOne({
+      "_id": this._id
+    });
   }
 });
