@@ -1,27 +1,16 @@
 AutoForm.addHooks(['onboard_bp'], {
   onSuccess: function(operation, result, template) {
-    //Get the latest insert by id
-    Meteor.subscribe("getOneBP",result);
-    current_bp = BusinessPartners.find({
-      _id: result
-    }).fetch();
-
-    console.log('BP is ', current_bp);
-    //Check if the user exists with the same email id
-    checkUserId = Meteor.users.find({"emails":current_bp.emails[0]}).fetch();
-    console.log('well well ', checkUserId);
-    if (!checkUserId || checkUserId == '') {
-      console.log('Before Creating user');
-      Meteor.call('createUserOnboardBP', current_bp, function(error, result) {
-        if (error) {
-          console.log('Could not create user after creating BP');
-          return false;
-        }
-      });
+    console.log(result);
+    checkUser = Meteor.call('createUserOnboardBP',result);
+    if(checkUser)
+    {
+      FlashMessages.sendSuccess('Business Onboarded Successfully');
+      Router.go('/admin/');
     }
-
-    FlashMessages.sendSuccess('Business Onboarded Successfully');
-    Router.go('/admin/');
+    else {
+      FlashMessages.sendError('Could not create a user for the onboarded Business Partner');
+      Router.go('/admin/');
+    }
   },
   onError: function(operation, result, template) {
     FlashMessages.sendError('Could not save ' + result);
