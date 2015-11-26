@@ -1,90 +1,110 @@
 if (Meteor.isServer) {
   Meteor.methods({
-      sendSMS: function(toNumber, body) {
-        //Run Twilio here
-        // twilio = Twilio('AC15886b52bdb53ae37c3f2237955bb0d3', '78f868c47e97c113e05c4fe5ede64b4f');
-        // twilio.sendSms({
-        //   to: toNumber, // Any number Twilio can deliver to
-        //   from: '+14696052859', // A number you bought from Twilio and can use for outbound communication
-        //   body: body // body of the SMS message
-        // }, function(err, responseData) { //this function is executed when a response is received from Twilio
-        //   if (!err) {
-        //     return true;
-        //   } else {
-        //     {
-        //       console.log(err);
-        //       return false;
-        //     }
-        //   }
-        // });
-        //Plivo Setup here.
-        var plivo = Meteor.npmRequire('plivo');
-        //var plivo = new plivonpm({version:"0.3.3"});
+    sendSMS: function(toNumber, body) {
+      //Run Twilio here
+      // twilio = Twilio('AC15886b52bdb53ae37c3f2237955bb0d3', '78f868c47e97c113e05c4fe5ede64b4f');
+      // twilio.sendSms({
+      //   to: toNumber, // Any number Twilio can deliver to
+      //   from: '+14696052859', // A number you bought from Twilio and can use for outbound communication
+      //   body: body // body of the SMS message
+      // }, function(err, responseData) { //this function is executed when a response is received from Twilio
+      //   if (!err) {
+      //     return true;
+      //   } else {
+      //     {
+      //       console.log(err);
+      //       return false;
+      //     }
+      //   }
+      // });
+      //Plivo Setup here.
+      var plivo = Meteor.npmRequire('plivo');
+      //var plivo = new plivonpm({version:"0.3.3"});
 
-        var p = plivo.RestAPI({
-          authId: 'MAMDA4YWQ3MTU5ZWFLMW',
-          authToken: 'ZmM5ODE3ZjUzMzMxMjdkYmRjOTgxOTVmNzYyZDNm'
-        });
-
-        var params = {
-          'src': '919739902121',
-          'dst': toNumber,
-          'text': body
-        };
-
-        p.send_message(params, function(status, response) {
-          console.log('Status is ', status);
-          console.log('API response: \n', response);
-          console.log('Message UUID:\n', response['message_uuid']);
-          console.log('API Id:\n', response['api_id']);
-        });
-      },
-      mgetClient: function(client_id) {
-        var client = Clients.findOne({
-          "_id": client_id
-        });
-        return client;
-      },
-
-      createUserOnboardBP: function(bp) {
-        console.log('Inside User Creation ', bp);
-        current_bp = BusinessPartners.find({
-          _id: result
-        }).fetch();
-
-        checkUserId = Meteor.users.find({
-          username: current_bp.emails[0]
-        }).fetch();
-
-        if (!checkUserId || checkUserId == '') {
-          currentUserId = Accounts.createUser({
-            username: current_bp.emails[0],
-            email: current_bp.emails[0],
-            password: "initial12",
-            profile: {
-              BusinessPartnerId: bp._id
-            }
-          });
-          Accounts.sendEnrollmentEmail(currentUserId, current_bp.emails[0]);
-        }
-        else {
-          console.log('Could not create user after creating BP');
-          return false;
-        }
-
-          //Setup the email template.
-          // Accounts.emailTemplates.siteName="Feliz";
-          // Accounts.emailTemplates.from="info@fazo21.com";
-          // subject = bp.name + " has added you as a Business Partner";
-          // Accounts.emailTemplates.enrollAccount.subject = function(user){
-          //   return "Hello " + user.username;
-          // };
-
-          //Send a email to change the password
-
-
-        }
-
+      var p = plivo.RestAPI({
+        authId: 'MAMDA4YWQ3MTU5ZWFLMW',
+        authToken: 'ZmM5ODE3ZjUzMzMxMjdkYmRjOTgxOTVmNzYyZDNm'
       });
 
-  }
+      var params = {
+        'src': '919739902121',
+        'dst': toNumber,
+        'text': body
+      };
+
+      p.send_message(params, function(status, response) {
+        console.log('Status is ', status);
+        console.log('API response: \n', response);
+        console.log('Message UUID:\n', response['message_uuid']);
+        console.log('API Id:\n', response['api_id']);
+      });
+    },
+    mgetClient: function(client_id) {
+      var client = Clients.findOne({
+        "_id": client_id
+      });
+      return client;
+    },
+
+    createUserOnboardBP: function(bp) {
+      current_bp = BusinessPartners.find({
+        _id: bp
+      }).fetch();
+
+      calling_user_bp = Meteor.users.find({
+        _id: this.userId
+      }).fetch();
+
+      calling_bp = BusinessPartners.find({
+        _id: calling_user_bp[0].profile.BusinessPartnerId
+      }).fetch();
+
+      var current_email = current_bp[0].emails[0];
+      checkUserId = Meteor.users.find({
+        username: current_email
+      }).fetch();
+
+      if (!checkUserId || checkUserId == '') {
+        currentUserId = Accounts.createUser({
+          username: current_email,
+          email: current_email,
+          password: "initial12",
+          profile: {
+            BusinessPartnerId: bp
+          }
+        });
+
+        //Setup the account email template
+        var calling_bp_name = calling_bp[0].name;
+        var calling_bp_username = calling_user_bp[0].username;
+        var current_bp_name = current_bp[0].name;
+
+        Accounts.emailTemplates.siteName = "Feliz";
+        var emailFrom = calling_bp[0].name + ' <' + calling_user_bp[0].username + '>';
+        Accounts.emailTemplates.from = emailFrom;
+
+        var subject = "Welcome to " + calling_bp_name + ', ' + current_bp_name;
+        Accounts.emailTemplates.enrollAccount.subject = function(current_bp) {
+          return subject;
+        };
+
+        var body = calling_bp_name + " has invited you as a Customer, to view your documents and appointments" + " To activate your account, simply click the link below:\n\n"
+        Accounts.emailTemplates.enrollAccount.text = function(calling_bp_name, url) {
+          return body + url;
+        };
+
+        try {
+          Accounts.sendEnrollmentEmail(currentUserId, current_email);
+        } catch (e) {
+          console.log('Could not send enrollment Email ', e);
+        }
+      } else {
+        console.log('Could not create user after creating BP');
+        return false;
+      }
+      return true;
+    }
+
+  });
+
+}

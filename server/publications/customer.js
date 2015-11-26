@@ -2,6 +2,7 @@ if (Meteor.isServer) {
   //Call the publish methods here.
 
   Meteor.publish("getOneBP",function(bp){
+    console.log(bp);
     bp = BusinessPartners.find({_id:bp});
     return bp;
   });
