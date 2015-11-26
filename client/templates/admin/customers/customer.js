@@ -5,7 +5,7 @@ AutoForm.addHooks(['add_customer_form'], {
     vresult = result;
     //Call to onboard the customer and send an email to be invited.
     try {
-      Meteor.call('createUserOnboardBP', vresult);
+      Meteor.call('createUserOnboardBP', vresult, 'Customer');
     } catch (e) {
       FlashMessages.sendError('Could not create a user for the onboarded Business Partner ', e);
     }

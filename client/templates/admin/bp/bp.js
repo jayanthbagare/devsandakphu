@@ -1,7 +1,7 @@
 AutoForm.addHooks(['onboard_bp'], {
   onSuccess: function(operation, result, template) {
     try {
-      Meteor.call('createUserOnboardBP', result);
+      Meteor.call('createUserOnboardBP', result, 'Onboard');
     } catch (e) {
       FlashMessages.sendError('Could not create a user for the onboarded Business Partner ', e);
     }

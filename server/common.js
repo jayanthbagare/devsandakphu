@@ -46,7 +46,7 @@ if (Meteor.isServer) {
       return client;
     },
 
-    createUserOnboardBP: function(bp) {
+    createUserOnboardBP: function(bp,operationType) {
       current_bp = BusinessPartners.find({
         _id: bp
       }).fetch();
@@ -88,7 +88,17 @@ if (Meteor.isServer) {
           return subject;
         };
 
-        var body = calling_bp_name + " has invited you as a Customer, to view your documents and appointments" + " To activate your account, simply click the link below:\n\n"
+        //Set the operation here so that we can word the email accrodingly.
+        var operation = '';
+        if(operationType == 'Customer'){
+          operation = 'Customer';
+        }else if (operationType == 'Vendor') {
+          operation = 'Supplier';
+        } else{
+          operation = 'New Business';
+        }
+
+        var body = calling_bp_name + " has invited you as a " + operation + ", to view your Documents, Appointments and other Business Transactions." + " Activate your account by Simply clicking the link below.\n\n"
         Accounts.emailTemplates.enrollAccount.text = function(calling_bp_name, url) {
           return body + url;
         };
