@@ -1,33 +1,21 @@
-//Events section begins here
-//==========================================
-//******************************************
-Template.add_event.onRendered(function() {
-  /*If the call is coming from Client screen then set the options*/
-//  var client = Session.get('clientId');
-  var bp = customerId.get();
-    $('select[id="client"]').find('option[value='+ '"' + bp + '"' + ']').attr("selected",true);
-
-  ///End Call from client screen
-    this.$('.datetimepicker').datetimepicker({
-    });
-
-    //change Client to Select here.
-    this.$('#client').selectize();
-});
-
-Template.edit_event.onRendered(function(){
-  this.autorun(function(){
-       $('#datetimepicker').datetimepicker({
-      });
-  });
-
+AutoForm.addHooks(['add_event_form'], {
+  onSuccess: function(operation, result, template){
+    /*Get the customer to message */
+    console.log(result);
+    FlashMessages.sendSuccess('Appointment Added');
+    Router.go('/admin/events');
+  },
+  onError: function(operation, result, template){
+    FlashMessages.sendError('Appointment could not be added ', result);
+  }
 });
 Template.list_events.helpers({
   eventsIndex: () => EventsIndex
 })
 Template.list_events.onRendered(function(event){
   //Set the chosen date to today, if there is no chosen date.
-  var chosenDate = $('#chosenDate').text()
+  chosenDate = $('#chosenDate').text();
+
   if(!chosenDate)
   {
     this.$('#chosenDate').text(moment().format('DD.MM.YYYY'));
@@ -56,71 +44,9 @@ Template.list_events.onRendered(function(event){
        fire the eventUI changed event.
     */
     $('#chosenDate').text(e.date.format("DD.MM.YYYY"));
-    eventsUI.changed();
   });
   //End of Date Change in Datepicker.
 });
-
-Template.list_events.events({
-    //Delete the Event
-  'click .delete_event': function(event){
-    if(confirm('Are you sure to cancel this Appointment'))
-    {
-      var event = this;
-      Meteor.call('mgetClient',this.client,function(error,result){
-        if(!error){
-            body = 'Your appointment on ' + moment(event.eventDate).format('DD.MM.YYYY h:mm a') + ' has been cancelled by Rashmi DentaCare';
-
-            /*Meteor.call('sendSMS',result.phone,body,function(error,result){
-              if(!error){
-                Events.remove(event._id);
-              }
-              else{
-                throw new Meteor.Error('Could not send SMS, please try in some time again');
-              }
-            });*/
-            Events.remove(event._id); //Remove this when SMS is enabled.
-        }
-      });
-    }
-  },
-  'click #subtract':function(event){
-    /*
-      Step 1: Take the chosen date from the spinner
-      Step 2: Subtract one day to it.
-    */
-
-    var chosenDate = moment($('#chosenDate').text(),"DD.MM.YYYY");
-    $('#chosenDate').text(moment(moment(chosenDate).subtract(1,'days')).format('DD.MM.YYYY'));
-
-    /*Call here to get the latest Events based on the date change.
-      Step 1: Call the getEvents global helper which is defined
-      Step 2: Trigger the eventsUI changed. This is marked as a
-              dependency in the getEvents
-    */
-
-    Blaze._globalHelpers.getEvents();
-    eventsUI.changed();
-  },
-  'click #add':function(event){
-    /*
-      Step 1: Take the chosen date from the spinner
-      Step 2: Subtract one day to it.
-    */
-    var chosenDate = moment($('#chosenDate').text(),"DD.MM.YYYY");
-    $('#chosenDate').text(moment(moment(chosenDate).add(1,'days')).format('DD.MM.YYYY'));
-
-    /*Call here to get the latest Events based on the date change.
-      Step 1: Call the getEvents global helper which is defined
-      Step 2: Trigger the eventsUI changed. This is marked as a
-              dependency in the getEvents
-    */
-    Blaze._globalHelpers.getEvents();
-    eventsUI.changed();
-  }
-
-});
-
 
 Template.add_event.events({
   'submit .add_event_form': function(event){
@@ -203,45 +129,34 @@ Template.edit_event.events({
   }
 });
 
-//Event Section ends here.
-//====================================================
-//****************************************************
-
-//Helper Section begins here
-//====================================================
-//****************************************************
-
-var eventsUI = new Tracker.Dependency;
-
 Template.registerHelper("getEvents", function(argument){
-  eventsUI.depend();
   var search_term = $('#txtSearchEvents').val();
   if(search_term){
       console.log('Search Term is ' + search_term);
-      //Meteor.subscribe("name", argument);
   }
   else
   {
+    currentUser = Meteor.users.find({
+      _id: Meteor.userId()
+    }).fetch();
+
+    console.log('Chosen Date is ', chosenDate);
     var now = moment($('#chosenDate').text(),"DD.MM.YYYY").toDate();
-    var till = moment(now).add(1,'days').toDate();
-        var result = Events.find({
-          eventDate:{
-            $gte:now
-          , $lte:till
-          }});
+    Meteor.subscribe('getMyEvents',now);
+    console.log(now);
+    var till = moment(now).add(1, 'days').toDate();
+    console.log(till,currentUser[0].profile.BusinessPartnerId);
+    var events = Events.find({
+      eventDate: {
+        $gte: now,
+        $lte: till
+      },
+      bp_subject: currentUser[0].profile.BusinessPartnerId
+    }).fetch();
+    console.log('Events is ', events);
+    return events;
   }
-    return result;
 });
-
-Template.registerHelper("getClient", function(){
-  var clientName =  Clients.findOne({"_id":this.client});
-  return clientName;
-});
-
-Template.registerHelper("getClients", function(argument){
-  return Clients.find();
-});
-
 
 //Format the time to the locale here
 Template.registerHelper("formatDateTime", function(givenDate){
@@ -256,17 +171,81 @@ Template.registerHelper("getToday", function(){
 });
 
 
+//New Event Model Methods, delete the earlier ones, once done
+Template.registerHelper("getMyCustomers", function(){
+  var options = [];
+
+  Meteor.subscribe("getUser", Meteor.userId());
+  currentUser = Meteor.users.find({
+    _id: Meteor.userId()
+  }).fetch();
+
+  currentUserBPId = currentUser[0].profile.BusinessPartnerId;
+  //Get all the BP's which the logged in BP sells to
+
+  Meteor.subscribe("getCustomerRelations", currentUserBPId);
+  customer_cursor = BusinessPartnerRelations.find({
+    "bp_subject": currentUserBPId,
+    "relation": "sells_to"
+  }).fetch();
+
+  bp_predicates = customer_cursor.map(function(c) {
+    return c.bp_predicate[0]
+  });
+
+  Meteor.subscribe("getCustomers", bp_predicates);
+  customers = BusinessPartners.find({
+    _id: {
+      $in: bp_predicates
+    }
+  }).fetch();
+
+  customers.map(function(element){
+    options.push({
+      label:element.name,value: element._id
+    });
+  });
+  return options;
+});
 
 
-//Helper Section ends here.
-//====================================================
-//****************************************************
+Template.registerHelper("getMyProducts", function(){
+  var options = [];
 
-//Generic methods starts here
-//====================================================
-//****************************************************
+  Meteor.subscribe("getUser", Meteor.userId());
+  currentUser = Meteor.users.find({
+    _id: Meteor.userId()
+  }).fetch();
 
+  currentUserBPId = currentUser[0].profile.BusinessPartnerId;
+  //Get all the BP's which the logged in BP sells to
 
-//Generic methods ends here
-//====================================================
-//****************************************************
+  Meteor.subscribe("getProductRelations", currentUserBPId);
+  product_cursor = BusinessPartnerProductRelation.find({
+    "bp_subject": currentUserBPId,
+    "relation": "sells"
+  }).fetch();
+
+  products = product_cursor.map(function(c) {
+    return c.product[0]
+  });
+
+  Meteor.subscribe("getProducts", products);
+  products = Products.find({
+    _id: {
+      $in: products
+    }
+  }).fetch();
+
+  products.map(function(element){
+    options.push({
+      label:element.name,value: element._id
+    });
+  });
+
+  return options;
+});
+
+Template.registerHelper("getCustomer", function(argument){
+  
+});

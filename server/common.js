@@ -39,12 +39,12 @@ if (Meteor.isServer) {
         console.log('API Id:\n', response['api_id']);
       });
     },
-    mgetClient: function(client_id) {
-      var client = Clients.findOne({
-        "_id": client_id
-      });
-      return client;
-    },
+    // mgetClient: function(client_id) {
+    //   var client = Clients.findOne({
+    //     "_id": client_id
+    //   });
+    //   return client;
+    // },
 
     createUserOnboardBP: function(bp,operationType) {
       current_bp = BusinessPartners.find({
@@ -115,6 +115,12 @@ if (Meteor.isServer) {
       return true;
     }
 
+  });
+
+  Meteor.publish("getUser",function(userId){
+    return Meteor.users.find({
+      _id:userId
+    });
   });
 
 }

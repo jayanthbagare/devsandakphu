@@ -1,5 +1,5 @@
 <template name="add_product">
-  {{#autoForm collection="Products" id="add_produt_form" type="insert" omitFields="price.description"}}
+  {{#autoForm collection="Products" id="add_product_form" type="insert"}}
   <div class="container pt">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-4 col-lg-offset-3">
@@ -42,7 +42,7 @@
             {{>afQuickField name="warehousingDetails"}}
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
-          <a href="/admin/bp" class="btn btn-default">Go Back</a>
+          <a href="/admin/products" class="btn btn-default">Go Back</a>
       </div>
     </div>
   </div>

@@ -1,0 +1,28 @@
+<template name="addEvent">
+  {{#autoForm collection="Events" id="add_event_form" type="insert"}}
+  <div class="container pt">
+      <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-4 col-lg-offset-3">
+              <h3>Add an Appointment</h3>
+              <div class="form-group">
+                {{>afQuickField name="name"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="eventDate"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="description"}}
+              </div>
+              <div class="form-group" id="bp_predicate">
+                {{>afQuickField name="bp_predicate" options=getMyCustomers schema=Schemas.Select}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="type" options=getMyProducts schema=Schemas.Select}}
+              </div>
+              <button type="event_submit" class="btn btn-primary">Submit</button>
+              <a href="/admin/events" class="btn btn-default">Go Back</a>
+          </div>
+      </div>
+  </div>
+  {{/autoForm}}
+</template>

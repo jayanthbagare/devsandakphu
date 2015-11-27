@@ -357,3 +357,14 @@ search_glow {
   border-color: #455a64;
   outline: 0 none;
 }
+td.active,
+td > button.btn-primary {
+  background-color: #727272 !important;
+  border-color: #455a64;
+}
+.fa-clock-o,
+.fa-arrow-up,
+.fa-arrow-down,
+.fa-calendar {
+  color: #727272 !important;
+}

@@ -23,10 +23,4 @@ if (Meteor.isServer) {
     });
   });
 
-  Meteor.publish("getUser",function(userId){
-    return Meteor.users.find({
-      _id:userId
-    });
-  });
-
 }

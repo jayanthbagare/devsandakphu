@@ -4,16 +4,6 @@
 .sidebar__info, .fp__action-bar__copy a, .drop-down-pane ul li a, .gallery__thumbnail figcaption p, .list__thumbnail .list__box--progress .file__options .btn--sm, .fp__link-view__meta, .error__label span {
   font-family: 'Roboto', 'Open Sans', sans-serif; }
 
-a {
-  font-family: 'Roboto', 'Open Sans', sans-serif;
-  color: #3eb067; }
-
-a:hover {
-  color: #3eb067; }
-
-body {
-  font-family: 'Roboto', 'Open Sans', sans-serif; }
-
 div#filepicker_shade {
   z-index: 10100; }
 
