@@ -1,0 +1,403 @@
+@import url(http//fonts.googleapis.com/css?family=Montserrat400,700)
+@import url(http//fonts.googleapis.com/css?family=Roboto400,300)
+@import url(http//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css)
+
+
+base-font-family = 'Roboto', sans-serif
+base-font-weight = 400
+base-font-size = 1.6rem
+
+
+
+panel-font-family = 'Roboto', sans-serif
+panel-font-weight = 400
+panel-font-size = 1.1em
+
+
+
+base-background-color = #FCF5FC
+base-text-color = #727272
+base-btn-color = #FFFFFF
+base-border-color = #455A64
+
+
+
+
+panel-border = #455A64
+panel-heading-bgcolor = #607D8B
+panel-heading-text = #FFFFFF
+panel-body-bgcolor = #FFFFFF
+panel-body-text-primary = #727272
+panel-body-text-secondary = #727272
+panel-footer-text = #455A64
+panel-footer-border = #455A64
+panel-footer-bgcolor = #FFFFFF
+base-glyphicon-color = #455A64
+base-glyphicon-border = #455A64
+
+
+body
+  font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size
+  background-color base-background-color
+  color base-text-color
+  -webkit-font-smoothing antialiased
+  -webkit-overflow-scrolling touch
+
+label
+  font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size
+  color base-text-color
+
+/* Titles */
+h1,h2,h3,h4,h5,h6,.date-color
+  color base-text-color
+  font-family base-font-family
+  font-weight base-font-weight - 100
+  font-size base-font-size + 1.4
+
+h1
+  font-weight base-font-weight - 300
+  font-size base-font-size + 0.5875
+  margin-top 30px
+  margin-bottom 30px
+  -webkit-margin-before 0.67em
+  -webkit-margin-after 0.67em
+  -webkit-margin-start 0px
+  -webkit-margin-end 0px
+
+/* Paragraph & Typographic */
+p
+  font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size
+  color base-text-color
+  line-height 28px
+  margin-bottom 25px
+  -webkit-font-smoothing antialiased
+.centered
+  text-align center
+
+.btn
+  font-family base-font-family
+
+/* Links */
+a
+  font-family base-font-family
+  word-wrap break-word
+  -webkit-transition color 0.1s ease-in, background 0.1s ease-in
+  -moz-transition color 0.1s ease-in, background 0.1s ease-in
+  -ms-transition color 0.1s ease-in, background 0.1s ease-in
+  -o-transition color 0.1s ease-in, background 0.1s ease-in
+  transition color 0.1s ease-in, background 0.1s ease-in
+
+a:hover, a:focus
+  font-family base-font-family
+  text-decoration none
+  outline 0
+
+a:before, a:after
+  -webkit-transition color 0.1s ease-in, background 0.1s ease-in
+  -moz-transition color 0.1s ease-in, background 0.1s ease-in
+  -ms-transition color 0.1s ease-in, background 0.1s ease-in
+  -o-transition color 0.1s ease-in, background 0.1s ease-in
+  transition color 0.1s ease-in, background 0.1s ease-in
+  font-family base-font-family
+
+hr
+  display block
+  height 1px
+  border 0
+  border-top 1px solid base-border-color
+  margin 1px 0
+  padding 0
+
+.navbar
+  text-transform uppercase
+  margin-bottom 0px
+  z-index 100
+  background-color transparent
+  height 65px
+
+.navbar-inverse
+  height 65px
+  background-color base-border-color
+  color panel-heading-text
+
+.navbar-inverse .navbar-nav > li > a
+  font-weight base-font-weight
+  color panel-heading-text
+
+.navbar-brand
+  font-weight base-font-weight - 100
+  font-size base-font-size
+  letter-spacing 2px
+
+.navbar-inverse .navbar-brand
+  color panel-heading-text
+
+.progress-bar-theme
+  background-color base-border-color
+
+/* Helpers */
+.mt
+  margin-top 10px
+  margin-bottom 10px
+
+.pt
+  padding-top 10px
+  padding-bottom 10px
+
+
+/* +++++ WRAP SECTIONS +++++ */
+
+#ww
+  padding-top 20px
+  padding-bottom 20px
+  background-color #f2f2f2
+
+#footer
+  font-family base-font-family
+  background-color #2f2f2f
+  padding-top 10px
+  padding-bottom 10px
+
+#footer p
+  font-family base-font-family
+  color panel-heading-text
+
+#footer h4
+  font-family base-font-family
+  color panel-heading-text
+  text-transform uppercase
+  padding-bottom 10px
+
+
+/* +++++ Color Wraps / Blog Page +++++ */
+#grey
+  padding-top 60px
+  padding-bottom 60px
+  background-color #f2f2f2
+
+#white
+  padding-top 60px
+  padding-bottom 60px
+  background-color #ffffff
+
+/*Custom CSS for Roopkund */
+/* glyphicon Configuration */
+.glyphicon
+  color base-border-color
+
+.glyphicon, .footer-icons
+  color base-text-color
+  border-color base-border-color
+
+
+.footer-icons
+  font-family base-font-family
+  color base-text-color
+  border-color base-border-color
+  transition all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1)
+
+.panel-info, .panel-rating, .panel-more1
+  float left
+  margin 0 10px
+
+.panel-detail
+  float right
+  margin-right 10px
+
+.panel-body
+  color base-text-color !important
+
+.panel-footer
+  font-family base-font-family
+  background-color panel-heading-text
+
+.panel-heading
+  background-color panel-heading-bgcolor !important
+  color panel-heading-text !important
+
+.client-card
+  font-family base-font-family
+  color panel-heading-text
+
+.client-card-header
+  font-family base-font-family
+  color panel-heading-text !important
+  font-weight base-font-weight
+  font-size base-font-size - 0.5
+
+input[type="text"]
+  font-family base-font-family
+  color base-text-color
+
+input[type="text"]focus, search_glow
+  font-family base-font-family
+  border-color base-border-color
+  box-shadow 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(26, 188, 156, 1)
+  outline 0 none
+
+//
+// .footer {
+//   font-family 'Roboto', sans-serif
+//   background-color #2f2f2f
+//   padding-top 10px
+//   padding-bottom 10px
+// }
+// .footer p {
+//   font-family 'Roboto', sans-serif
+//   color white
+// }
+// .footer h4 {
+//   font-family 'Roboto', sans-serif
+//   color white
+//   text-transform uppercase
+//   padding-bottom 10px
+// }
+// .glyphicon-menu-left, .glyphicon-menu-right {
+//   font-size 2.3em
+//   /*color #455a64*/
+//   color #455a64
+// }
+// .chosenDate {
+//   display inline-block
+//   text-align justify
+//   font-size 1em
+// }
+// .cal_spinner {
+//   background-color #fff
+//   display inline-block
+//   border 1px
+//   padding 0
+//   cursor pointer
+//   color #727272
+//   /*border-color #455a64*/
+//   border-color #455a64
+// }
+//
+// /*Choose Date CSS Override */
+//
+// .spinDate {
+//   color #727272
+//   /*border-color #455a64*/
+//   border-color #455a64
+//   display inline-block
+//   padding 6px 12px
+//   margin-bottom 0
+//   font-size 14px
+//   font-weight normal
+//   line-height 1.42857143
+//   text-align center
+//   white-space nowrap
+//   vertical-align middle
+//   cursor pointer
+//   border-radius 4px
+// }
+// .innserSpin {
+//   background-color #fff !important
+//   border 0 0 0 0 !important
+//   border-color #fff !important
+// }
+// .override-group-addon {
+//   background-color #fff !important
+//   border 0 !important
+//   padding 2px 0px
+// }
+// .btn-circle {
+//   font-family 'Roboto', sans-serif
+//   width 35px
+//   height 35px
+//   text-align center
+//   padding 6px 0
+//   font-size 12px
+//   line-height 1.428571429
+//   border-radius 15px
+//   /*border-color #455a64*/
+//   border-color #455a64
+// }
+//
+// /*Timeline CSS Begins here*/
+//
+// .timeline-badge {
+//   width 35px
+//   height 35px
+//   text-align center
+//   font-size 12px
+//   border-radius 35px
+//   /*border-color #455a64*/
+//   border-color #455a64
+//   z-index 100
+//   float left
+//   margin-left -12px
+//   margin-top 25px
+//   /*background-color #455a64*/
+//   background-color #455a64
+// }
+// .timeline-badgeafter {
+//   content ''
+//   position absolute
+//   top 0
+//   left 14px
+//   height 100%
+//   width 3px
+//   /*background #455a64*/
+//   background #455a64
+//   z-index 106
+// }
+// .inner-badge {
+//   color #fff
+//   position relative
+//   margin-top 27%
+//   margin-left -3px
+//   font-size 1.4em
+//   z-index 177
+// }
+// .timeline-font {
+//   font-size 1.4em
+// }
+// .timeline-panel {
+//   height 33%
+// }
+// .timeline-image {
+//   position relative
+//   margin-left 39.25%
+// }
+//
+// /*Timeline CSS Ends here*/
+//
+//
+// /**/
+//
+// .autoform-add-item, .autoform-remove-item {
+//   /*border-color #455a64*/
+//   border-color #455a64
+//   background-color #fff
+// }
+// .autoform-add-itemhover, .autoform-remove-itemhover {
+//   background-color #fff
+// }
+// .btn-primaryhover {
+//   font-family 'Roboto', sans-serif
+//   border-color #727272
+//   background-color #fff
+// }
+//
+// /*Message CSS Begins here*/
+//
+// .modalClose {
+//   margin-top -18px
+// }
+// .smsText {
+//   font-family 'Roboto', sans-serif
+//   display flex
+//   position relative
+//   width auto
+//   height auto
+//   /*border-color #455a64*/
+//   border-color #455a64
+//   outline 0 none
+// }
