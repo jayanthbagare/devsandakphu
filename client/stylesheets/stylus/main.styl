@@ -28,16 +28,16 @@ base-footer-color = #2F2F2F
 panel-border = base-border-color
 panel-heading-bgcolor = #76D0D9
 panel-heading-text = #222222
-panel-body-bgcolor = #F8F8F8
+panel-body-bgcolor = #FFFFFF
 panel-body-text-primary = #222222
 panel-body-text-secondary = base-text-color
 panel-footer-text = base-border-color
 panel-footer-border = base-border-color
-panel-footer-bgcolor = #F8F8F8
+panel-footer-bgcolor = #FFFFFF
 base-glyphicon-color = base-border-color
 base-glyphicon-border = base-border-color
 
-navbar-inverse-bgcolor = #C7C8C6
+navbar-inverse-bgcolor = #46A9B3
 navbar-inverse-color = #222222
 navbar-brand-color = #222222
 
@@ -206,15 +206,18 @@ hr
 
 .footer-icons
   font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size + 0.2
   color base-text-color
   background-color panel-body-bgcolor !important
   border-color btn-border-color !important
   transition all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1)
+
 .footer-icons:hover,.footer-icons:focus{
   font-family base-font-family
   color base-text-color
-  background-color base-background-color !important
-  border-color panel-body-bgcolor !important
+  background-color panel-heading-bgcolor !important
+  border-color panel-heading-bgcolor !important
   transition all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1)
 }
 
@@ -299,7 +302,7 @@ input[type="text"]focus, search_glow
   display inline-block
   padding 6px 12px
   margin-bottom 0
-  font-size panel-font-size - 0.1
+  font-size panel-font-size
   font-weight base-font-weight
   line-height 1.42857143
   text-align center
@@ -381,17 +384,19 @@ input[type="text"]focus, search_glow
 
 .btn-primary
   font-family panel-footer-font-family
-  font-size panel-footer-font-size
-  font-weight panel-footer-font-weight
-  background-color base-background-color
-  color panel-footer-text
+  font-size panel-footer-font-size + 0.2
+  font-weight panel-footer-font-weight + 100
+  background-color panel-body-bgcolor
+  color base-text-color
   border-color base-border-color
 
 .btn-primary:hover
   font-family base-font-family
+  font-size panel-footer-font-size + 0.2
+  font-weight panel-footer-font-weight + 100
   border-color base-text-color
-  color base-background-color
-  background-color panel-footer-text
+  color base-text-color
+  background-color panel-heading-bgcolor
 
 /*Message CSS Begins here*/
 .modalClose

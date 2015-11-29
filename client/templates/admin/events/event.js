@@ -1,7 +1,6 @@
 AutoForm.addHooks(['add_event_form'], {
   onSuccess: function(operation, result, template){
     /*Get the customer to message */
-    console.log(result);
     FlashMessages.sendSuccess('Appointment Added');
     Router.go('/admin/events');
   },
@@ -11,13 +10,12 @@ AutoForm.addHooks(['add_event_form'], {
 });
 Template.list_events.helpers({
   eventsIndex: () => EventsIndex
-})
+});
+
 Template.list_events.onRendered(function(event){
   //Set the chosen date to today, if there is no chosen date.
-  this.chosenDate = new ReactiveVar();
-  this.chosenDate = $('#chosenDate').text();
-
-  if(!this.chosenDate)
+  var chosenDate = $('#chosenDate').text()
+  if(!chosenDate)
   {
     this.$('#chosenDate').text(moment().format('DD.MM.YYYY'));
   }
@@ -45,7 +43,8 @@ Template.list_events.onRendered(function(event){
        fire the eventUI changed event.
     */
     $('#chosenDate').text(e.date.format("DD.MM.YYYY"));
-    this.chosenDate = e.date.format("DD.MM.YYYY");
+    Blaze._globalHelpers.getEvents();
+    eventsUI.changed();
   });
   //End of Date Change in Datepicker.
 });
@@ -131,7 +130,10 @@ Template.edit_event.events({
   }
 });
 
+var eventsUI = new Tracker.Dependency;
+
 Template.registerHelper("getEvents", function(argument){
+  eventsUI.depend();
   var search_term = $('#txtSearchEvents').val();
   if(search_term){
       console.log('Search Term is ' + search_term);
@@ -142,10 +144,10 @@ Template.registerHelper("getEvents", function(argument){
       _id: Meteor.userId()
     }).fetch();
 
-    console.log('Chosen Date is ', chosenDate);
-    var now = moment($('#chosenDate').text(),"DD.MM.YYYY").toDate();
-    Meteor.subscribe('getMyEvents',now);
+    var now = moment($('#chosenDate').text(),'DD.MM.YYYY').toDate();
     var till = moment(now).add(1, 'days').toDate();
+
+    Meteor.subscribe('getMyEvents',currentUser[0].profile.BusinessPartnerId,now,till);
     var events = Events.find({
       eventDate: {
         $gte: now,

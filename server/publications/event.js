@@ -7,19 +7,13 @@ if (Meteor.isServer) {
     return event;
   });
 
-  Meteor.publish("getMyEvents", function(forDate) {
-    currentUser = Meteor.users.find({
-      _id: this.userId
-    }).fetch();
-
-    var now = forDate;
-    var till = moment(now).add(1, 'days').toDate();
+  Meteor.publish("getMyEvents", function(bp,fromDate,tillDate) {
     var events = Events.find({
       eventDate: {
-        $gte: now,
-        $lte: till
+        $gte: fromDate,
+        $lte: tillDate
       },
-      bp_subjectw: currentUser[0].profile.BusinessPartnerId
+      bp_subject: bp
     });
     return events;
   });
