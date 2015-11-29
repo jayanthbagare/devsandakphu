@@ -19,7 +19,7 @@ if (Meteor.isServer) {
         $gte: now,
         $lte: till
       },
-      bp_subject: currentUser[0].profile.BusinessPartnerId
+      bp_subjectw: currentUser[0].profile.BusinessPartnerId
     });
     return events;
   });

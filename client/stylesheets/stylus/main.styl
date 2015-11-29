@@ -7,28 +7,39 @@ base-font-family = 'Roboto', sans-serif
 base-font-weight = 400
 base-font-size = 1.6rem
 
-panel-font-family = 'Roboto', sans-serif
-panel-font-weight = 400
-panel-font-size = 1.1em
+panel-header-font-family = 'Roboto', sans-serif
+panel-header-font-weight = 300
+panel-header-font-size = 1.2em
 
-base-background-color = #FCF5FC
-base-text-color = #727272
+panel-font-family = 'Roboto', sans-serif
+panel-font-weight = 200
+panel-font-size = panel-header-font-size - 0.2
+
+panel-footer-font-family = 'Roboto', sans-serif
+panel-footer-font-weight = 200
+panel-footer-font-size = panel-font-size - 0.2
+
+base-background-color = #FFFFFF
+base-text-color = #222222
 base-btn-color = #FFFFFF
-base-border-color = #455A64
+base-border-color = #0BA6D2
 base-footer-color = #2F2F2F
 
-panel-border = #455A64
-panel-heading-bgcolor = #607D8B
-panel-heading-text = #FFFFFF
-panel-body-bgcolor = #FFFFFF
-panel-body-text-primary = #727272
-panel-body-text-secondary = #727272
-panel-footer-text = #455A64
-panel-footer-border = #455A64
-panel-footer-bgcolor = #FFFFFF
-base-glyphicon-color = #455A64
-base-glyphicon-border = #455A64
+panel-border = base-border-color
+panel-heading-bgcolor = #76D0D9
+panel-heading-text = #222222
+panel-body-bgcolor = #F8F8F8
+panel-body-text-primary = #222222
+panel-body-text-secondary = base-text-color
+panel-footer-text = base-border-color
+panel-footer-border = base-border-color
+panel-footer-bgcolor = #F8F8F8
+base-glyphicon-color = base-border-color
+base-glyphicon-border = base-border-color
 
+navbar-inverse-bgcolor = #C7C8C6
+navbar-inverse-color = #222222
+navbar-brand-color = #222222
 
 body
   font-family base-font-family
@@ -117,12 +128,12 @@ hr
 
 .navbar-inverse
   height 65px
-  background-color base-border-color
-  color panel-heading-text
+  background-color navbar-inverse-bgcolor
+  color navbar-inverse-color
 
 .navbar-inverse .navbar-nav > li > a
   font-weight base-font-weight
-  color panel-heading-text
+  color navbar-inverse-color
 
 .navbar-brand
   font-weight base-font-weight - 100
@@ -130,7 +141,7 @@ hr
   letter-spacing 2px
 
 .navbar-inverse .navbar-brand
-  color panel-heading-text
+  color navbar-brand-color
 
 .progress-bar-theme
   background-color base-border-color
@@ -196,8 +207,16 @@ hr
 .footer-icons
   font-family base-font-family
   color base-text-color
-  border-color base-border-color
+  background-color panel-body-bgcolor !important
+  border-color btn-border-color !important
   transition all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1)
+.footer-icons:hover,.footer-icons:focus{
+  font-family base-font-family
+  color base-text-color
+  background-color base-background-color !important
+  border-color panel-body-bgcolor !important
+  transition all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1)
+}
 
 .panel-info, .panel-rating, .panel-more1
   float left
@@ -208,11 +227,13 @@ hr
   margin-right 10px
 
 .panel-body
-  color base-text-color !important
+  color panel-body-text-primary !important
+  background-color panel-body-bgcolor
 
 .panel-footer
   font-family base-font-family
-  background-color panel-heading-text
+  background-color panel-footer-bgcolor
+  color panel-footer-text
 
 .panel-heading
   background-color panel-heading-bgcolor !important
@@ -220,17 +241,19 @@ hr
 
 .client-card
   font-family base-font-family
-  color panel-heading-text
+  color panel-body-text-primary
+
 
 .client-card-header
   font-family base-font-family
   color panel-heading-text !important
-  font-weight base-font-weight
-  font-size base-font-size - 0.5
+  font-weight panel-header-font-weight
+  font-size panel-header-font-size
 
 input[type="text"]
   font-family base-font-family
   color base-text-color
+  background-color panel-body-bgcolor
 
 input[type="text"]focus, search_glow
   font-family base-font-family
@@ -353,13 +376,22 @@ input[type="text"]focus, search_glow
   border-color base-border-color
   background-color panel-body-bgcolor
 
-.autoform-add-itemhover, .autoform-remove-itemhover
+.autoform-add-item:hover, .autoform-remove-item:hover
   background-color panel-body-bgcolor
 
-.btn-primaryhover
+.btn-primary
+  font-family panel-footer-font-family
+  font-size panel-footer-font-size
+  font-weight panel-footer-font-weight
+  background-color base-background-color
+  color panel-footer-text
+  border-color base-border-color
+
+.btn-primary:hover
   font-family base-font-family
   border-color base-text-color
-  background-color panel-body-bgcolor
+  color base-background-color
+  background-color panel-footer-text
 
 /*Message CSS Begins here*/
 .modalClose

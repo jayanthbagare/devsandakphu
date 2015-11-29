@@ -14,9 +14,10 @@ Template.list_events.helpers({
 })
 Template.list_events.onRendered(function(event){
   //Set the chosen date to today, if there is no chosen date.
-  chosenDate = $('#chosenDate').text();
+  this.chosenDate = new ReactiveVar();
+  this.chosenDate = $('#chosenDate').text();
 
-  if(!chosenDate)
+  if(!this.chosenDate)
   {
     this.$('#chosenDate').text(moment().format('DD.MM.YYYY'));
   }
@@ -44,6 +45,7 @@ Template.list_events.onRendered(function(event){
        fire the eventUI changed event.
     */
     $('#chosenDate').text(e.date.format("DD.MM.YYYY"));
+    this.chosenDate = e.date.format("DD.MM.YYYY");
   });
   //End of Date Change in Datepicker.
 });
@@ -143,9 +145,7 @@ Template.registerHelper("getEvents", function(argument){
     console.log('Chosen Date is ', chosenDate);
     var now = moment($('#chosenDate').text(),"DD.MM.YYYY").toDate();
     Meteor.subscribe('getMyEvents',now);
-    console.log(now);
     var till = moment(now).add(1, 'days').toDate();
-    console.log(till,currentUser[0].profile.BusinessPartnerId);
     var events = Events.find({
       eventDate: {
         $gte: now,
@@ -153,7 +153,6 @@ Template.registerHelper("getEvents", function(argument){
       },
       bp_subject: currentUser[0].profile.BusinessPartnerId
     }).fetch();
-    console.log('Events is ', events);
     return events;
   }
 });
@@ -247,5 +246,5 @@ Template.registerHelper("getMyProducts", function(){
 });
 
 Template.registerHelper("getCustomer", function(argument){
-  
+
 });
