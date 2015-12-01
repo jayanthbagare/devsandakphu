@@ -63,7 +63,8 @@ if (Meteor.isServer) {
       checkUserId = Meteor.users.find({
         username: current_email
       }).fetch();
-
+      console.log('BP is ', bp,current_email);
+      
       if (!checkUserId || checkUserId == '') {
         currentUserId = Accounts.createUser({
           username: current_email,
@@ -74,6 +75,7 @@ if (Meteor.isServer) {
           }
         });
 
+        console.log('Calling BP ', calling_bp);
         //Setup the account email template
         var calling_bp_name = calling_bp[0].name;
         var calling_bp_username = calling_user_bp[0].username;
