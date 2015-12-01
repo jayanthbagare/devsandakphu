@@ -1,5 +1,6 @@
 if (Meteor.isServer) {
-  ROOT_URL='http://54.179.147.163:3000';
+  //ROOT_URL='http://54.179.147.163:3000';
+  ROOT_URL='http://localhost:9999';
   Meteor.methods({
     sendSMS: function(toNumber, body) {
       //Run Twilio here
@@ -108,7 +109,7 @@ if (Meteor.isServer) {
 
         try {
           Accounts.urls.enrollAccount = function(token){
-              var url = ROOT_URL + '/enroll-account/' + token;
+              var url = ROOT_URL + '#/enroll-account/' + token;
               console.log(url);
               return url;
           };
