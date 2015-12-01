@@ -85,8 +85,77 @@ Template.list_customers.events({
   'click add_event': function(event) {
     customerId = new ReactiveVar('');
     customerId.set(this._id);
+  },
+  'click #attach_doc': function(event){
+    var client = this._id;
+    filepicker.pickMultiple({
+      mimetypes:['image/*','text/*','video/*','application/pdf'],
+      //extensions:['*.jpg','*.jpeg','*.png','*.mp4','*.pdf','*.docx','*.xlsx','*.pptx'],
+      services:['COMPUTER','WEBCAM','VIDEO','URL'],
+      multiple:true/*,
+      customCss:'app/client/stylesheets/filepicker.css'*/
+    },
+    function(InkBlob){
+      $.each(InkBlob,function(key,value){
+          console.log(InkBlob);
+          if(value.url){
+              ClientImages.insert({
+                client:client,
+                imageURL: value.url,
+                mimeType:value.mimetype
+                                  });
+                      }});
+                  });
+  },
+  'click #view_timeline': function(event){
+    //Set the client session id to be retrieved in timeline.
+    Session.set('clientId',this._id);
+  },
+  //Handle the SMS and messaging feature.
+  'click #sms_message': function(event){
+    //Call the Modal for SMS here.
+    $('#smsModal').modal("show");
+    Session.set('clientId',this._id);
   }
 });
+
+Template.timeline.events({
+  'click .timeline-panel': function(event){
+    var imageURL = this.imageURL;
+    Session.set("imageModal",imageURL);
+    Session.set("mimeType",this.mimeType);
+    $("#imageModal").modal("show");
+  }
+});
+
+Template.smsModal.onRendered(function(){
+  var charMax = 160;
+  $('#chars_left').html(charMax + ' characters remaining.');
+});
+
+Template.smsModal.events({
+  'keyup #smsText': function(event){
+
+      var text_length = $('#smsText').val().length;
+      var text_remaining = 160 - text_length;
+      console.log(text_remaining);
+      $('#chars_left').html(text_remaining + ' characters remaining.');
+  },
+  'click #sendMessage': function(event){
+    //Get the number of the client
+    client = Clients.findOne({_id:Session.get('clientId')});
+    smstext = $('#smsText').val();
+    Meteor.call('sendSMS',client.phone,smstext,function(result,error){
+      if(error){
+        throw new Meteor.Error('Could not send SMS, please try in some time again');
+      }
+    });
+    $('#smsModal').modal("hide");
+
+  }
+});
+
+
 
 Template.edit_customer.helpers({
   selectedCustomer: function() {

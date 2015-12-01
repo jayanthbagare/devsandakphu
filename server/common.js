@@ -1,4 +1,5 @@
 if (Meteor.isServer) {
+  ROOT_URL='http://54.179.147.163:3000';
   Meteor.methods({
     sendSMS: function(toNumber, body) {
       //Run Twilio here
@@ -64,7 +65,7 @@ if (Meteor.isServer) {
         username: current_email
       }).fetch();
       console.log('BP is ', bp,current_email);
-      
+
       if (!checkUserId || checkUserId == '') {
         currentUserId = Accounts.createUser({
           username: current_email,
@@ -106,6 +107,13 @@ if (Meteor.isServer) {
         };
 
         try {
+          Accounts.urls.enrollAccount = function(token){
+              var url = ROOT_URL + '/enroll-account/' + token;
+              console.log(url);
+              return url;
+          };
+
+
           Accounts.sendEnrollmentEmail(currentUserId, current_email);
         } catch (e) {
           console.log('Could not send enrollment Email ', e);

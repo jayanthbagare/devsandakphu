@@ -1,4 +1,9 @@
 Meteor.startup(function(){
+  //Setup the environment variable for Email.
+  process.env.MAIL_URL="smtp://info@fazo21.com:happyinf@secure.emailsrvr.com:465";
+  //Seed the indexes into MongoDB
+  //Events.createIndex({name:'text',type:'text'});
+
   if(Meteor.users.find().count() === 0 )
   {
     // result = BusinessPartners.insert({
@@ -17,13 +22,6 @@ Meteor.startup(function(){
         BusinessPartnerId:'fcFHQHXSwQkaRyg9J'
       }
     });
+}
 
-
-
-  }
-
-  //Setup the environment variable for Email.
-  process.env.MAIL_URL="smtp://info@fazo21.com:happyinf@secure.emailsrvr.com:465";
-  //Seed the indexes into MongoDB
-  //Events.createIndex({name:'text',type:'text'});
 });
