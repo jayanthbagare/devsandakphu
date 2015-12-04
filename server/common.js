@@ -1,6 +1,6 @@
 if (Meteor.isServer) {
   // ROOT_URL='http://54.179.147.163:3000';
-  ROOT_URL='http://localhost:9999';
+  ROOT_URL = 'http://localhost:9999';
 
   //Custom validation Error Messages
   SimpleSchema.messages({
@@ -57,7 +57,7 @@ if (Meteor.isServer) {
     //   return client;
     // },
 
-    createUserOnboardBP: function(bp,operationType) {
+    createUserOnboardBP: function(bp, operationType) {
       current_bp = BusinessPartners.find({
         _id: bp
       }).fetch();
@@ -70,76 +70,80 @@ if (Meteor.isServer) {
         _id: calling_user_bp[0].profile.BusinessPartnerId
       }).fetch();
 
-      var current_email = current_bp[0].emails[0];
-      checkUserId = Meteor.users.find({
-        username: current_email
-      }).fetch();
-      console.log('BP is ', bp,current_email);
 
-      if (!checkUserId || checkUserId == '') {
-        currentUserId = Accounts.createUser({
-          username: current_email,
-          email: current_email,
-          password: "initial12",
-          profile: {
-            BusinessPartnerId: bp
+      var current_emails = current_bp[0].emails;
+      current_emails.map(function(current_email)
+      {
+          checkUserId = Meteor.users.find({
+            username: current_email
+          }).fetch();
+
+          console.log('BP is ', bp, current_email);
+
+          if (!checkUserId || checkUserId == '') {
+            currentUserId = Accounts.createUser({
+              username: current_email,
+              email: current_email,
+              password: "initial12",
+              profile: {
+                BusinessPartnerId: bp
+              }
+            });
+
+            console.log('Calling BP ', calling_bp);
+            //Setup the account email template
+            var calling_bp_name = calling_bp[0].name;
+            var calling_bp_username = calling_user_bp[0].username;
+            var current_bp_name = current_bp[0].name;
+
+            Accounts.emailTemplates.siteName = "Feliz";
+            var emailFrom = calling_bp[0].name + ' <' + calling_user_bp[0].username + '>';
+            Accounts.emailTemplates.from = emailFrom;
+
+            var subject = "Welcome to " + calling_bp_name + ', ' + current_bp_name;
+            Accounts.emailTemplates.enrollAccount.subject = function(current_bp) {
+              return subject;
+            };
+
+            //Set the operation here so that we can word the email accrodingly.
+            var operation = '';
+            if (operationType == 'Customer') {
+              operation = 'Customer';
+            } else if (operationType == 'Vendor') {
+              operation = 'Supplier';
+            } else {
+              operation = 'New Business';
+            }
+
+            var body = calling_bp_name + " has invited you as a " + operation + ", to view your Documents, Appointments and other Business Transactions." + " Activate your account by Simply clicking the link below.\n\n"
+            Accounts.emailTemplates.enrollAccount.text = function(calling_bp_name, url) {
+              return body + url;
+            };
+
+            try {
+              Accounts.urls.enrollAccount = function(token) {
+                var url = ROOT_URL + '#/enroll-account/' + token;
+                console.log(url);
+                return url;
+              };
+
+
+              Accounts.sendEnrollmentEmail(currentUserId, current_email);
+            } catch (e) {
+              console.log('Could not send enrollment Email ', e);
+            }
+          } else {
+            console.log('Could not create user after creating BP');
+            return false;
           }
+          return true;
         });
-
-        console.log('Calling BP ', calling_bp);
-        //Setup the account email template
-        var calling_bp_name = calling_bp[0].name;
-        var calling_bp_username = calling_user_bp[0].username;
-        var current_bp_name = current_bp[0].name;
-
-        Accounts.emailTemplates.siteName = "Feliz";
-        var emailFrom = calling_bp[0].name + ' <' + calling_user_bp[0].username + '>';
-        Accounts.emailTemplates.from = emailFrom;
-
-        var subject = "Welcome to " + calling_bp_name + ', ' + current_bp_name;
-        Accounts.emailTemplates.enrollAccount.subject = function(current_bp) {
-          return subject;
-        };
-
-        //Set the operation here so that we can word the email accrodingly.
-        var operation = '';
-        if(operationType == 'Customer'){
-          operation = 'Customer';
-        }else if (operationType == 'Vendor') {
-          operation = 'Supplier';
-        } else{
-          operation = 'New Business';
-        }
-
-        var body = calling_bp_name + " has invited you as a " + operation + ", to view your Documents, Appointments and other Business Transactions." + " Activate your account by Simply clicking the link below.\n\n"
-        Accounts.emailTemplates.enrollAccount.text = function(calling_bp_name, url) {
-          return body + url;
-        };
-
-        try {
-          Accounts.urls.enrollAccount = function(token){
-              var url = ROOT_URL + '#/enroll-account/' + token;
-              console.log(url);
-              return url;
-          };
-
-
-          Accounts.sendEnrollmentEmail(currentUserId, current_email);
-        } catch (e) {
-          console.log('Could not send enrollment Email ', e);
-        }
-      } else {
-        console.log('Could not create user after creating BP');
-        return false;
       }
-      return true;
-    }
-
   });
 
-  Meteor.publish("getUser",function(userId){
+  Meteor.publish("getUser", function(userId) {
     return Meteor.users.find({
-      _id:userId
+      _id: userId
     });
   });
 
