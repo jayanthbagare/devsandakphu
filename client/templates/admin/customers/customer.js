@@ -87,7 +87,19 @@ Template.list_customers.events({
     customerId.set(this._id);
   },
   'click #attach_doc': function(event){
-    var client = this._id;
+    var current_customer = this._id;
+
+    Meteor.subscribe("getUser", Meteor.userId());
+    current_user = Meteor.users.find({
+      _id: Meteor.userId()
+    }).fetch();
+
+    Meteor.subscribe("getOneBP",current_user[0].profile.BusinessPartnerId);
+    owner_bp = BusinessPartners.find({_id:current_user[0].profile.BusinessPartnerId}).fetch();
+
+    console.log('Owner is ', owner_bp);
+
+    console.log('User is ', current_user[0]._id);
     filepicker.pickMultiple({
       mimetypes:['image/*','text/*','video/*','application/pdf'],
       //extensions:['*.jpg','*.jpeg','*.png','*.mp4','*.pdf','*.docx','*.xlsx','*.pptx'],
@@ -99,23 +111,62 @@ Template.list_customers.events({
       $.each(InkBlob,function(key,value){
           console.log(InkBlob);
           if(value.url){
-              ClientImages.insert({
-                client:client,
-                imageURL: value.url,
-                mimeType:value.mimetype
+            try{
+              resultDocId = Documents.insert({
+                docOwner:owner_bp,
+                docUploader:owner_bp,
+                docURL: value.url,
+                docMimeType:value.mimetype
                                   });
-                      }});
+                }catch(e){
+                  FlashMessages.sendError('Could not upload the document ', e);
+                }
+
+              try{
+                //Insert the is_owner relationship
+                DocumentsRelations.insert({
+                  docId:[resultDocId],
+                  relation:'is_owner',
+                  businesspartner:[owner_bp]
+                });
+
+                //Insert the can_share relationship to the customer
+                DocumentsRelations.insert({
+                  docId:[resultDocId],
+                  relation:'can_share',
+                  businesspartner:[current_customer]
+                });
+
+                //Insert the can_edit relationship to the customer
+                DocumentsRelations.insert({
+                  docId:[resultDocId],
+                  relation:'can_edit',
+                  businesspartner:[current_customer]
+                });
+
+                //Insert the can_view relationship to the customer
+                DocumentsRelations.insert({
+                  docId:[resultDocId],
+                  relation:'can_view',
+                  businesspartner:[current_customer]
+                });
+
+              }catch(e){
+                FlashMessages.sendError('Relations are missing ', e);
+              }
+
+              }});
                   });
   },
   'click #view_timeline': function(event){
     //Set the client session id to be retrieved in timeline.
-    Session.set('clientId',this._id);
+    Session.set('BusinessPartnerId',this._id);
   },
   //Handle the SMS and messaging feature.
   'click #sms_message': function(event){
     //Call the Modal for SMS here.
     $('#smsModal').modal("show");
-    Session.set('clientId',this._id);
+    Session.set('BusinessPartnerId',this._id);
   }
 });
 
@@ -143,7 +194,8 @@ Template.smsModal.events({
   },
   'click #sendMessage': function(event){
     //Get the number of the client
-    client = Clients.findOne({_id:Session.get('clientId')});
+    Meteor.subscribe("getOneBP",customerId);
+    customer = BusinessPartners.findOne({_id:Session.get('customerId')});
     smstext = $('#smsText').val();
     Meteor.call('sendSMS',client.phone,smstext,function(result,error){
       if(error){
@@ -159,6 +211,7 @@ Template.smsModal.events({
 
 Template.edit_customer.helpers({
   selectedCustomer: function() {
+    Meteor.subscribe("getOneBP",this._id);
     return BusinessPartners.findOne({
       "_id": this._id
     });

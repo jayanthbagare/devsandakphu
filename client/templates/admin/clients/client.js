@@ -35,7 +35,7 @@ Template.list_clients.events({
   },
 
   'click #attach_doc': function(event){
-    var client = this._id;
+    var customer = this._id;
     filepicker.pickMultiple({
       mimetypes:['image/*','text/*','video/*','application/pdf'],
       //extensions:['*.jpg','*.jpeg','*.png','*.mp4','*.pdf','*.docx','*.xlsx','*.pptx'],

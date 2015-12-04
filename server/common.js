@@ -1,6 +1,15 @@
 if (Meteor.isServer) {
-  ROOT_URL='http://54.179.147.163:3000';
-  // ROOT_URL='http://localhost:9999';
+  // ROOT_URL='http://54.179.147.163:3000';
+  ROOT_URL='http://localhost:9999';
+
+  //Custom validation Error Messages
+  SimpleSchema.messages({
+    required: "[label] is required.",
+    minNumber: "[label] must be atleast [min] numerals.",
+    maxNumber: "[label] cannot execed [max] numerals.",
+    notAllowed: "[value] is not an allowed value"
+  });
+
   Meteor.methods({
     sendSMS: function(toNumber, body) {
       //Run Twilio here
