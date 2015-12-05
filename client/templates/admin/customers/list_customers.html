@@ -81,6 +81,14 @@
         </div><!-- col-lg-4 -->
 
       {{/each}}
+
+      {{#if loading}}
+          <p>Loading...</p>
+        {{else}}
+          {{#if hasMore}}
+            <p><a class="js-load-more">More</a></p>
+          {{/if}}
+        {{/if}}
     </div> <!-- row -->
   </div>
 

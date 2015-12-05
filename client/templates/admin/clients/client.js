@@ -76,33 +76,6 @@ Template.timeline.events({
   }
 });
 
-Template.smsModal.onRendered(function(){
-  var charMax = 160;
-  $('#chars_left').html(charMax + ' characters remaining.');
-});
-
-Template.smsModal.events({
-  'keyup #smsText': function(event){
-
-      var text_length = $('#smsText').val().length;
-      var text_remaining = 160 - text_length;
-      console.log(text_remaining);
-      $('#chars_left').html(text_remaining + ' characters remaining.');
-  },
-  'click #sendMessage': function(event){
-    //Get the number of the client
-    client = Clients.findOne({_id:Session.get('clientId')});
-    smstext = $('#smsText').val();
-    Meteor.call('sendSMS',client.phone,smstext,function(result,error){
-      if(error){
-        throw new Meteor.Error('Could not send SMS, please try in some time again');
-      }
-    });
-    $('#smsModal').modal("hide");
-
-  }
-});
-
 
 //Register Helpers for getting the documents.
 Template.registerHelper("getClientDocuments",function(argument){

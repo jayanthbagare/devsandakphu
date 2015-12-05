@@ -17,10 +17,12 @@ if (Meteor.isServer) {
     return relations;
   });
 
-  Meteor.publish("getCustomers",function(customerIds){
+  Meteor.publish("getCustomers",function(customerIds,limit){
     return BusinessPartners.find({
       _id:{$in:customerIds}
-    });
+    },{limit: limit});
+
+    this.ready();
   });
 
 }

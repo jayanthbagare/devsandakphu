@@ -70,13 +70,13 @@ Template.list_customers.helpers({
     bp_predicates = customer_cursor.map(function(c) {
       return c.bp_predicate[0]
     });
-    Meteor.subscribe("getCustomers", bp_predicates);
+
+    Meteor.subscribeWithPagination("getCustomers", bp_predicates,3);
     customers = BusinessPartners.find({
       _id: {
         $in: bp_predicates
       }
-    }).fetch();
-
+    },{sort:{name}});
     return customers;
   }
 });
@@ -160,13 +160,13 @@ Template.list_customers.events({
   },
   'click #view_timeline': function(event){
     //Set the client session id to be retrieved in timeline.
-    Session.set('BusinessPartnerId',this._id);
+    Session.set('customerId',this._id);
   },
   //Handle the SMS and messaging feature.
   'click #sms_message': function(event){
     //Call the Modal for SMS here.
     $('#smsModal').modal("show");
-    Session.set('BusinessPartnerId',this._id);
+    Session.set('customerId',this._id);
   }
 });
 
@@ -192,19 +192,24 @@ Template.smsModal.events({
       console.log(text_remaining);
       $('#chars_left').html(text_remaining + ' characters remaining.');
   },
+
   'click #sendMessage': function(event){
-    //Get the number of the client
-    Meteor.subscribe("getOneBP",customerId);
+    //Get the number of the customer
+    Meteor.subscribe("getOneBP",Session.get('customerId'));
     customer = BusinessPartners.findOne({_id:Session.get('customerId')});
     smstext = $('#smsText').val();
-    Meteor.call('sendSMS',client.phone,smstext,function(result,error){
+    Meteor.call('sendSMS',customer.phones[0],smstext,function(result,error){
       if(error){
         throw new Meteor.Error('Could not send SMS, please try in some time again');
       }
     });
     $('#smsModal').modal("hide");
 
-  }
+  },
+  'click .js-load-more': function (event) {
+      event.preventDefault();
+      subscription.loadNextPage();
+    }
 });
 
 

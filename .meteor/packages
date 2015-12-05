@@ -53,3 +53,4 @@ stylus
 kadira:debug
 meteorhacks:kadira
 miro:mailchimp
+percolate:paginated-subscription
