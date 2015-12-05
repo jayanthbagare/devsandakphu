@@ -1,3 +1,6 @@
+//Generic variable definition for Pagination handler
+var handlePagination;
+
 AutoForm.addHooks(['add_customer_form'], {
   onSuccess: function(operation, result, template) {
     //See if the customer is already onboarded
@@ -71,13 +74,20 @@ Template.list_customers.helpers({
       return c.bp_predicate[0]
     });
 
-    Meteor.subscribeWithPagination("getCustomers", bp_predicates,10);
+    Deps.autorun(function(){
+          handlePagination = Meteor.subscribeWithPagination("getCustomers", bp_predicates,3);
+    });
+
     customers = BusinessPartners.find({
       _id: {
         $in: bp_predicates
       }
     },{sort:{name}});
     return customers;
+  },
+  allCustomersLoaded: function(){
+    return ! this.handlePagination.ready() &&
+				BusinessPartners.find().count() < this.handlePagination.loaded();
   }
 });
 
@@ -167,6 +177,9 @@ Template.list_customers.events({
     //Call the Modal for SMS here.
     $('#smsModal').modal("show");
     Session.set('customerId',this._id);
+  },
+  'click #load_more': function(event){
+    handlePagination.loadNextPage();
   }
 });
 
@@ -205,11 +218,7 @@ Template.smsModal.events({
     });
     $('#smsModal').modal("hide");
 
-  },
-  'click .js-load-more': function (event) {
-      event.preventDefault();
-      subscription.loadNextPage();
-    }
+  }
 });
 
 

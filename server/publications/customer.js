@@ -8,7 +8,6 @@ if (Meteor.isServer) {
   });
 
 
-
   Meteor.publish("getCustomerRelations",function(bp){
     relations = BusinessPartnerRelations.find({
       bp_subject:bp,
@@ -20,7 +19,7 @@ if (Meteor.isServer) {
   Meteor.publish("getCustomers",function(customerIds,limit){
     return BusinessPartners.find({
       _id:{$in:customerIds}
-    },{limit: limit});
+    },{limit:limit});
 
     this.ready();
   });

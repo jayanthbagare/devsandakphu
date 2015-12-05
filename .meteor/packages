@@ -32,19 +32,15 @@ mrt:twilio-meteor
 momentjs:moment
 aldeed:autoform
 autoupdate
-richsilv:owl-carousel
-udondan:slick
 matteodem:easy-search
 natestrauser:filepicker-plus
 fortawesome:fontawesome
 mdg:camera
-bojicas:howler2
 email
 meteorhacks:npm
 
 
 npm-container
-alethes:pages
 reactive-var
 aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3

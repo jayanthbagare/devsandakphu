@@ -81,15 +81,20 @@
         </div><!-- col-lg-4 -->
 
       {{/each}}
-
-      {{#if loading}}
-          <p>Loading...</p>
-        {{else}}
-          {{#if hasMore}}
-            <p><a class="js-load-more">More</a></p>
-          {{/if}}
-        {{/if}}
     </div> <!-- row -->
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        {{#unless allCustomersLoaded}}
+        <a href="#" id="load_more"
+        class="btn btn-default btn-tiny footer-icons ">
+          <i class="glyphicon glyphicon-more"></i>
+
+          <span class="hidden-xs hidden-sm hidden-md small">Load More</span>
+
+        </a>
+        {{/unless}}
+      </div>
+    </div>
   </div>
 
 </template>
