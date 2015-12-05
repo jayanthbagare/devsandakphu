@@ -71,7 +71,7 @@ Template.list_customers.helpers({
       return c.bp_predicate[0]
     });
 
-    Meteor.subscribeWithPagination("getCustomers", bp_predicates,3);
+    Meteor.subscribeWithPagination("getCustomers", bp_predicates,10);
     customers = BusinessPartners.find({
       _id: {
         $in: bp_predicates
