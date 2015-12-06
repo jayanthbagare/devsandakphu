@@ -171,6 +171,18 @@ Template.list_events.helpers({
     } else {
       return true;
     }
+  },
+  getCustomer: function(bpId){
+    console.log(bpId);
+    Meteor.subscribe("getOneBP",bpId);
+    bp = BusinessPartners.find({_id:bpId},{name:1}).fetch();
+    console.log(bp);
+    return bp[0].name;
+  },
+  getProduct: function(productId){
+    Meteor.subscribe("getOneProduct",productId);
+    product = Products.find({_id:productId}).fetch();
+    return product[0].name;
   }
 });
 
@@ -271,8 +283,4 @@ Template.registerHelper("getMyProducts", function() {
   });
 
   return options;
-});
-
-Template.registerHelper("getCustomer", function(argument) {
-
 });
