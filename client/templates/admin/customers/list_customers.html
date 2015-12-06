@@ -1,0 +1,92 @@
+<template name="list_customers">
+  {{> smsModal}}
+  <div class="container pt">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <h3>Your Customers</h3>
+        <a href="/admin/customers/add" class="btn btn-default btn-tiny footer-icons pull-right">
+          <i class="glyphicon glyphicon-plus"></i>
+          <span class="hidden-xs">Add a Customer</span>
+        </a>
+        <br>
+        <br>
+      </div>
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+
+  <div class="container pt">
+    <div class="row">
+      {{#each getMyCustomers}}
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="panel panel-default customer-card">
+          <!-- <div class="panel-heading customer-card-heading"> -->
+          <div class="panel-heading customer-card-heading">
+            <h3 class="panel-title client-card-header">{{this.name}}</h3>
+            <a href="/admin/clients/timeline" id="view_timeline" class="btn btn-default btn-tiny btn-circle footer-icons pull-right">
+              <!-- <i class="fa fa-1x fa-history timeline-font"></i> -->
+              <i class="fa fa-history timeline-font"></i>
+              <!-- <span class="hidden-xs hidden-sm hidden-md small">History</span> -->
+            </a>
+          </div>
+          <!-- panel-heading -->
+          <a href="/admin/customers/{{_id}}/edit" class="card-hover">
+            <div class="panel-body">
+              <p>
+                {{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}
+              </p>
+              {{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}
+            </div>
+            <!-- panel body -->
+          </a>
+          <div class="panel-footer">
+            <!-- For now commenting the schedule functionality, need a redesign thought-->
+            <!-- <a href="/admin/events/add" id="add_event"
+                  class="btn btn-default btn-tiny footer-icons ">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <span class="hidden-xs hidden-sm hidden-md small">Schedule</span>
+                  </a> -->
+
+            <a href="#" id="attach_doc" class="btn btn-default btn-tiny footer-icons ">
+              <i class="glyphicon glyphicon-paperclip"></i>
+              <span class="hidden-xs hidden-sm hidden-md small">Attach</span>
+            </a>
+
+            <a href="tel:{{phone}}" id="external_call" class="btn btn-default btn-tiny footer-icons pull-right">
+              <i class="glyphicon glyphicon-earphone"></i>
+              <span class="hidden-xs hidden-sm hidden-md small">Call</span>
+            </a>
+
+            <a href="#" id="sms_message" class="btn btn-default btn-tiny footer-icons ">
+              <i class="glyphicon glyphicon-comment"></i>
+              <span class="hidden-xs hidden-sm hidden-md small">Message</span>
+            </a>
+
+            <a href="/admin/events/add" id="add_event" class="btn btn-default btn-tiny footer-icons ">
+              <i class="glyphicon glyphicon-credit-card"></i>
+              <span class="hidden-xs hidden-sm hidden-md small">Invoice</span>
+            </a>
+          </div>
+          <!-- panel footer -->
+        </div>
+        <!-- panel client-card -->
+      </div>
+      <!-- col-lg-4 -->
+
+      {{/each}}
+    </div>
+    <!-- row -->
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          {{#unless allCustomersLoaded}}
+          <a href="#" id="load_more" class="btn btn-default btn-tiny footer-icons ">
+            <i class="glyphicon glyphicon-more"></i>
+            <span>Load More</span>
+          </a>
+          {{/unless}}
+      </div>
+    </div>
+  </div>
+
+</template>

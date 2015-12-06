@@ -16,8 +16,6 @@ standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
-autopublish             # Publish all data to the clients (for prototyping)
-insecure                # Allow all DB writes from clients (for prototyping)
 iron:router
 ejson
 mrt:flash-messages
@@ -28,17 +26,27 @@ aldeed:collection2
 cfs:standard-packages
 cfs:gridfs
 cfs:filesystem
-tsega:bootstrap3-datetimepicker
 jeremy:selectize
 natestrauser:select2
 mrt:twilio-meteor
 momentjs:moment
 aldeed:autoform
 autoupdate
-richsilv:owl-carousel
-udondan:slick
 matteodem:easy-search
 natestrauser:filepicker-plus
 fortawesome:fontawesome
 mdg:camera
-bojicas:howler2
+email
+meteorhacks:npm
+
+
+npm-container
+reactive-var
+aldeed:autoform-bs-datetimepicker
+tsega:bootstrap3-datetimepicker@=3.1.3_3
+mrt:moment-timezone
+stylus
+kadira:debug
+meteorhacks:kadira
+miro:mailchimp
+percolate:paginated-subscription

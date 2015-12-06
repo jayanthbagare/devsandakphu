@@ -1,14 +1,35 @@
 <template name="add_bp">
-  <!-- {{#autoForm collection="BusinessPartners" id="add_bp_form" type="insert"}} -->
+  {{#autoForm collection="BusinessPartners" id="add_bp_form" type="insert"}}
   <div class="container pt">
       <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-4 col-lg-offset-2">
+          <div class="col-lg-6 col-md-6 col-sm-4 col-lg-offset-3">
               <h3>Add a Business Partner</h3>
-              {{> quickForm collection="BusinessPartners" doc=this id="add_bp_form" type="insert" omitFields="associatedUsers,isSelf,updatedBy,updatedAt,isSearchable"}}
-              <!-- <button type="submit" class="btn btn-primary">Submit</button>
-              <a href="/admin/bp" class="btn btn-default">Go Back</a> -->
+              <!-- {{> quickForm collection="BusinessPartners" doc=this id="add_bp_form" type="insert" omitFields="associatedUsers,isSelf,updatedBy,updatedAt,isSearchable"}} -->
+              <div class="form-group">
+                {{>afQuickField name="name"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="address"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="phones"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="emails"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="website"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="taxid"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="vatid"}}
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <a href="/admin/bp" class="btn btn-default">Go Back</a>
           </div>
       </div>
   </div>
-  <!-- {{/autoForm}} -->
+  {{/autoForm}}
 </template>

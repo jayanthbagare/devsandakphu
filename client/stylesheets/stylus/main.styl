@@ -1,0 +1,429 @@
+@import url(http//fonts.googleapis.com/css?family=Montserrat400,700)
+@import url(http//fonts.googleapis.com/css?family=Roboto400,300)
+@import url(http//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css)
+
+
+base-font-family = 'Roboto', sans-serif
+base-font-weight = 400
+base-font-size = 1.6rem
+
+panel-header-font-family = 'Roboto', sans-serif
+panel-header-font-weight = 300
+panel-header-font-size = 1.2em
+
+panel-font-family = 'Roboto', sans-serif
+panel-font-weight = 200
+panel-font-size = panel-header-font-size - 0.2
+
+panel-footer-font-family = 'Roboto', sans-serif
+panel-footer-font-weight = 200
+panel-footer-font-size = panel-font-size - 0.2
+
+base-background-color = #FFFFFF
+base-text-color = #222222
+base-btn-color = #FFFFFF
+base-border-color = #792B17
+base-footer-color = #2F2F2F
+
+panel-border = base-border-color
+panel-heading-bgcolor = #F8F8F8
+panel-heading-text = #792B17
+panel-body-bgcolor = #FFFFFF
+panel-body-text-primary = #222222
+panel-body-text-secondary = base-text-color
+panel-footer-text = base-border-color
+panel-footer-border = base-border-color
+panel-footer-bgcolor = #FFFFFF
+base-glyphicon-color = base-border-color
+base-glyphicon-border = base-border-color
+
+navbar-inverse-bgcolor = #792B17
+navbar-inverse-color = #C3C86C
+navbar-brand-color = #C3C86C
+
+body
+  font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size
+  background-color base-background-color
+  color base-text-color
+  -webkit-font-smoothing antialiased
+  -webkit-overflow-scrolling touch
+
+label
+  font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size
+  color base-text-color
+
+/* Titles */
+h1,h2,h3,h4,h5,h6,.date-color
+  color base-text-color
+  font-family base-font-family
+  font-weight base-font-weight - 100
+  font-size base-font-size + 1.4
+
+h1
+  font-weight base-font-weight - 300
+  font-size base-font-size + 0.5875
+  margin-top 30px
+  margin-bottom 30px
+  -webkit-margin-before 0.67em
+  -webkit-margin-after 0.67em
+  -webkit-margin-start 0px
+  -webkit-margin-end 0px
+
+/* Paragraph & Typographic */
+p
+  font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size
+  color base-text-color
+  line-height 28px
+  margin-bottom 25px
+  -webkit-font-smoothing antialiased
+.centered
+  text-align center
+
+.btn
+  font-family base-font-family
+
+/* Links */
+a
+  font-family base-font-family
+  word-wrap break-word
+  -webkit-transition color 0.1s ease-in, background 0.1s ease-in
+  -moz-transition color 0.1s ease-in, background 0.1s ease-in
+  -ms-transition color 0.1s ease-in, background 0.1s ease-in
+  -o-transition color 0.1s ease-in, background 0.1s ease-in
+  transition color 0.1s ease-in, background 0.1s ease-in
+
+a:hover, a:focus
+  font-family base-font-family
+  text-decoration none
+  outline 0
+
+a:before, a:after
+  -webkit-transition color 0.1s ease-in, background 0.1s ease-in
+  -moz-transition color 0.1s ease-in, background 0.1s ease-in
+  -ms-transition color 0.1s ease-in, background 0.1s ease-in
+  -o-transition color 0.1s ease-in, background 0.1s ease-in
+  transition color 0.1s ease-in, background 0.1s ease-in
+  font-family base-font-family
+
+hr
+  display block
+  height 1px
+  border 0
+  border-top 1px solid base-border-color
+  margin 1px 0
+  padding 0
+
+.navbar
+  text-transform uppercase
+  margin-bottom 0px
+  z-index 100
+  background-color transparent
+  height 85px
+
+.navbar-inverse
+  height 85px
+  background-color navbar-inverse-bgcolor
+  color navbar-inverse-color
+
+.navbar-inverse .navbar-nav > li > a
+  font-weight base-font-weight
+  color navbar-inverse-color
+
+.navbar-brand
+  text-transform none
+  font-weight base-font-weight - 100
+  font-size base-font-size
+  letter-spacing 2px
+  margin-top -35px
+
+.logo_text
+  font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size
+  letter-spacing 2px
+  margin-top -10px
+  margin-left 20px
+
+.navbar-inverse .navbar-brand
+  color navbar-brand-color
+
+.progress-bar-theme
+  background-color base-border-color
+
+/* Helpers */
+.mt
+  margin-top 10px
+  margin-bottom 10px
+
+.pt
+  padding-top 10px
+  padding-bottom 10px
+
+
+/* +++++ WRAP SECTIONS +++++ */
+
+#ww
+  padding-top 20px
+  padding-bottom 20px
+  background-color #f2f2f2
+
+#footer
+  font-family base-font-family
+  background-color #2f2f2f
+  padding-top 10px
+  padding-bottom 10px
+
+#footer p
+  font-family base-font-family
+  color panel-heading-text
+
+#footer h4
+  font-family base-font-family
+  color panel-heading-text
+  text-transform uppercase
+  padding-bottom 10px
+
+
+/* +++++ Color Wraps / Blog Page +++++ */
+#grey
+  padding-top 60px
+  padding-bottom 60px
+  background-color #f2f2f2
+
+#white
+  padding-top 60px
+  padding-bottom 60px
+  background-color #ffffff
+
+/*Custom CSS for Roopkund */
+/* glyphicon Configuration */
+.glyphicon
+  color base-border-color
+
+.glyphicon, .footer-icons
+  color base-text-color
+  border-color base-border-color
+
+.glyphicon-menu-left, .glyphicon-menu-right
+  font-size base-font-size + 0.7
+  color base-border-color
+
+.footer-icons
+  font-family base-font-family
+  font-weight base-font-weight
+  font-size base-font-size + 0.2
+  color base-text-color
+  background-color panel-body-bgcolor !important
+  border-color btn-border-color !important
+  transition all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1)
+
+.footer-icons:hover,.footer-icons:focus{
+  font-family base-font-family
+  color base-text-color
+  background-color panel-heading-bgcolor !important
+  border-color panel-heading-bgcolor !important
+  transition all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1)
+}
+
+.panel-info, .panel-rating, .panel-more1
+  float left
+  margin 0 10px
+
+.panel-detail
+  float right
+  margin-right 10px
+
+.panel-body
+  color panel-body-text-primary !important
+  background-color panel-body-bgcolor
+
+.panel-footer
+  font-family base-font-family
+  background-color panel-footer-bgcolor
+  color panel-footer-text
+
+.panel-heading
+  background-color panel-heading-bgcolor !important
+  color panel-heading-text !important
+
+.client-card
+  font-family base-font-family
+  color panel-body-text-primary
+
+
+.client-card-header
+  font-family base-font-family
+  color panel-heading-text !important
+  font-weight panel-header-font-weight
+  font-size panel-header-font-size
+
+input[type="text"]
+  font-family base-font-family
+  color base-text-color
+  background-color panel-body-bgcolor
+
+input[type="text"]focus, search_glow
+  font-family base-font-family
+  border-color base-border-color
+  box-shadow 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(26, 188, 156, 1)
+  outline 0 none
+
+.footer
+  font-family base-font-family
+  background-color base-footer-color
+  padding-top 10px
+  padding-bottom 10px
+
+.footer p
+  font-family base-font-family
+  color panel-heading-text
+
+.footer h4
+  font-family base-font-family
+  color panel-heading-text
+  text-transform uppercase
+  padding-bottom 10px
+
+.chosenDate
+  display inline-block
+  text-align justify
+  font-size panel-font-size - 0.1
+
+.cal_spinner
+  background-color panel-heading-text
+  display inline-block
+  border 1px
+  padding 0
+  cursor pointer
+  color base-text-color
+  border-color base-border-color
+
+
+/*Choose Date CSS Override */
+.spinDate
+  color base-text-color
+  border-color base-border-color
+  display inline-block
+  padding 6px 12px
+  margin-bottom 0
+  font-size panel-font-size
+  font-weight base-font-weight
+  line-height 1.42857143
+  text-align center
+  white-space nowrap
+  vertical-align middle
+  cursor pointer
+  border-radius 4px
+
+.innserSpin
+  background-color panel-body-bgcolor !important
+  border 0 0 0 0 !important
+  border-color panel-body-bgcolor !important
+
+.override-group-addon
+  background-color panel-body-bgcolor !important
+  border 0 !important
+  padding 2px 0px
+
+.btn-circle
+  font-family base-font-family
+  width 35px
+  height 35px
+  text-align center
+  padding 6px 0
+  font-size base-font-size - 0.25
+  line-height 1.428571429
+  border-radius 15px
+  border-color base-border-color
+
+/*Timeline CSS Begins here*/
+.timeline-badge
+  width 35px
+  height 35px
+  text-align center
+  font-size base-font-size - 0.25
+  border-radius 35px
+  border-color base-border-color
+  z-index 100
+  float left
+  margin-left -12px
+  margin-top 25px
+  background-color base-border-color
+
+.timeline-badge:after
+  content ''
+  position absolute
+  top 0
+  left 14px
+  height 100%
+  width 3px
+  background base-border-color
+  z-index 106
+
+.inner-badge
+  color panel-body-bgcolor
+  position relative
+  margin-top 27%
+  margin-left -3px
+  font-size base-font-size - 0.2
+  z-index 177
+
+.timeline-font
+  font-size base-font-size - 0.2
+
+.timeline-panel
+  height 33%
+
+.timeline-image
+  position relative
+  margin-left 39.25%
+
+/*Timeline CSS Ends here*/
+.autoform-add-item, .autoform-remove-item
+  border-color base-border-color
+  background-color panel-body-bgcolor
+
+.autoform-add-item:hover, .autoform-remove-item:hover
+  background-color panel-body-bgcolor
+
+.btn-primary
+  font-family panel-footer-font-family
+  font-size panel-footer-font-size + 0.2
+  font-weight panel-footer-font-weight + 100
+  background-color panel-body-bgcolor
+  color base-text-color
+  border-color base-border-color
+
+.btn-primary:hover
+  font-family base-font-family
+  font-size panel-footer-font-size + 0.2
+  font-weight panel-footer-font-weight + 100
+  border-color base-text-color
+  color base-text-color
+  background-color panel-heading-bgcolor
+
+/*Message CSS Begins here*/
+.modalClose
+  margin-top -18px
+
+.smsText
+  font-family base-font-family
+  display flex
+  position relative
+  width auto
+  height auto
+  border-color base-border-color
+  outline 0 none
+
+td.active, td > button.btn-primary
+  background-color base-text-color !important
+  border-color base-border-color
+
+.fa-clock-o,.fa-arrow-up,.fa-arrow-down, .fa-calendar
+  color base-text-color !important

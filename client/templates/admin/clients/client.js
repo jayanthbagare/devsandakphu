@@ -15,7 +15,6 @@ Template.edit_client.helpers({
   }
 });
 
-
 Template.list_clients.helpers({
 	clients: function(){
 		return Clients.find();
@@ -36,7 +35,7 @@ Template.list_clients.events({
   },
 
   'click #attach_doc': function(event){
-    var client = this._id;
+    var customer = this._id;
     filepicker.pickMultiple({
       mimetypes:['image/*','text/*','video/*','application/pdf'],
       //extensions:['*.jpg','*.jpeg','*.png','*.mp4','*.pdf','*.docx','*.xlsx','*.pptx'],
@@ -64,6 +63,7 @@ Template.list_clients.events({
   'click #sms_message': function(event){
     //Call the Modal for SMS here.
     $('#smsModal').modal("show");
+    Session.set('clientId',this._id);
   }
 });
 
@@ -73,21 +73,6 @@ Template.timeline.events({
     Session.set("imageModal",imageURL);
     Session.set("mimeType",this.mimeType);
     $("#imageModal").modal("show");
-  }
-});
-
-Template.smsModal.onRendered(function(){
-  var charMax = 160;
-  $('#chars_left').html(charMax + ' characters remaining.');
-});
-
-Template.smsModal.events({
-  'keyup #smsText': function(event){
-
-      var text_length = $('#smsText').val().length;
-      var text_remaining = 160 - text_length;
-      console.log(text_remaining);
-      $('#chars_left').html(text_remaining + ' characters remaining.');
   }
 });
 
