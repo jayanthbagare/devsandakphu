@@ -7,15 +7,15 @@ if (Meteor.isServer) {
     return event;
   });
 
-  Meteor.publish("getMyEvents", function(bp,fromDate,tillDate) {
-    var events = Events.find({
+  Meteor.publish("getMyEvents", function(bp,fromDate,tillDate,limit) {
+    return Events.find({
       eventDate: {
         $gte: fromDate,
         $lte: tillDate
       },
       bp_subject: bp
-    });
-    return events;
+    },{limit:limit});
+    this.ready();
   });
 
 }

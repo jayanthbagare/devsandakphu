@@ -1,5 +1,5 @@
 //Generic variable definition for Pagination handler
-var handlePagination;
+handlePagination = '';
 
 AutoForm.addHooks(['add_customer_form'], {
   onSuccess: function(operation, result, template) {
@@ -85,12 +85,14 @@ Template.list_customers.helpers({
     },{sort:{name}});
     return customers;
   },
-  customersReady: function() {
-		return handlePagination.ready();
-	},
   allCustomersLoaded: function(){
-    return ! handlePagination.ready() &&
-				BusinessPartners.find().count() < handlePagination.loaded();
+    if(BusinessPartners.find().count() == handlePagination.loaded())
+    {
+      return false
+    }
+    else{
+      return true;
+    }
   }
 });
 
