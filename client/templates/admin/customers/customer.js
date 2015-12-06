@@ -85,9 +85,12 @@ Template.list_customers.helpers({
     },{sort:{name}});
     return customers;
   },
+  customersReady: function() {
+		return handlePagination.ready();
+	},
   allCustomersLoaded: function(){
-    return ! this.handlePagination.ready() &&
-				BusinessPartners.find().count() < this.handlePagination.loaded();
+    return ! handlePagination.ready() &&
+				BusinessPartners.find().count() < handlePagination.loaded();
   }
 });
 
@@ -179,6 +182,7 @@ Template.list_customers.events({
     Session.set('customerId',this._id);
   },
   'click #load_more': function(event){
+    event.preventDefault();
     handlePagination.loadNextPage();
   }
 });
