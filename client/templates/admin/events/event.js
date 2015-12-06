@@ -173,10 +173,8 @@ Template.list_events.helpers({
     }
   },
   getCustomer: function(bpId){
-    console.log(bpId);
     Meteor.subscribe("getOneBP",bpId);
     bp = BusinessPartners.find({_id:bpId},{name:1}).fetch();
-    console.log(bp);
     return bp[0].name;
   },
   getProduct: function(productId){

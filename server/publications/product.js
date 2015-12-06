@@ -15,12 +15,10 @@ if (Meteor.isServer) {
     return relations;
   });
 
-  Meteor.publish("getProducts", function(products) {
+  Meteor.publish("getProducts", function(products,limit) {
     return Products.find({
-      _id: {
-        $in: products
-      }
-    });
+      _id: {$in: products}
+    },{limit:limit});
   });
 
 }
