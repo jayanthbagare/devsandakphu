@@ -217,6 +217,17 @@ Template.smsModal.events({
     Meteor.subscribe("getOneBP",Session.get('customerId'));
     customer = BusinessPartners.findOne({_id:Session.get('customerId')});
     smstext = $('#smsText').val();
+
+    try{
+        if(!customer.phones[0]){
+          console.log('Inside not having phone number.');
+          FlashMessages.sendError('Please maintain a Phone number to send SMS');
+        }
+    }
+    catch(error)
+    {
+      FlashMessages.sendError('Please maintain a Phone number to send SMS');
+    }
     Meteor.call('sendSMS',customer.phones[0],smstext,function(result,error){
       if(error){
         throw new Meteor.Error('Could not send SMS, please try in some time again');
