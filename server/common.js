@@ -5,22 +5,6 @@ if (Meteor.isServer) {
 
   Meteor.methods({
     sendSMS: function(toNumber, body) {
-      //Run Twilio here
-      // twilio = Twilio('AC15886b52bdb53ae37c3f2237955bb0d3', '78f868c47e97c113e05c4fe5ede64b4f');
-      // twilio.sendSms({
-      //   to: toNumber, // Any number Twilio can deliver to
-      //   from: '+14696052859', // A number you bought from Twilio and can use for outbound communication
-      //   body: body // body of the SMS message
-      // }, function(err, responseData) { //this function is executed when a response is received from Twilio
-      //   if (!err) {
-      //     return true;
-      //   } else {
-      //     {
-      //       console.log(err);
-      //       return false;
-      //     }
-      //   }
-      // });
       //Plivo Setup here.
       var plivo = Meteor.npmRequire('plivo');
       //var plivo = new plivonpm({version:"0.3.3"});
@@ -43,12 +27,6 @@ if (Meteor.isServer) {
         console.log('API Id:\n', response['api_id']);
       });
     },
-    // mgetClient: function(client_id) {
-    //   var client = Clients.findOne({
-    //     "_id": client_id
-    //   });
-    //   return client;
-    // },
 
     createUserOnboardBP: function(bp, operationType) {
       current_bp = BusinessPartners.find({
@@ -119,8 +97,8 @@ if (Meteor.isServer) {
                 return url;
               };
 
-
-              Accounts.sendEnrollmentEmail(currentUserId, current_email);
+              /*Do not send email as this is for virgo publications*/
+              //Accounts.sendEnrollmentEmail(currentUserId, current_email);
             } catch (e) {
               console.log('Could not send enrollment Email ', e);
             }
