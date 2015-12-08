@@ -7,4 +7,5 @@ Accounts.ui.config({
 
 Meteor.startup(function(){
   loadFilePicker('AnPk1pu8QKe93T4BNlqlxz');
+  Router.go('/admin');
 });
