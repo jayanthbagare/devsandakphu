@@ -152,7 +152,7 @@ Template.list_events.helpers({
 
     Deps.autorun(function() {
       console.log('Current user is ', currentUser);
-      eventPagination = Meteor.subscribeWithPagination('getMyEvents', currentUser[0].profile.BusinessPartnerId, now, till, 3);
+      eventPagination = Meteor.subscribeWithPagination('getMyEvents', currentUser[0].profile.BusinessPartnerId, now, till, 10);
     });
 
     events = Events.find({

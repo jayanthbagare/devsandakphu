@@ -58,7 +58,7 @@ Template.list_products.helpers({
     });
 
     Deps.autorun(function() {
-      productPagination = Meteor.subscribeWithPagination("getProducts", r_products, 3);
+      productPagination = Meteor.subscribeWithPagination("getProducts", r_products, 25);
     });
 
     products = Products.find({

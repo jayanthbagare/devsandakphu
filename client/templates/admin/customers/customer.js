@@ -75,7 +75,7 @@ Template.list_customers.helpers({
     });
 
     Deps.autorun(function(){
-          handlePagination = Meteor.subscribeWithPagination("getCustomers", bp_predicates,3);
+          handlePagination = Meteor.subscribeWithPagination("getCustomers", bp_predicates,25);
     });
 
     customers = BusinessPartners.find({
