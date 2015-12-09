@@ -4,6 +4,7 @@ handlePagination = '';
 AutoForm.addHooks(['add_customer_form'], {
   onSuccess: function(operation, result, template) {
     //See if the customer is already onboarded
+    console.log(template);
     var vresult = new ReactiveVar();
     vresult = result;
     //Call to onboard the customer and send an email to be invited.
@@ -83,6 +84,7 @@ Template.list_customers.helpers({
         $in: bp_predicates
       }
     },{sort:{name}});
+
     return customers;
   },
   allCustomersLoaded: function(){
@@ -93,6 +95,33 @@ Template.list_customers.helpers({
     else{
       return true;
     }
+  },
+  getCustomerCount: function(){
+    Meteor.subscribe("getUser", Meteor.userId());
+    currentUser = Meteor.users.find({
+      _id: Meteor.userId()
+    }).fetch();
+
+    currentUserBPId = currentUser[0].profile.BusinessPartnerId;
+    //Get all the BP's which the logged in BP sells to
+
+    Meteor.subscribe("getCustomerRelations", currentUserBPId);
+
+    customer_cursor = BusinessPartnerRelations.find({
+      "bp_subject": currentUserBPId,
+      "relation": "sells_to"
+    }).fetch();
+
+    bp_predicates = customer_cursor.map(function(c) {
+      return c.bp_predicate[0]
+    });
+
+    customer_count = BusinessPartners.find({
+      _id: {
+        $in: bp_predicates
+      }
+    }).count();
+    return customer_count;
   }
 });
 
