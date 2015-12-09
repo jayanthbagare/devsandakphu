@@ -1,6 +1,7 @@
 <template name="smsModal">
   <div class="modal fade in" id="smsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:auto;height:auto;">
+
       <!-- <div class="modal-content"> -->
         <!-- <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -10,6 +11,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="panel panel-default client-card box-shadow--4dp">
               <div class="panel-heading">
+                {{> flashMessages}}
                 <h3 class="panel-title client-card-header">Send Message</h3>
                 <button type="button" class="close modalClose" data-dismiss="modal" aria-hidden="true">&times;</button>
               </div>
