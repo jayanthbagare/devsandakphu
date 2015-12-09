@@ -2,7 +2,6 @@ if (Meteor.isServer) {
   // ROOT_URL='http://54.179.147.163:3000';
   ROOT_URL = 'http://localhost:9999';
 
-
   Meteor.methods({
     sendSMS: function(toNumber, body) {
       //Plivo Setup here.

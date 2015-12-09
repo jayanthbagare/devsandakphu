@@ -1,3 +1,11 @@
 {
   MAIL_URL:"smtp://info:happyinf@secure.emailsrvr.com:465"
 }
+
+{
+  "public":{
+    "analyticsSettings":{
+      "Google Analytics" : {"trackingId":"UA-71196130-1"}
+    }
+  }
+}
