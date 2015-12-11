@@ -122,6 +122,20 @@ Template.list_customers.helpers({
       }
     }).count();
     return customer_count;
+  },
+
+  getCustomerTotalCount: function(){
+    //Call the Server method to get Customer Count rather than calling subscribe
+    //customerTotalCount = Meteor.call("getCustomerTotalCount",Session.get("loggedInBPId"));
+
+    currentbpId = Session.get("loggedInBPId");
+    Meteor.subscribe("getCustomerRelations",currentbpId);
+    customerTotalCount = BusinessPartnerRelations.find({
+      bp_subject: currentbpId,
+      relation:'sells_to'
+    }).count();
+
+    return customerTotalCount;
   }
 });
 
@@ -133,17 +147,9 @@ Template.list_customers.events({
   'click #attach_doc': function(event){
     var current_customer = this._id;
 
-    Meteor.subscribe("getUser", Meteor.userId());
-    current_user = Meteor.users.find({
-      _id: Meteor.userId()
-    }).fetch();
+    Meteor.subscribe("getOneBP",Session.get("loggedInBPId"));
+    owner_bp = BusinessPartners.find({_id:Session.get("loggedInBPId")}).fetch();
 
-    Meteor.subscribe("getOneBP",current_user[0].profile.BusinessPartnerId);
-    owner_bp = BusinessPartners.find({_id:current_user[0].profile.BusinessPartnerId}).fetch();
-
-    console.log('Owner is ', owner_bp);
-
-    console.log('User is ', current_user[0]._id);
     filepicker.pickMultiple({
       mimetypes:['image/*','text/*','video/*','application/pdf'],
       //extensions:['*.jpg','*.jpeg','*.png','*.mp4','*.pdf','*.docx','*.xlsx','*.pptx'],

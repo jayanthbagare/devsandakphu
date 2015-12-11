@@ -116,6 +116,13 @@ if (Meteor.isServer) {
           }
           return true;
         });
+      },
+
+      getCustomerTotalCount: function(bp){
+        return BusinessPartnerRelations.find({
+          bp_subject:bp,
+          relation:'sells_to'
+        }).count();
       }
   });
 

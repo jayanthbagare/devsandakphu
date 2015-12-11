@@ -12,7 +12,7 @@ Meteor.startup(function(){
   currentUser = Meteor.users.find({
     _id: Meteor.userId()
   }).fetch();
-  console.log(currentUser);
+
   if(currentUser[0].username != 'fazo21')
   {
       Router.go('/admin');

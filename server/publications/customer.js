@@ -5,6 +5,7 @@ if (Meteor.isServer) {
     console.log(bp);
     bp = BusinessPartners.find({_id:bp});
     return bp;
+    this.ready();
   });
 
 
@@ -14,13 +15,13 @@ if (Meteor.isServer) {
       relation:'sells_to'
     });
     return relations;
+    this.ready();
   });
 
   Meteor.publish("getCustomers",function(customerIds,limit){
     return BusinessPartners.find({
       _id:{$in:customerIds}
     },{limit:limit});
-
     this.ready();
   });
 
