@@ -13,8 +13,18 @@ if (Meteor.isServer) {
         authToken: 'ZmM5ODE3ZjUzMzMxMjdkYmRjOTgxOTVmNzYyZDNm'
       });
 
+      //Get the Business Partners Phone number here to send as src.
+      currentUser = Meteor.users.find({
+        _id: Meteor.userId()
+      }).fetch();
+
+
+      currentUserBPId = currentUser[0].profile.BusinessPartnerId;
+
+      current_bp = BusinessPartners.find({_id:currentUserBPId}).fetch();
+
       var params = {
-        'src': '919739902121',
+        'src': current_bp[0].phones[0],
         'dst': toNumber,
         'text': body
       };
@@ -48,7 +58,6 @@ if (Meteor.isServer) {
             username: current_email
           }).fetch();
 
-          console.log('BP is ', bp, current_email);
 
           if (!checkUserId || checkUserId == '') {
             currentUserId = Accounts.createUser({
