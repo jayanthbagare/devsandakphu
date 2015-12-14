@@ -1,13 +1,19 @@
-<template name="list_events">
+<template name="list_events_old">
   <div class="container pt">
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12">
+        <!-- <div class="input-group">
+        <input type="text" class="form-control search-text" id="txtSearchEvents" placeholder="Search Appointments....">
+        <span class="input-group-btn">
+          <button type="button" name="search_button" id="search_button" class="btn btn-default search_glow">Search</button>
+        </span>
+      </div> -->
       </div>
     </div>
     <div class="row">
       <div class="col-md-12 col-lg-12 col-sm-12">
         <h4>Appointments For
-          <span id="chosenDate" class="chosenDate set-due-date" data-provide="datepicker" data-date-format="DD.MM.YYYY"></span>
+          <span id="chosenDate" class="chosenDate set-due-date"></span>
         </h4>
       </div>
     </div>
@@ -19,23 +25,19 @@
       </div> -->
 
       <div class="col-md-6 col-lg-6 col-xs-6">
-        <a href="#" class="btn btn-default btn-tiny footer-icons" id="chooseDate">
-          <i class="glyphicon glyphicon-calendar"></i>
-          <span class="hidden-xs">Choose a Date</span>
-        </a>
-        <!--<div class="pull-right input-group" id="spinDate">
-
+        <div class="pull-right input-group" id="spinDate">
+          <input type="text" class="form-control pull-left" id="txtChosenDate">
           <a href="#" class="btn btn-default btn-tiny footer-icons spinDate">
             <span class="input-group-addon override-group-addon">
 
               <i class="glyphicon glyphicon-calendar">
                Choose Date
-               <span class="hidden-xs btn btn-default btn-tiny footer-icons"></span>
+               <!-- <span class="hidden-xs btn btn-default btn-tiny footer-icons"></span> -->
              </i>
 
             </span>
           </a>
-        </div> -->
+        </div>
 
         <div class="pull-right">
           <a href="/admin/events/add" class="btn btn-default btn-tiny footer-icons">

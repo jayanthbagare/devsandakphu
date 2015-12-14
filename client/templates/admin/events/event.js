@@ -10,41 +10,56 @@ AutoForm.addHooks(['add_event_form'], {
     FlashMessages.sendError('Appointment could not be added ', result);
   }
 });
+
 Template.list_events.helpers({
   eventsIndex: () => EventsIndex
 });
 
+
+$('#chooseDate').datepicker().on('changeDate',function(e){
+  this.$('#chosenDate').text = $('#chooseDate').data('date');
+  this.$('#chooseDate').datepicker('hide');
+});
+
+
 Template.list_events.onRendered(function(event) {
   //Set the chosen date to today, if there is no chosen date.
-  var chosenDate = $('#chosenDate').text()
-  if (!chosenDate) {
+  this.$('#chooseDate').datepicker({
+    autoclose:true,
+    format:"dd/mm/yyyy",
+    orientation:"top right",
+    todayBtn:"linked",
+    todayHighlight:true,
+    zIndexOffset:1000
+  });
+
+  var chosenDate = $('#chosenDate').text();
+  if ($('#chosenDate').text() === '') {
     this.$('#chosenDate').text(moment().format('DD.MM.YYYY'));
+    Template.list_events.__helpers[" getEvents"]();
+    eventsUI.changed();
   }
 
-  /*Set the search to beautiful */
-  this.$('#txtChosenDate').attr('type', 'hidden');
-  /*
+  /*Set the search to beautiful
     Set the text field to hidden else it will look ugly.
   */
   this.$('#txtChosenDate').attr('type', 'hidden');
-  this.$('#spinDate').datetimepicker({
-    showClose: true,
-    useCurrent: true,
-    showTodayButton: true,
-    format: "DD.MM.YYYY",
-    widgetPositioning: {
-      horizontal: "auto",
-      vertical: "auto"
-    }
-  });
 
-  this.$('#spinDate').on("dp.change", function(e) {
+  // this.$('#txtChosenDate').on('input',function(e){
+  //   this.$('chosenDate').text = this.$('#txtChosenDate').val();
+  // });
+
+  this.$('#chooseDate').on("changeDate", function(e) {
     /* On change of the date
        make the spinner change the date on the div area and
        fire the eventUI changed event.
     */
-    $('#chosenDate').text(e.date.format("DD.MM.YYYY"));
-    Blaze._globalHelpers.getEvents();
+    //when the date changes, change the span text as this is read before getEvents
+    $('#chosenDate').text(moment(e.date).format("DD.MM.YYYY"));
+
+    //$('#chosenDate').text(e.date.format("DD.MM.YYYY"));
+    //Blaze._globalHelpers.getEvents();
+    Template.list_events.__helpers[" getEvents"]();
     eventsUI.changed();
   });
   //End of Date Change in Datepicker.
@@ -142,7 +157,6 @@ eventsUI = new Tracker.Dependency;
 Template.list_events.helpers({
   getEvents: function() {
     eventsUI.depend();
-    console.log('User is ', Meteor.userId());
     currentUser = Meteor.users.find({
       _id: Meteor.userId()
     }).fetch();
