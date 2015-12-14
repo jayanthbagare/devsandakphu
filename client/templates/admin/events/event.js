@@ -15,7 +15,7 @@ Template.list_events.helpers({
   eventsIndex: () => EventsIndex
 });
 
-
+//When the Date changes call the datepicker function to set the hidden text field
 $('#chooseDate').datepicker().on('changeDate',function(e){
   this.$('#chosenDate').text = $('#chooseDate').data('date');
   this.$('#chooseDate').datepicker('hide');
@@ -23,7 +23,7 @@ $('#chooseDate').datepicker().on('changeDate',function(e){
 
 
 Template.list_events.onRendered(function(event) {
-  //Set the chosen date to today, if there is no chosen date.
+  //Initialize the Datepicker
   this.$('#chooseDate').datepicker({
     autoclose:true,
     format:"dd/mm/yyyy",
@@ -33,6 +33,7 @@ Template.list_events.onRendered(function(event) {
     zIndexOffset:1000
   });
 
+  //Set the chosen date to today, if there is no chosen date.
   var chosenDate = $('#chosenDate').text();
   if ($('#chosenDate').text() === '') {
     this.$('#chosenDate').text(moment().format('DD.MM.YYYY'));
@@ -45,20 +46,15 @@ Template.list_events.onRendered(function(event) {
   */
   this.$('#txtChosenDate').attr('type', 'hidden');
 
-  // this.$('#txtChosenDate').on('input',function(e){
-  //   this.$('chosenDate').text = this.$('#txtChosenDate').val();
-  // });
-
   this.$('#chooseDate').on("changeDate", function(e) {
     /* On change of the date
        make the spinner change the date on the div area and
        fire the eventUI changed event.
     */
     //when the date changes, change the span text as this is read before getEvents
+    //console.log('Date is changed ', moment(e.date).format("DD.MM.YYYY"));
     $('#chosenDate').text(moment(e.date).format("DD.MM.YYYY"));
 
-    //$('#chosenDate').text(e.date.format("DD.MM.YYYY"));
-    //Blaze._globalHelpers.getEvents();
     Template.list_events.__helpers[" getEvents"]();
     eventsUI.changed();
   });
@@ -87,11 +83,11 @@ Template.add_event.events({
       if (!error) {
         body = 'Your appointment has been fixed on ' + moment(eventDate).format("DD.MM.YYYY h:mm a") + ' by Rashmi DentaCare';
 
-        /*Meteor.call('sendSMS',result.phone,body,function(error,result){
+        Meteor.call('sendSMS',result.phone,body,function(error,result){
           if(error){
             throw new Meteor.Error('Could not send SMS, please try in some time again');
           }
-        });*/
+        });
       }
     });
     FlashMessages.sendSuccess('Appointment Added');
@@ -137,11 +133,11 @@ Template.edit_event.events({
         if (!error) {
           body = 'Your appointment from ' + moment(oldEventData.eventDate).format('DD.MM.YYYY h:mm a') + ' has been changed to ' + moment(eventDate).format('DD.MM.YYYY h:mm a') + ' by Rashmi DentaCare';
 
-          /*  Meteor.call('sendSMS',result.phone,body,function(error,result){
+          Meteor.call('sendSMS',result.phone,body,function(error,result){
               if(error){
                 throw new Meteor.Error('Could not send SMS, please try in some time again');
               }
-            });*/
+            });
         }
       });
     }
