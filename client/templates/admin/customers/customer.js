@@ -126,7 +126,6 @@ Template.list_customers.helpers({
 
   getCustomerTotalCount: function(){
     //Call the Server method to get Customer Count rather than calling subscribe
-    //customerTotalCount = Meteor.call("getCustomerTotalCount",Session.get("loggedInBPId"));
 
     currentbpId = Session.get("loggedInBPId");
     Meteor.subscribe("getCustomerRelations",currentbpId);
