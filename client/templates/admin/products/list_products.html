@@ -18,7 +18,7 @@
   <div class="container pt">
     <div class="row">
       {{#each getMyProducts}}
-      {{#if this.isSellable}}
+
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="panel panel-default customer-card">
           <!-- <div class="panel-heading customer-card-heading"> -->
@@ -37,7 +37,7 @@
                 {{getStock _id}}
               </p>
               <p>
-              {{#if this.isSellable}}    {{getSellPrice _id}} {{/if}}
+                {{getSellPrice _id}}
             </p>
             </div>
             <!-- panel body -->
@@ -65,7 +65,7 @@
         <!-- panel client-card -->
       </div>
       <!-- col-lg-4 -->
-      {{/if}}
+
       {{/each}}
     </div>
     <!-- row -->

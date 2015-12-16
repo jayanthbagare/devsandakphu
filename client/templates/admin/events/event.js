@@ -205,7 +205,8 @@ Template.list_events.events({
 
 //Format the time to the locale here
 Template.registerHelper("formatDateTime", function(givenDate) {
-  return moment(givenDate).format("DD.MM.YYYY-h:mm a");
+  //return moment(givenDate).format("DD.MM.YYYY-h:mm a");
+  return moment(givenDate).format("h:mm a");
 });
 
 //Get the date of today
@@ -291,4 +292,16 @@ Template.registerHelper("getMyProducts", function() {
   });
 
   return options;
+});
+
+Template.editEvent.helpers({
+  selectedEvent: function() {
+    Meteor.subscribe("getEvent",this._id);
+    return Events.find({
+      _id: this._id
+    });
+  },
+  getCustomer: function(){
+
+  }
 });

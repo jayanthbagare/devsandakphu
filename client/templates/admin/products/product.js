@@ -116,9 +116,9 @@ Template.list_products.helpers({
       _id:productId
     }).fetch();
 
-    if(product[0].isSellable){
-      return 'Sell Price: ' + product[0].sellPrice.unitPrice + ' ' + product[0].sellPrice.currency;
-    }
+    // if(product[0].isSellable){
+      return 'Sell Price: ' + product[0].sellPrice.unitPrice + ' ' + 'INR';
+    // }
   }
 });
 
