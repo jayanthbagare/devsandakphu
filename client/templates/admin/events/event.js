@@ -11,9 +11,6 @@ AutoForm.addHooks(['add_event_form'], {
   }
 });
 
-Template.list_events.helpers({
-  eventsIndex: () => EventsIndex
-});
 
 //When the Date changes call the datepicker function to set the hidden text field
 $('#chooseDate').datepicker().on('changeDate',function(e){

@@ -2,6 +2,16 @@
   {{> smsModal}}
   <div class="container pt">
     <div class="row">
+      <div class="col-ls-6 col-md-6 col-xs-12 col-lg-offset-6 col-md-offset-6 pull-right">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" id="customerSearch">
+          <span class="input-group-addon">
+            <i class="fa fa-search" id="btnSearch"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12">
         <h3>Your Customers - (Total {{getCustomerCount}}/{{getCustomerTotalCount}} )</h3>
         <a href="/admin/customers/add" class="btn btn-default btn-tiny footer-icons pull-right">
@@ -22,19 +32,20 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="panel panel-default customer-card">
           <!-- <div class="panel-heading customer-card-heading"> -->
-          <div class="panel-heading customer-card-heading">
+          <!-- <div class="panel-heading customer-card-heading">
             <h3 class="panel-title client-card-header">{{this.name}}</h3>
             <a href="/admin/clients/timeline" id="view_timeline" class="btn btn-default btn-tiny btn-circle footer-icons pull-right">
-              <!-- <i class="fa fa-1x fa-history timeline-font"></i> -->
               <i class="fa fa-history timeline-font"></i>
-              <!-- <span class="hidden-xs hidden-sm hidden-md small">History</span> -->
             </a>
-          </div>
+          </div> -->
           <!-- panel-heading -->
+          <h3 class="client-card-header">{{this.name}}</h3>
           <a href="/admin/customers/{{_id}}/edit" class="card-hover">
             <div class="panel-body">
               <p>
-                {{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}
+                {{#if this.phones.[0]}}
+                  {{this.phones.[0]}}
+                {{else}} No Number Found. {{/if}}
               </p>
               {{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}
             </div>
@@ -42,11 +53,11 @@
           </a>
           <div class="panel-footer">
             <!-- For now commenting the schedule functionality, need a redesign thought-->
-            <!-- <a href="/admin/events/add" id="add_event"
+            <a href="/admin/events/add" id="add_event"
                   class="btn btn-default btn-tiny footer-icons ">
                     <i class="glyphicon glyphicon-calendar"></i>
                     <span class="hidden-xs hidden-sm hidden-md small">Schedule</span>
-                  </a> -->
+                  </a>
 
             <a href="#" id="attach_doc" class="btn btn-default btn-tiny footer-icons ">
               <i class="glyphicon glyphicon-paperclip"></i>

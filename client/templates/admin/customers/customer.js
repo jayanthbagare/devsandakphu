@@ -1,5 +1,6 @@
 //Generic variable definition for Pagination handler
 handlePagination = '';
+eventsUI = new Tracker.Dependency;
 
 AutoForm.addHooks(['add_customer_form'], {
   onSuccess: function(operation, result, template) {
@@ -54,49 +55,70 @@ AutoForm.addHooks(['add_customer_form'], {
   }
 });
 
+Template.list_customers.onRendered(function(event){
+  console.log('Inside Rendered');
+  Template.list_customers.__helpers[" getMyCustomers"]();
+  //eventsUI.changed();
+});
+
+
+
 Template.list_customers.helpers({
-  getMyCustomers: function() {
+  getMyCustomers: function(searchTerm) {
+    console.log('Search Term is ', searchTerm);
+
     // //Get the current user and its BP Id
-    Meteor.subscribe("getUser", Meteor.userId());
-    currentUser = Meteor.users.find({
-      _id: Meteor.userId()
-    }).fetch();
+      Meteor.subscribe("getUser", Meteor.userId());
+      currentUser = Meteor.users.find({
+        _id: Meteor.userId()
+      }).fetch();
 
-    currentUserBPId = currentUser[0].profile.BusinessPartnerId;
-    //Get all the BP's which the logged in BP sells to
+      currentUserBPId = currentUser[0].profile.BusinessPartnerId;
+      //Get all the BP's which the logged in BP sells to
 
-    Meteor.subscribe("getCustomerRelations", currentUserBPId);
-    customer_cursor = BusinessPartnerRelations.find({
-      "bp_subject": currentUserBPId,
-      "relation": "sells_to"
-    }).fetch();
+      Meteor.subscribe("getCustomerRelations", currentUserBPId);
+      customer_cursor = BusinessPartnerRelations.find({
+        "bp_subject": currentUserBPId,
+        "relation": "sells_to"
+      }).fetch();
 
-    bp_predicates = customer_cursor.map(function(c) {
-      return c.bp_predicate[0]
-    });
+      bp_predicates = customer_cursor.map(function(c) {
+        return c.bp_predicate[0]
+      });
 
-    Deps.autorun(function(){
-          handlePagination = Meteor.subscribeWithPagination("getCustomers", bp_predicates,25);
-    });
+      Deps.autorun(function() {
+        handlePagination = Meteor.subscribeWithPagination("getCustomers", bp_predicates,searchTerm,25);
+      });
 
-    customers = BusinessPartners.find({
-      _id: {
-        $in: bp_predicates
-      }
-    },{sort:{name}});
+        if(searchTerm){
+          console.log(searchTerm);
+          customers = BusinessPartners.find({
+            score:{"$exists":true}
+          }).fetch();
 
-    return customers;
+        }
+        else {
+          customers = BusinessPartners.find({
+            _id: { $in: bp_predicates }
+          }, {
+            sort: {
+              name
+            }
+          }).fetch();
+        }
+
+        console.log(customers);
+        eventsUI.changed();
+        return customers;
   },
-  allCustomersLoaded: function(){
-    if(BusinessPartners.find().count() == handlePagination.loaded())
-    {
+  allCustomersLoaded: function() {
+    if (BusinessPartners.find().count() == handlePagination.loaded()) {
       return false
-    }
-    else{
+    } else {
       return true;
     }
   },
-  getCustomerCount: function(){
+  getCustomerCount: function() {
     Meteor.subscribe("getUser", Meteor.userId());
     currentUser = Meteor.users.find({
       _id: Meteor.userId()
@@ -124,14 +146,14 @@ Template.list_customers.helpers({
     return customer_count;
   },
 
-  getCustomerTotalCount: function(){
+  getCustomerTotalCount: function() {
     //Call the Server method to get Customer Count rather than calling subscribe
 
     currentbpId = Session.get("loggedInBPId");
-    Meteor.subscribe("getCustomerRelations",currentbpId);
+    Meteor.subscribe("getCustomerRelations", currentbpId);
     customerTotalCount = BusinessPartnerRelations.find({
       bp_subject: currentbpId,
-      relation:'sells_to'
+      relation: 'sells_to'
     }).count();
 
     return customerTotalCount;
@@ -143,127 +165,136 @@ Template.list_customers.events({
     customerId = new ReactiveVar('');
     customerId.set(this._id);
   },
-  'click #attach_doc': function(event){
+  'click #attach_doc': function(event) {
     var current_customer = this._id;
 
-    Meteor.subscribe("getOneBP",Session.get("loggedInBPId"));
-    owner_bp = BusinessPartners.find({_id:Session.get("loggedInBPId")}).fetch();
+    Meteor.subscribe("getOneBP", Session.get("loggedInBPId"));
+    owner_bp = BusinessPartners.find({
+      _id: Session.get("loggedInBPId")
+    }).fetch();
 
     filepicker.pickMultiple({
-      mimetypes:['image/*','text/*','video/*','application/pdf'],
-      //extensions:['*.jpg','*.jpeg','*.png','*.mp4','*.pdf','*.docx','*.xlsx','*.pptx'],
-      services:['COMPUTER','WEBCAM','VIDEO','URL'],
-      multiple:true/*,
-      customCss:'app/client/stylesheets/filepicker.css'*/
-    },
-    function(InkBlob){
-      $.each(InkBlob,function(key,value){
+        mimetypes: ['image/*', 'text/*', 'video/*', 'application/pdf'],
+        //extensions:['*.jpg','*.jpeg','*.png','*.mp4','*.pdf','*.docx','*.xlsx','*.pptx'],
+        services: ['COMPUTER', 'WEBCAM', 'VIDEO', 'URL'],
+        multiple: true
+          /*,
+                customCss:'app/client/stylesheets/filepicker.css'*/
+      },
+      function(InkBlob) {
+        $.each(InkBlob, function(key, value) {
           console.log(InkBlob);
-          if(value.url){
-            try{
+          if (value.url) {
+            try {
               resultDocId = Documents.insert({
-                docOwner:owner_bp,
-                docUploader:owner_bp,
+                docOwner: owner_bp,
+                docUploader: owner_bp,
                 docURL: value.url,
-                docMimeType:value.mimetype
-                                  });
-                }catch(e){
-                  FlashMessages.sendError('Could not upload the document ', e);
-                }
+                docMimeType: value.mimetype
+              });
+            } catch (e) {
+              FlashMessages.sendError('Could not upload the document ', e);
+            }
 
-              try{
-                //Insert the is_owner relationship
-                DocumentsRelations.insert({
-                  docId:[resultDocId],
-                  relation:'is_owner',
-                  businesspartner:[owner_bp]
-                });
+            try {
+              //Insert the is_owner relationship
+              DocumentsRelations.insert({
+                docId: [resultDocId],
+                relation: 'is_owner',
+                businesspartner: [owner_bp]
+              });
 
-                //Insert the can_share relationship to the customer
-                DocumentsRelations.insert({
-                  docId:[resultDocId],
-                  relation:'can_share',
-                  businesspartner:[current_customer]
-                });
+              //Insert the can_share relationship to the customer
+              DocumentsRelations.insert({
+                docId: [resultDocId],
+                relation: 'can_share',
+                businesspartner: [current_customer]
+              });
 
-                //Insert the can_edit relationship to the customer
-                DocumentsRelations.insert({
-                  docId:[resultDocId],
-                  relation:'can_edit',
-                  businesspartner:[current_customer]
-                });
+              //Insert the can_edit relationship to the customer
+              DocumentsRelations.insert({
+                docId: [resultDocId],
+                relation: 'can_edit',
+                businesspartner: [current_customer]
+              });
 
-                //Insert the can_view relationship to the customer
-                DocumentsRelations.insert({
-                  docId:[resultDocId],
-                  relation:'can_view',
-                  businesspartner:[current_customer]
-                });
+              //Insert the can_view relationship to the customer
+              DocumentsRelations.insert({
+                docId: [resultDocId],
+                relation: 'can_view',
+                businesspartner: [current_customer]
+              });
 
-              }catch(e){
-                FlashMessages.sendError('Relations are missing ', e);
-              }
+            } catch (e) {
+              FlashMessages.sendError('Relations are missing ', e);
+            }
 
-              }});
-                  });
+          }
+        });
+      });
   },
-  'click #view_timeline': function(event){
+  'click #view_timeline': function(event) {
     //Set the client session id to be retrieved in timeline.
-    Session.set('customerId',this._id);
+    Session.set('customerId', this._id);
   },
   //Handle the SMS and messaging feature.
-  'click #sms_message': function(event){
+  'click #sms_message': function(event) {
     //Call the Modal for SMS here.
     $('#smsModal').modal("show");
-    Session.set('customerId',this._id);
+    Session.set('customerId', this._id);
   },
-  'click #load_more': function(event){
+  'click #load_more': function(event) {
     event.preventDefault();
     handlePagination.loadNextPage();
+  },
+  'click #btnSearch': function(event) {
+    searchTerm = $('#customerSearch').val();
+    Template.list_customers.__helpers[" getMyCustomers"](searchTerm);
+    //eventsUI.changed();
   }
 });
 
 Template.timeline.events({
-  'click .timeline-panel': function(event){
+  'click .timeline-panel': function(event) {
     var imageURL = this.imageURL;
-    Session.set("imageModal",imageURL);
-    Session.set("mimeType",this.mimeType);
+    Session.set("imageModal", imageURL);
+    Session.set("mimeType", this.mimeType);
     $("#imageModal").modal("show");
   }
 });
 
-Template.smsModal.onRendered(function(){
+Template.smsModal.onRendered(function() {
   var charMax = 160;
   $('#chars_left').html(charMax + ' characters remaining.');
 });
 
 Template.smsModal.events({
-  'keyup #smsText': function(event){
+  'keyup #smsText': function(event) {
 
-      var text_length = $('#smsText').val().length;
-      var text_remaining = 160 - text_length;
-      console.log(text_remaining);
-      $('#chars_left').html(text_remaining + ' characters remaining.');
+    var text_length = $('#smsText').val().length;
+    var text_remaining = 160 - text_length;
+    console.log(text_remaining);
+    $('#chars_left').html(text_remaining + ' characters remaining.');
   },
 
-  'click #sendMessage': function(event){
+  'click #sendMessage': function(event) {
     //Get the number of the customer
-    Meteor.subscribe("getOneBP",Session.get('customerId'));
-    customer = BusinessPartners.findOne({_id:Session.get('customerId')});
+    Meteor.subscribe("getOneBP", Session.get('customerId'));
+    customer = BusinessPartners.findOne({
+      _id: Session.get('customerId')
+    });
     smstext = $('#smsText').val();
 
-    try{
-        if(!customer.phones[0]){
-          console.log('Inside not having phone number.');
-          FlashMessages.sendError('Please maintain a Phone number to send SMS');
-        }
-    }
-    catch(error)
-    {
+    try {
+      if (!customer.phones[0]) {
+        console.log('Inside not having phone number.');
+        FlashMessages.sendError('Please maintain a Phone number to send SMS');
+      }
+    } catch (error) {
       FlashMessages.sendError('Please maintain a Phone number to send SMS');
     }
-    Meteor.call('sendSMS',customer.phones[0],smstext,function(result,error){
-      if(error){
+    Meteor.call('sendSMS', customer.phones[0], smstext, function(result, error) {
+      if (error) {
         throw new Meteor.Error('Could not send SMS, please try in some time again');
       }
     });
@@ -276,7 +307,7 @@ Template.smsModal.events({
 
 Template.edit_customer.helpers({
   selectedCustomer: function() {
-    Meteor.subscribe("getOneBP",this._id);
+    Meteor.subscribe("getOneBP", this._id);
     return BusinessPartners.findOne({
       "_id": this._id
     });

@@ -18,11 +18,26 @@ if (Meteor.isServer) {
     this.ready();
   });
 
-  Meteor.publish("getCustomers",function(customerIds,limit){
-    return BusinessPartners.find({
-      _id:{$in:customerIds}
-    },{limit:limit});
-    this.ready();
+  Meteor.publish("getCustomers",function(customerIds,searchTerm,limit){
+    if(!searchTerm){
+      return BusinessPartners.find({
+        _id:{$in:customerIds}
+      },{limit:limit});
+      this.ready();
+    }
+    else{
+      customers = BusinessPartners.find({
+        _id:{$in:customerIds},
+        $text:{$search:searchTerm}
+      },
+      {fields:{score:{$meta:"textScore"}},
+       sort:{score:{$meta:"textScore"}}
+      },
+      {limit:limit});
+      console.log('Server side ', customers.fetch(), customers.count());
+      return customers;
+      this.ready();
+    }
   });
 
 }
