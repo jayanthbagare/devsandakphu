@@ -1,11 +1,11 @@
 //Generic variable definition for Pagination handler
 handlePagination = '';
-eventsUI = new Tracker.Dependency;
+
 
 AutoForm.addHooks(['add_customer_form'], {
   onSuccess: function(operation, result, template) {
     //See if the customer is already onboarded
-    console.log(template);
+
     var vresult = new ReactiveVar();
     vresult = result;
     //Call to onboard the customer and send an email to be invited.
@@ -14,7 +14,6 @@ AutoForm.addHooks(['add_customer_form'], {
     } catch (e) {
       FlashMessages.sendError('Could not create a user for the onboarded Business Partner ', e);
     }
-
 
     //Get Self Business Partner ID.
     Meteor.subscribe("getUser", Meteor.userId());
@@ -50,66 +49,64 @@ AutoForm.addHooks(['add_customer_form'], {
     Router.go('/admin/customers');
   },
   onError: function(operation, result, template) {
-    console.log(result);
+
     FlashMessages.sendError('Could not save Relations' + result);
   }
 });
 
-Template.list_customers.onRendered(function(event){
-  console.log('Inside Rendered');
-  Template.list_customers.__helpers[" getMyCustomers"]();
-  //eventsUI.changed();
-});
+Template.list_customers.rendered = function() {
+
+  Session.set('searchTerm', '');
+  Tracker.autorun(function() {
+    Template.list_customers.__helpers[" getMyCustomers"]();
+  });
+};
 
 
 
+customersUI = new Tracker.Dependency;
 Template.list_customers.helpers({
   getMyCustomers: function(searchTerm) {
-    console.log('Search Term is ', searchTerm);
+    customersUI.depend();
+    //Get all the BP's which the logged in BP sells to
+    currentUserBPId = Session.get("loggedInBPId");
+    Meteor.subscribe("getCustomerRelations", currentUserBPId);
+    customer_cursor = BusinessPartnerRelations.find({
+      "bp_subject": currentUserBPId,
+      "relation": "sells_to"
+    }).fetch();
 
-    // //Get the current user and its BP Id
-      Meteor.subscribe("getUser", Meteor.userId());
-      currentUser = Meteor.users.find({
-        _id: Meteor.userId()
-      }).fetch();
+    bp_predicates = customer_cursor.map(function(c) {
+      return c.bp_predicate[0]
+    });
 
-      currentUserBPId = currentUser[0].profile.BusinessPartnerId;
-      //Get all the BP's which the logged in BP sells to
+    Tracker.autorun(function() {
+      handlePagination = Meteor.subscribeWithPagination("getCustomers", bp_predicates, searchTerm, 25);
 
-      Meteor.subscribe("getCustomerRelations", currentUserBPId);
-      customer_cursor = BusinessPartnerRelations.find({
-        "bp_subject": currentUserBPId,
-        "relation": "sells_to"
-      }).fetch();
+    });
 
-      bp_predicates = customer_cursor.map(function(c) {
-        return c.bp_predicate[0]
-      });
 
-      Deps.autorun(function() {
-        handlePagination = Meteor.subscribeWithPagination("getCustomers", bp_predicates,searchTerm,25);
-      });
+    if (Session.get("searchTerm")) {
 
-        if(searchTerm){
-          console.log(searchTerm);
-          customers = BusinessPartners.find({
-            score:{"$exists":true}
-          }).fetch();
-
+      customers = BusinessPartners.find({
+        score: {
+          "$exists": true
         }
-        else {
-          customers = BusinessPartners.find({
-            _id: { $in: bp_predicates }
-          }, {
-            sort: {
-              name
-            }
-          }).fetch();
+      }).fetch();
+    } else {
+      customers = BusinessPartners.find({
+        _id: {
+          $in: bp_predicates
         }
+      }, {
+        sort: {
+          name
+        }
+      }).fetch();
+    }
 
-        console.log(customers);
-        eventsUI.changed();
-        return customers;
+
+    return customers;
   },
   allCustomersLoaded: function() {
     if (BusinessPartners.find().count() == handlePagination.loaded()) {
@@ -119,14 +116,8 @@ Template.list_customers.helpers({
     }
   },
   getCustomerCount: function() {
-    Meteor.subscribe("getUser", Meteor.userId());
-    currentUser = Meteor.users.find({
-      _id: Meteor.userId()
-    }).fetch();
-
-    currentUserBPId = currentUser[0].profile.BusinessPartnerId;
     //Get all the BP's which the logged in BP sells to
-
+    currentUserBPId = Session.get("loggedInBPId");
     Meteor.subscribe("getCustomerRelations", currentUserBPId);
 
     customer_cursor = BusinessPartnerRelations.find({
@@ -183,7 +174,7 @@ Template.list_customers.events({
       },
       function(InkBlob) {
         $.each(InkBlob, function(key, value) {
-          console.log(InkBlob);
+
           if (value.url) {
             try {
               resultDocId = Documents.insert({
@@ -248,9 +239,13 @@ Template.list_customers.events({
     handlePagination.loadNextPage();
   },
   'click #btnSearch': function(event) {
+    event.preventDefault();
     searchTerm = $('#customerSearch').val();
-    Template.list_customers.__helpers[" getMyCustomers"](searchTerm);
-    //eventsUI.changed();
+    Tracker.autorun(function() {
+      Session.set('searchTerm', searchTerm);
+      Template.list_customers.__helpers[" getMyCustomers"](searchTerm);
+    });
+
   }
 });
 
@@ -273,7 +268,7 @@ Template.smsModal.events({
 
     var text_length = $('#smsText').val().length;
     var text_remaining = 160 - text_length;
-    console.log(text_remaining);
+
     $('#chars_left').html(text_remaining + ' characters remaining.');
   },
 
@@ -287,7 +282,7 @@ Template.smsModal.events({
 
     try {
       if (!customer.phones[0]) {
-        console.log('Inside not having phone number.');
+
         FlashMessages.sendError('Please maintain a Phone number to send SMS');
       }
     } catch (error) {

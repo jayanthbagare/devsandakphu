@@ -53,3 +53,4 @@ percolate:paginated-subscription
 okgrow:analytics
 rajit:bootstrap3-datepicker
 easy:search
+zuuk:stale-session

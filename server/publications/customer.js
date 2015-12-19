@@ -2,7 +2,6 @@ if (Meteor.isServer) {
   //Call the publish methods here.
 
   Meteor.publish("getOneBP",function(bp){
-    console.log(bp);
     bp = BusinessPartners.find({_id:bp});
     return bp;
     this.ready();
@@ -29,6 +28,12 @@ if (Meteor.isServer) {
       customers = BusinessPartners.find({
         _id:{$in:customerIds},
         $text:{$search:searchTerm}
+        // $or:{
+        //   name:{$regex:searchTerm,$options:'i'},
+        //   emails:{$regex:searchTerm,$options:'i'},
+        //   address:{$regex:searchTerm,$options:'i'},
+        //   phones:{$regex:searchTerm,$options:'i'}
+        // }
       },
       {fields:{score:{$meta:"textScore"}},
        sort:{score:{$meta:"textScore"}}
