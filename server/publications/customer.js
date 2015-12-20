@@ -28,18 +28,11 @@ if (Meteor.isServer) {
       customers = BusinessPartners.find({
         _id:{$in:customerIds},
         $text:{$search:searchTerm}
-        // $or:{
-        //   name:{$regex:searchTerm,$options:'i'},
-        //   emails:{$regex:searchTerm,$options:'i'},
-        //   address:{$regex:searchTerm,$options:'i'},
-        //   phones:{$regex:searchTerm,$options:'i'}
-        // }
       },
       {fields:{score:{$meta:"textScore"}},
        sort:{score:{$meta:"textScore"}}
       },
       {limit:limit});
-      console.log('Server side ', customers.fetch(), customers.count());
       return customers;
       this.ready();
     }

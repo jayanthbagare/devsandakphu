@@ -28,11 +28,9 @@ cfs:gridfs
 cfs:filesystem
 jeremy:selectize
 natestrauser:select2
-mrt:twilio-meteor
 momentjs:moment
 aldeed:autoform
 autoupdate
-matteodem:easy-search
 natestrauser:filepicker-plus
 fortawesome:fontawesome
 mdg:camera
