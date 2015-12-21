@@ -299,7 +299,7 @@ Template.smsModal.events({
 });
 
 
-
+//Customer Edit screen helpers
 Template.edit_customer.helpers({
   selectedCustomer: function() {
     Meteor.subscribe("getOneBP", this._id);
