@@ -1,4 +1,4 @@
-<template name="add_customer">
+<template name="add_customer" id="add_customer">
   {{#autoForm collection="BusinessPartners" id="add_customer_form" type="insert"}}
   <div class="container pt">
       <div class="row">
@@ -7,16 +7,16 @@
               <div class="form-group">
                 {{>afQuickField name="name"}}
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 {{>afQuickField name="keyPersonName"}}
-              </div>
+              </div> -->
               <!-- Commenting as dentacare does not want these fields -->
               <!-- <div class="form-group">
                 {{>afQuickField name="isSearchable"}}
-              </div>
+              </div> -->
               <div class="form-group">
                 {{>afQuickField name="address"}}
-              </div> -->
+              </div>
               <div class="form-group">
                 {{>afQuickField name="phones"}}
               </div>
@@ -25,8 +25,8 @@
               </div>
               <!-- <div class="form-group">
                 {{>afQuickField name="website"}}
-              </div>
-              <div class="form-group">
+              </div> -->
+              <!-- <div class="form-group">
                 {{>afQuickField name="taxid"}}
               </div>
               <div class="form-group">

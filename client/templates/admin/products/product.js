@@ -58,7 +58,7 @@ Template.list_products.helpers({
     });
 
     Deps.autorun(function() {
-      productPagination = Meteor.subscribeWithPagination("getProducts", r_products, 3);
+      productPagination = Meteor.subscribeWithPagination("getProducts", r_products, 25);
     });
 
     products = Products.find({
@@ -116,9 +116,9 @@ Template.list_products.helpers({
       _id:productId
     }).fetch();
 
-    if(product[0].isSellable){
-      return 'Sell Price: ' + product[0].sellPrice.unitPrice + ' ' + product[0].sellPrice.currency;
-    }
+    // if(product[0].isSellable){
+      return 'Sell Price: ' + product[0].sellPrice.unitPrice + ' ' + 'INR';
+    // }
   }
 });
 

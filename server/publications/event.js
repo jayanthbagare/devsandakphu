@@ -1,7 +1,7 @@
 if (Meteor.isServer) {
   //Call the publish methods here.
   Meteor.publish("getEvent", function(event) {
-    event = Eventss.find({
+    event = Events.find({
       _id: event
     });
     return event;

@@ -28,11 +28,9 @@ cfs:gridfs
 cfs:filesystem
 jeremy:selectize
 natestrauser:select2
-mrt:twilio-meteor
 momentjs:moment
 aldeed:autoform
 autoupdate
-matteodem:easy-search
 natestrauser:filepicker-plus
 fortawesome:fontawesome
 mdg:camera
@@ -50,3 +48,7 @@ kadira:debug
 meteorhacks:kadira
 miro:mailchimp
 percolate:paginated-subscription
+okgrow:analytics
+rajit:bootstrap3-datepicker
+easy:search
+zuuk:stale-session

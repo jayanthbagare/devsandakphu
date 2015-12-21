@@ -2,6 +2,14 @@
   "public" : {
     "filepicker":{
       "key":"AnPk1pu8QKe93T4BNlqlxz"
-    }
+    },
+    "analyticsSettings":{
+      "Google Analytics" : {"trackingId":"UA-71196130-1"}
+    },
+    "MAIL_URL":"smtp://info:happyinf@secure.emailsrvr.com:465",
+    "staleSessionInactivityTimeout": 1800000,
+    "staleSessionHeartbeatInterval": 180000,
+    "staleSessionPurgeInterval": 60000,
+    "staleSessionActivityEvents": "mousemove click keydown"
   }
 }

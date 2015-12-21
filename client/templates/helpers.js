@@ -11,7 +11,17 @@ Template.login.events({
         FlashMessages.sendError(err.reason);
       }else{
         FlashMessages.sendSuccess('You are now logged in');
-        Router.go('/admin/events');
+        //Set the session for currentUser Id
+        Meteor.subscribe("getUser", Meteor.userId());
+        currentUser = Meteor.users.find({
+          _id: Meteor.userId()
+        }).fetch();
+
+        Session.set("loggedInUser",currentUser[0]._id);
+        //Set the Session for current user BP Id
+        Session.set("loggedInBPId",currentUser[0].profile.BusinessPartnerId);
+        
+        Router.go('/admin');
       }
     });
 
