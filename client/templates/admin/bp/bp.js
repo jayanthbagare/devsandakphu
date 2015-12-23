@@ -6,7 +6,7 @@ AutoForm.addHooks(['onboard_bp'], {
       FlashMessages.sendError('Could not create a user for the onboarded Business Partner ', e);
     }
     FlashMessages.sendSuccess('Business Onboarded Successfully');
-    Router.go('/admin/');
+    Router.go('/main/');
   },
   onError: function(operation, result, template) {
     FlashMessages.sendError('Could not save ' + result);

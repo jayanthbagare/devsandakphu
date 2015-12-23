@@ -2,7 +2,7 @@
 AutoForm.addHooks(['add_client_form','edit_client_form'],{
   onSuccess: function(operation,result,template){
     FlashMessages.sendSuccess('Client Saved Successfully');
-    Router.go('/admin/clients');
+    Router.go('/main/clients');
   },
   onError: function(operation,result,template){
     FlashMessages.sendError('Could not save ' + result);

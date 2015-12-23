@@ -46,7 +46,7 @@ AutoForm.addHooks(['add_customer_form'], {
 
     //If all is well Flash a Success message.
     FlashMessages.sendSuccess('Customer Onboarded Successfully');
-    Router.go('/admin/customers');
+    Router.go('/main/customers');
   },
   onError: function(operation, result, template) {
 

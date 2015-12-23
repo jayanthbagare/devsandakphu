@@ -28,7 +28,7 @@ AutoForm.addHooks(['add_product_form'], {
     }
     //If all is well Flash a Success message.
     FlashMessages.sendSuccess('Product Added Successfully');
-    Router.go('/admin/products');
+    Router.go('/main/products');
   },
   onError: function(operation, result, template) {
     console.log(result);

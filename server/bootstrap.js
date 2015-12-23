@@ -25,8 +25,8 @@ Meteor.startup(function(){
 }
 
 //Set the indexes on the business_partner and products collections
-BusinessPartners._dropIndex('customerSearchIdx');
-Products._dropIndex('productSearchIdx');
+//BusinessPartners._dropIndex('customerSearchIdx');
+//Products._dropIndex('productSearchIdx');
 
 BusinessPartners._ensureIndex({
   name:'text',

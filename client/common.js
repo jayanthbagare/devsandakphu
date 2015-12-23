@@ -13,9 +13,9 @@ Meteor.startup(function(){
     _id: Meteor.userId()
   }).fetch();
 
-  if(currentUser[0].username != 'fazo21')
+  if(currentUser[0].username != '`fazo21`')
   {
-      Router.go('/admin');
+      //Router.go('/main');
   }
 
 });

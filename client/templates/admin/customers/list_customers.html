@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12">
         <h3>Your Customers - (Total {{getCustomerCount}}/{{getCustomerTotalCount}})</h3>
-        <a href="/admin/customers/add" id="add_customer" class="pull-right">
+        <a href="/main/customers/add" id="add_customer" class="pull-right">
             <i class="glyphicon glyphicon-plus"><span>Add a Customer</span></i>
         </a>
         <br>
@@ -32,7 +32,7 @@
         <div class="panel panel-default customer-card">
           <!-- panel-heading -->
           <h3 class="client-card-header">{{this.name}}</h3>
-          <a href="/admin/customers/{{_id}}/edit" class="card-hover">
+          <a href="/main/customers/{{_id}}/edit" class="card-hover">
             <div class="panel-body">
               <p>
                 {{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}
@@ -43,7 +43,7 @@
           </a>
           <div class="panel-footer">
             <!-- For now commenting the schedule functionality, need a redesign thought-->
-            <a href="/admin/events/add" id="add_event">
+            <a href="/main/events/add" id="add_event">
               <span>
                 <i class="glyphicon glyphicon-calendar" style="text-align:center;padding-right:20px;"><br/><span class="small">Schedule</span></i></span>
             </a>

@@ -21,7 +21,7 @@ Template.login.events({
         //Set the Session for current user BP Id
         Session.set("loggedInBPId",currentUser[0].profile.BusinessPartnerId);
         
-        Router.go('/admin');
+        Router.go('/main');
       }
     });
 
@@ -40,7 +40,7 @@ Template.layout.events({
     }
     else {
       FlashMessages.sendSuccess('You are now logged out');
-      Router.go('/admin');
+      Router.go('/main');
     }
   });
 }

@@ -13,7 +13,7 @@ AutoForm.addHooks(['add_event_form'], {
     }).fetch();
     console.log('Phone number is ', toPhone);
     FlashMessages.sendSuccess('Appointment Added');
-    Router.go('/admin/events');
+    Router.go('/main/events');
   },
   onError: function(operation, result, template) {
     FlashMessages.sendError('Appointment could not be added ', result);
@@ -97,7 +97,7 @@ Template.list_events.onRendered(function(event) {
 //       }
 //     });
 //     FlashMessages.sendSuccess('Appointment Added');
-//     Router.go('/admin/events');
+//     Router.go('/main/events');
 //
 //     return false;
 //   },
@@ -148,7 +148,7 @@ Template.list_events.onRendered(function(event) {
 //       });
 //     }
 //     FlashMessages.sendSuccess('Appointment Edited');
-//     Router.go('/admin/events');
+//     Router.go('/main/events');
 //
 //     return false;
 //   }
