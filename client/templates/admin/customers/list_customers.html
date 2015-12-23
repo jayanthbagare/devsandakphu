@@ -17,10 +17,6 @@
         <a href="/admin/customers/add" id="add_customer" class="pull-right">
             <i class="glyphicon glyphicon-plus"><span>Add a Customer</span></i>
         </a>
-        <!-- <a href="/admin/customers/add" class="btn btn-default btn-tiny footer-icons pull-right">
-          <i class="glyphicon glyphicon-plus"></i>
-          <span class="hidden-xs">Add a Customer</span>
-        </a> -->
         <br>
         <br>
       </div>
@@ -34,13 +30,6 @@
       {{#each getMyCustomers}}
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="panel panel-default customer-card">
-          <!-- <div class="panel-heading customer-card-heading"> -->
-          <!-- <div class="panel-heading customer-card-heading">
-            <h3 class="panel-title client-card-header">{{this.name}}</h3>
-            <a href="/admin/clients/timeline" id="view_timeline" class="btn btn-default btn-tiny btn-circle footer-icons pull-right">
-              <i class="fa fa-history timeline-font"></i>
-            </a>
-          </div> -->
           <!-- panel-heading -->
           <h3 class="client-card-header">{{this.name}}</h3>
           <a href="/admin/customers/{{_id}}/edit" class="card-hover">
@@ -62,13 +51,6 @@
             <a href="#" id="sms_message">
               <span><i class="glyphicon glyphicon-comment" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Message</span></i></span>
             </a>
-            <!-- <span class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target=".footer-responsive-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </span> -->
-            <!-- <div class="collapse navbar-collapse navbar-responsive-collapse"> -->
               <a href="#" id="attach_doc">
                 <span><i class="glyphicon glyphicon-paperclip" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Attach</span></i></span>
               </a>

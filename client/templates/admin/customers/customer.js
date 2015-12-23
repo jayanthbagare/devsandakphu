@@ -55,7 +55,6 @@ AutoForm.addHooks(['add_customer_form'], {
 });
 
 Template.list_customers.rendered = function() {
-
   Session.set('searchTerm', '');
   Tracker.autorun(function() {
     Template.list_customers.__helpers[" getMyCustomers"]();

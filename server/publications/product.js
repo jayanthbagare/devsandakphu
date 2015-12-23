@@ -15,10 +15,24 @@ if (Meteor.isServer) {
     return relations;
   });
 
-  Meteor.publish("getProducts", function(products,limit) {
-    return Products.find({
-      _id: {$in: products}
-    },{limit:limit});
+  Meteor.publish("getProducts", function(products,searchTerm,limit) {
+    if(!searchTerm){
+      return Products.find({
+        _id:{$in:products}
+      },{limit:limit});
+      this.ready();
+    }
+    else{
+      products = Products.find({
+        _id:{$in:products},
+        $text:{$search:searchTerm}
+      },
+      {fields:{score:{$meta:"textScore"}},
+       sort:{score:{$meta:"textScore"}}
+      },
+      {limit:limit});
+      return products;
+      this.ready();
+    }
   });
-
 }

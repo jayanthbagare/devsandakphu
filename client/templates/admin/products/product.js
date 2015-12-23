@@ -36,8 +36,18 @@ AutoForm.addHooks(['add_product_form'], {
   }
 });
 
+Template.list_products.rendered = function() {
+  Session.set('productSearchTerm', '');
+  Tracker.autorun(function() {
+    Template.list_products.__helpers[" getMyProducts"]();
+  });
+};
+
+
+productsUI = new Tracker.Dependency;
 Template.list_products.helpers({
-  getMyProducts: function() {
+  getMyProducts: function(searchTerm) {
+    customersUI.depend();
     // //Get the current user and its BP Id
     Meteor.subscribe("getUser", Meteor.userId());
     currentUser = Meteor.users.find({
@@ -58,18 +68,28 @@ Template.list_products.helpers({
     });
 
     Deps.autorun(function() {
-      productPagination = Meteor.subscribeWithPagination("getProducts", r_products, 25);
+      productPagination = Meteor.subscribeWithPagination("getProducts",r_products,searchTerm,25);
     });
 
-    products = Products.find({
-      _id: {
-        $in: r_products
-      }
-    }, {
-      sort: {
-        name
-      }
-    });
+    if(Session.get("productSearchTerm")){
+      products = Products.find({
+        score:{
+          "$exists":true
+        }
+      });
+    }
+    else {
+      products = Products.find({
+        _id: {
+          $in: r_products
+        }
+      }, {
+        sort: {
+          name
+        }
+      });
+    }
+
     return products;
   },
 
@@ -119,6 +139,17 @@ Template.list_products.helpers({
     // if(product[0].isSellable){
       return 'Sell Price: ' + product[0].sellPrice.unitPrice + ' ' + 'INR';
     // }
+  }
+});
+
+Template.list_products.events({
+  'click #btnSearch': function(event){
+    event.preventDefault();
+    searchTerm = $('#productSearch').val();
+    Tracker.autorun(function() {
+      Session.set('productSearchTerm', searchTerm);
+      Template.list_products.__helpers[" getMyProducts"](searchTerm);
+    });
   }
 });
 
