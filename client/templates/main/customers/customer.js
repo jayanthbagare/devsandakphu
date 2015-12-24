@@ -140,13 +140,12 @@ Template.list_customers.helpers({
     //Call the Server method to get Customer Count rather than calling subscribe
 
     currentbpId = Session.get("loggedInBPId");
-    Meteor.subscribe("getCustomerRelations", currentbpId);
-    customerTotalCount = BusinessPartnerRelations.find({
-      bp_subject: currentbpId,
-      relation: 'sells_to'
-    }).count();
-
-    return customerTotalCount;
+    // Meteor.subscribe("getCustomerRelations", currentbpId);
+    // customerTotalCount = BusinessPartnerRelations.find({
+    //   bp_subject: currentbpId,
+    //   relation: 'sells_to'
+    // }).count();
+    return ReactiveMethod.call("getCustomerTotalCount",currentbpId);
   }
 });
 
