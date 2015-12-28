@@ -244,6 +244,10 @@ Template.list_customers.events({
       Template.list_customers.__helpers[" getMyCustomers"](searchTerm);
     });
 
+  },
+  'click #btnBack': function(event){
+    event.preventDefault();
+    history.back();
   }
 });
 
