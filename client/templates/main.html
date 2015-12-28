@@ -6,30 +6,22 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        Start Bootstrap
+                        Feliz
                     </a>
                 </li>
-                <li>
-                    <a href="#">Dashboard</a>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown">
+                    Business Partner
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{pathFor 'list_customers'}}">Customers</a></li>
+                    <!-- <li><a href="{{pathFor 'list_vendors'}}">Vendors</a></li> -->
+                  </ul>
                 </li>
-                <li>
-                    <a href="#">Shortcuts</a>
-                </li>
-                <li>
-                    <a href="#">Overview</a>
-                </li>
-                <li>
-                    <a href="#">Events</a>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
+                <li><a href="{{pathFor 'list_events'}}">Appointments</a></li>
+                <li><a href="{{pathFor 'list_products'}}">Products</a></li>
+                <li><a class="logout">Logout</a></li>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
