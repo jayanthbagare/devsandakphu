@@ -104,7 +104,6 @@ Template.list_customers.helpers({
       }).fetch();
     }
 
-    console.log(customers);
     return customers;
   },
   allCustomersLoaded: function() {
