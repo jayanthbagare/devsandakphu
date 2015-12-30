@@ -28,55 +28,55 @@
   <div class="row">
     {{#each getMyCustomers}}
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 small_card">
-         <a href="/main/customers/{{_id}}/edit">
-        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-          <h6 class="main_value">
-            <small>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+        <h6 class="main_value">
+          <small>
+            <a href="/main/customers/{{_id}}/edit">
               {{this.name}}
-            </small>
-          </h6>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
-          <h6 class="secondary_value">
-            <small>{{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}</small>
-          </h6>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
-          <h6 class="tertiary_value">
-            <small>{{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}</small>
-          </h6>
-        </div>
+            </a>
+          </small>
+        </h6>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+        <h6 class="secondary_value">
+          <small>{{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}</small>
+        </h6>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+        <h6 class="tertiary_value">
+          <small>{{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}</small>
+        </h6>
+      </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="right:-55px;">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="right:-55px;">
 
-          <td>
-            <h6>
-              <small><a href="tel:{{phone}}" id="external_call"><i class="fa fa-phone card_action_buttons pull-right"></i></a></small>
-            </h6>
-          </td>
+        <td>
+          <h6>
+            <small><a href="tel:{{phone}}" id="external_call"><i class="fa fa-phone card_action_buttons pull-right"></i></a></small>
+          </h6>
+        </td>
 
-          <td>
-            <h6>
-              <small><a href="#" id="attach_doc"><i class="fa fa-paperclip card_action_buttons pull-right"></i></a></small>
-            </h6>
-          </td>
-          <td>
-            <h6>
-              <small><a href="/main/events/add" id="add_event"><i class="fa fa-calendar card_action_buttons pull-right"></i></a></small>
-            </h6>
-          </td>
-          <td>
-            <h6>
-              <small><a href="#" id="sms_message"><i class="fa fa-comment card_action_buttons pull-right"></i></a></small>
-            </h6>
-          </td>
-          <td>
-            <h6>
-              <small><a href="#" id="add_invoice"><i class="fa fa-credit-card card_action_buttons pull-right"></i></a></small>
-            </h6>
-          </td>
-        </div>
-      </a>
+        <td>
+          <h6>
+            <small><a href="#" id="attach_doc"><i class="fa fa-paperclip card_action_buttons pull-right"></i></a></small>
+          </h6>
+        </td>
+        <td>
+          <h6>
+            <small><a href="/main/events/add" id="add_event"><i class="fa fa-calendar card_action_buttons pull-right"></i></a></small>
+          </h6>
+        </td>
+        <td>
+          <h6>
+            <small><a href="#" id="sms_message"><i class="fa fa-comment card_action_buttons pull-right"></i></a></small>
+          </h6>
+        </td>
+        <td>
+          <h6>
+            <small><a href="#" id="add_invoice"><i class="fa fa-credit-card card_action_buttons pull-right"></i></a></small>
+          </h6>
+        </td>
+      </div>
 
       <hr class="main_divider" />
     </div>
