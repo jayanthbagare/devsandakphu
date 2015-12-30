@@ -5,10 +5,13 @@
 </body>
 
 <template name="layout">
+
+  <div id="wrapper">
   <!-- {{> navbar}} -->
-
-    {{> flashMessages}}
-    {{> yield}}
+    {{> sidebar}}
+    {{> pageContent}}
+    <!-- {{> flashMessages}}
+    {{> yield}} -->
   <!-- {{> footer}} -->
-
+</div>
 </template>

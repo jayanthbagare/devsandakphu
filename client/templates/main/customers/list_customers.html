@@ -1,91 +1,153 @@
 <template name="list_customers">
   {{> smsModal}}
-  <div class="container pt">
-    <div class="row">
-      <div class="col-lg-2 pull-left">
+  <!-- <div class="container pt"> -->
+  <div class="row">
+    <!-- <div class="col-lg-2 pull-left">
             <i class="fa fa-arrow-left fa-2x" id="btnBack"></i>
-      </div>
-      <div class="col-ls-6 col-md-6 col-xs-12 col-lg-offset-6 col-md-offset-6 pull-right">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search" id="customerSearch">
-          <span class="input-group-addon">
-            <i class="fa fa-search" id="btnSearch"></i>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        <h3>Your Customers - (Total {{getCustomerCount}}/{{getCustomerTotalCount}})</h3>
-        <a href="/main/customers/add" id="add_customer" class="pull-right">
-            <i class="glyphicon glyphicon-plus"><span>Add a Customer</span></i>
-        </a>
-        <br>
-        <br>
+      </div> -->
+    <div class="col-lg-12 col-md-12 col-xs-12">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" id="customerSearch">
+        <span class="input-group-addon">
+          <i class="fa fa-search" id="btnSearch"></i>
+        </span>
       </div>
     </div>
-    <!-- /row -->
   </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <h4>
+        <small>Your Customers - (Total {{getCustomerCount}}/{{getCustomerTotalCount}})</small>
+      </h4>
+      <a href="/main/customers/add" id="add_customer" class="pull-right">
+        <span>
+          <i class="fa fa-plus action_buttons"> Add a Customer</i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <!-- /row -->
+  <!-- </div> -->
   <!-- /container -->
-
-  <div class="container pt">
-    <div class="row">
-      {{#each getMyCustomers}}
-      <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="panel panel-default customer-card">
-          <!-- panel-heading -->
-          <h3 class="client-card-header">{{this.name}}</h3>
-          <a href="/main/customers/{{_id}}/edit" class="card-hover">
-            <div class="panel-body">
-              <p>
-                {{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}
-              </p>
-              {{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}
-            </div>
-            <!-- panel body -->
-          </a>
-          <div class="panel-footer">
-            <!-- For now commenting the schedule functionality, need a redesign thought-->
-            <a href="/main/events/add" id="add_event">
-              <span>
-                <i class="glyphicon glyphicon-calendar" style="text-align:center;padding-right:20px;"><br/><span class="small">Schedule</span></i></span>
-            </a>
-
-            <a href="#" id="sms_message">
-              <span><i class="glyphicon glyphicon-comment" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Message</span></i></span>
-            </a>
-              <a href="#" id="attach_doc">
-                <span><i class="glyphicon glyphicon-paperclip" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Attach</span></i></span>
-              </a>
-
-              <a href="#" id="add_invoice">
-                <span><i class="glyphicon glyphicon-credit-card" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Invoice</span></i></span>
-              </a>
-            <!-- </div> -->
-            <a href="tel:{{phone}}" id="external_call" class="pull-right">
-              <span><i class="glyphicon glyphicon-earphone" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Call</span></i></span>
-            </a>
-
-          </div>
-          <!-- panel footer -->
+  <br/><br/>
+  <!-- <div class="container pt"> -->
+  <div class="row">
+    {{#each getMyCustomers}}
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="small_card">
+        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+          <h6 class="main_value">
+            <small>
+              {{this.name}}
+            </small>
+          </h6>
         </div>
-        <!-- panel client-card -->
-      </div>
-      <!-- col-lg-4 -->
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+          <h6 class="secondary_value">
+            <small>{{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}</small>
+          </h6>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+          <h6 class="tertiary_value">
+            <small>{{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}</small>
+          </h6>
+        </div>
 
-      {{/each}}
-    </div>
-    <!-- row -->
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        {{#unless allCustomersLoaded}}
-        <a href="#" id="load_more" class="btn btn-default btn-tiny footer-icons ">
-          <i class="glyphicon glyphicon-more"></i>
-          <span>Load More</span>
-        </a>
-        {{/unless}}
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="right:-60px;">
+          <td>
+            <h6>
+              <small><i class="fa fa-phone card_action_buttons pull-right"></i></small>
+            </h6>
+          </td>
+          <td>
+            <h6>
+              <small><i class="fa fa-paperclip card_action_buttons pull-right"></i></small>
+            </h6>
+          </td>
+          <td>
+            <h6>
+              <small><i class="fa fa-calendar card_action_buttons pull-right"></i></small>
+            </h6>
+          </td>
+          <td>
+            <h6>
+              <small><i class="fa fa-comment card_action_buttons pull-right"></i></small>
+            </h6>
+          </td>
+          <td>
+            <h6>
+              <small><i class="fa fa-credit-card card_action_buttons"></i></small>
+            </h6>
+          </td>
+
+
+        </div>
+        <!-- <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <h6><small><i class="fa fa-comment card_action_buttons"></i></small></h6>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <h6><small><i class="fa fa-credit-card card_action_buttons"></i></small></h6>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <h6><small><i class="fa fa-phone card_action_buttons"></i></small></h6>
+        </div> -->
       </div>
+
+      <hr class="main_divider"/>
+      <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="panel panel-default customer-card">
+
+        <h3 class="client-card-header">{{this.name}}</h3>
+        <a href="/main/customers/{{_id}}/edit" class="card-hover">
+          <div class="panel-body">
+            <p>
+              {{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}
+            </p>
+            {{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}
+          </div>
+
+        </a>
+        <div class="panel-footer">
+
+          <a href="/main/events/add" id="add_event">
+            <span>
+              <i class="fa fa-calendar action_buttons" style="text-align:center;padding-right:20px;"><br/><span class="small">Schedule</span></i>
+            </span>
+          </a>
+
+          <a href="#" id="sms_message">
+            <span><i class="fa fa-comment action_buttons" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Message</span></i></span>
+          </a>
+          <a href="#" id="attach_doc">
+            <span><i class="fa fa-paperclip action_buttons" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Attach</span></i></span>
+          </a>
+
+          <a href="#" id="add_invoice">
+            <span><i class="fa fa-credit-card action_buttons" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Invoice</span></i></span>
+          </a>
+
+          <a href="tel:{{phone}}" id="external_call" class="pull-right">
+            <span><i class="fa fa-phone action_buttons" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Call</span></i></span>
+          </a>
+        </div>
+
+      </div>
+    </div> -->
+      <!-- col-lg-4 -->
+    </div>
+    {{/each}}
+  </div>
+  <!-- row -->
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      {{#unless allCustomersLoaded}}
+      <a href="#" id="load_more" class="btn btn-default btn-tiny footer-icons ">
+        <i class="glyphicon glyphicon-more"></i>
+        <span>Load More</span>
+      </a>
+      {{/unless}}
     </div>
   </div>
+  <!-- </div> -->
 
 </template>

@@ -47,12 +47,20 @@ Template.layout.events({
 });
 
 Template.main.rendered = function(){
+    if($(window).width() > 739)
+    {
+        $('#nav-icon1').toggleClass('open');
+        $("#wrapper").toggleClass("");
+    }
+    else {
       $('#nav-icon1').toggleClass('open');
       $("#wrapper").toggleClass("toggled");
+    }
 }
-Template.main.events({
+Template.hamburger.events({
   'click #nav-icon1': function(event){
     event.preventDefault();
+    console.log('Getting Clicked');
     $('#nav-icon1').toggleClass('open');
     $("#wrapper").toggleClass("toggled");
   }
