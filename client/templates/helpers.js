@@ -46,6 +46,10 @@ Template.layout.events({
 }
 });
 
+Template.main.rendered = function(){
+      $('#nav-icon1').toggleClass('open');
+      $("#wrapper").toggleClass("toggled");
+}
 Template.main.events({
   'click #nav-icon1': function(event){
     event.preventDefault();
