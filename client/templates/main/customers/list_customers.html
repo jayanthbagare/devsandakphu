@@ -1,10 +1,6 @@
 <template name="list_customers">
   {{> smsModal}}
-  <!-- <div class="container pt"> -->
   <div class="row">
-    <!-- <div class="col-lg-2 pull-left">
-            <i class="fa fa-arrow-left fa-2x" id="btnBack"></i>
-      </div> -->
     <div class="col-lg-12 col-md-12 col-xs-12">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Search" id="customerSearch">
@@ -26,15 +22,13 @@
       </a>
     </div>
   </div>
-  <!-- /row -->
-  <!-- </div> -->
-  <!-- /container -->
-  <br/><br/>
-  <!-- <div class="container pt"> -->
+  <br/>
+  <br/>
+
   <div class="row">
     {{#each getMyCustomers}}
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="small_card">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 small_card">
+         <a href="/main/customers/{{_id}}/edit">
         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
           <h6 class="main_value">
             <small>
@@ -53,91 +47,42 @@
           </h6>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="right:-60px;">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="right:-55px;">
+
           <td>
             <h6>
-              <small><i class="fa fa-phone card_action_buttons pull-right"></i></small>
-            </h6>
-          </td>
-          <td>
-            <h6>
-              <small><i class="fa fa-paperclip card_action_buttons pull-right"></i></small>
-            </h6>
-          </td>
-          <td>
-            <h6>
-              <small><i class="fa fa-calendar card_action_buttons pull-right"></i></small>
-            </h6>
-          </td>
-          <td>
-            <h6>
-              <small><i class="fa fa-comment card_action_buttons pull-right"></i></small>
-            </h6>
-          </td>
-          <td>
-            <h6>
-              <small><i class="fa fa-credit-card card_action_buttons"></i></small>
+              <small><a href="tel:{{phone}}" id="external_call"><i class="fa fa-phone card_action_buttons pull-right"></i></a></small>
             </h6>
           </td>
 
-
+          <td>
+            <h6>
+              <small><a href="#" id="attach_doc"><i class="fa fa-paperclip card_action_buttons pull-right"></i></a></small>
+            </h6>
+          </td>
+          <td>
+            <h6>
+              <small><a href="/main/events/add" id="add_event"><i class="fa fa-calendar card_action_buttons pull-right"></i></a></small>
+            </h6>
+          </td>
+          <td>
+            <h6>
+              <small><a href="#" id="sms_message"><i class="fa fa-comment card_action_buttons pull-right"></i></a></small>
+            </h6>
+          </td>
+          <td>
+            <h6>
+              <small><a href="#" id="add_invoice"><i class="fa fa-credit-card card_action_buttons pull-right"></i></a></small>
+            </h6>
+          </td>
         </div>
-        <!-- <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-          <h6><small><i class="fa fa-comment card_action_buttons"></i></small></h6>
-        </div>
-        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-          <h6><small><i class="fa fa-credit-card card_action_buttons"></i></small></h6>
-        </div>
-        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-          <h6><small><i class="fa fa-phone card_action_buttons"></i></small></h6>
-        </div> -->
-      </div>
+      </a>
 
-      <hr class="main_divider"/>
-      <!-- <div class="col-lg-6 col-md-6 col-sm-12">
-      <div class="panel panel-default customer-card">
-
-        <h3 class="client-card-header">{{this.name}}</h3>
-        <a href="/main/customers/{{_id}}/edit" class="card-hover">
-          <div class="panel-body">
-            <p>
-              {{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}
-            </p>
-            {{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}
-          </div>
-
-        </a>
-        <div class="panel-footer">
-
-          <a href="/main/events/add" id="add_event">
-            <span>
-              <i class="fa fa-calendar action_buttons" style="text-align:center;padding-right:20px;"><br/><span class="small">Schedule</span></i>
-            </span>
-          </a>
-
-          <a href="#" id="sms_message">
-            <span><i class="fa fa-comment action_buttons" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Message</span></i></span>
-          </a>
-          <a href="#" id="attach_doc">
-            <span><i class="fa fa-paperclip action_buttons" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Attach</span></i></span>
-          </a>
-
-          <a href="#" id="add_invoice">
-            <span><i class="fa fa-credit-card action_buttons" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Invoice</span></i></span>
-          </a>
-
-          <a href="tel:{{phone}}" id="external_call" class="pull-right">
-            <span><i class="fa fa-phone action_buttons" style="text-align:center;padding-left:20px;padding-right:20px;"><br/><span class="small">Call</span></i></span>
-          </a>
-        </div>
-
-      </div>
-    </div> -->
-      <!-- col-lg-4 -->
+      <hr class="main_divider" />
     </div>
     {{/each}}
   </div>
-  <!-- row -->
+
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       {{#unless allCustomersLoaded}}
