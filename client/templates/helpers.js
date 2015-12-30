@@ -20,7 +20,7 @@ Template.login.events({
         Session.set("loggedInUser",currentUser[0]._id);
         //Set the Session for current user BP Id
         Session.set("loggedInBPId",currentUser[0].profile.BusinessPartnerId);
-        
+
         Router.go('/main');
       }
     });
@@ -44,4 +44,12 @@ Template.layout.events({
     }
   });
 }
+});
+
+Template.main.events({
+  'click #nav-icon1': function(event){
+    event.preventDefault();
+    $('#nav-icon1').toggleClass('open');
+    $("#wrapper").toggleClass("toggled");
+  }
 });
