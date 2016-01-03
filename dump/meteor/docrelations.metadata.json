@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "meteor.docrelations" }, { "v" : 1, "key" : { "docId" : 1 }, "name" : "c2_docId", "ns" : "meteor.docrelations", "background" : true, "sparse" : false }, { "v" : 1, "key" : { "businesspartner" : 1 }, "name" : "c2_businesspartner", "ns" : "meteor.docrelations", "background" : true, "sparse" : false } ] }

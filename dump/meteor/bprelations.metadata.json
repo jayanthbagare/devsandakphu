@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "meteor.bprelations" }, { "v" : 1, "key" : { "bp_subject" : 1 }, "name" : "c2_bp_subject", "ns" : "meteor.bprelations", "background" : true, "sparse" : false }, { "v" : 1, "key" : { "bp_predicate" : 1 }, "name" : "c2_bp_predicate", "ns" : "meteor.bprelations", "background" : true, "sparse" : false } ] }

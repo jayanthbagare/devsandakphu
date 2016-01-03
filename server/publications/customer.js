@@ -17,7 +17,18 @@ if (Meteor.isServer) {
     this.ready();
   });
 
-  Meteor.publish("getCustomers",function(customerIds,searchTerm,limit){
+  Meteor.publish("getCustomers",function(currentUserBPId,searchTerm,limit){
+    var current_bp = currentUserBPId;
+    relations = BusinessPartnerRelations.find({
+      bp_subject:current_bp,
+      relation:'sells_to'
+    },{limit:limit});
+
+    customerIds = relations.map(function(c) {
+      return c.bp_predicate[0]
+    });
+
+
     if(!searchTerm){
       return BusinessPartners.find({
         _id:{$in:customerIds}

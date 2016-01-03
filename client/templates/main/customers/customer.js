@@ -69,40 +69,25 @@ Template.list_customers.helpers({
     customersUI.depend();
     //Get all the BP's which the logged in BP sells to
     currentUserBPId = Session.get("loggedInBPId");
-    Meteor.subscribe("getCustomerRelations", currentUserBPId);
-    customer_cursor = BusinessPartnerRelations.find({
-      "bp_subject": currentUserBPId,
-      "relation": "sells_to"
-    }).fetch();
 
-    bp_predicates = customer_cursor.map(function(c) {
-      return c.bp_predicate[0]
-    });
+    handlePagination = Meteor.subscribeWithPagination("getCustomers", currentUserBPId, searchTerm, 25);
 
+    customers = [];
     Tracker.autorun(function() {
-      handlePagination = Meteor.subscribeWithPagination("getCustomers", bp_predicates, searchTerm, 25);
-
+      if (Session.get("searchTerm")) {
+        customers = BusinessPartners.find({
+          score: {
+            "$exists": true
+          }
+        }).fetch();
+      } else {
+        customers = BusinessPartners.find({}, {
+          sort: {
+            name: 1
+          }
+        }).fetch();
+      }
     });
-
-
-    if (Session.get("searchTerm")) {
-
-      customers = BusinessPartners.find({
-        score: {
-          "$exists": true
-        }
-      }).fetch();
-    } else {
-      customers = BusinessPartners.find({
-        _id: {
-          $in: bp_predicates
-        }
-      }, {
-        sort: {
-          name
-        }
-      }).fetch();
-    }
 
     return customers;
   },
@@ -114,37 +99,13 @@ Template.list_customers.helpers({
     }
   },
   getCustomerCount: function() {
-    //Get all the BP's which the logged in BP sells to
-    currentUserBPId = Session.get("loggedInBPId");
-    Meteor.subscribe("getCustomerRelations", currentUserBPId);
-
-    customer_cursor = BusinessPartnerRelations.find({
-      "bp_subject": currentUserBPId,
-      "relation": "sells_to"
-    }).fetch();
-
-    bp_predicates = customer_cursor.map(function(c) {
-      return c.bp_predicate[0]
-    });
-
-    customer_count = BusinessPartners.find({
-      _id: {
-        $in: bp_predicates
-      }
-    }).count();
-    return customer_count;
+    return BusinessPartners.find().count();
   },
 
   getCustomerTotalCount: function() {
     //Call the Server method to get Customer Count rather than calling subscribe
-
     currentbpId = Session.get("loggedInBPId");
-    // Meteor.subscribe("getCustomerRelations", currentbpId);
-    // customerTotalCount = BusinessPartnerRelations.find({
-    //   bp_subject: currentbpId,
-    //   relation: 'sells_to'
-    // }).count();
-    return ReactiveMethod.call("getCustomerTotalCount",currentbpId);
+    return Meteor.call("getCustomerTotalCount", currentbpId);
   }
 });
 
@@ -233,7 +194,11 @@ Template.list_customers.events({
   },
   'click #load_more': function(event) {
     event.preventDefault();
-    handlePagination.loadNextPage();
+    Tracker.autorun(function() {
+      handlePagination.loadNextPage();
+    });
+
+    //customersUI.changed();
   },
   'click #btnSearch': function(event) {
     event.preventDefault();
@@ -244,7 +209,7 @@ Template.list_customers.events({
     });
 
   },
-  'click #btnBack': function(event){
+  'click #btnBack': function(event) {
     event.preventDefault();
     history.back();
   }
