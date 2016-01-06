@@ -66,11 +66,14 @@ Template.list_customers.rendered = function() {
 customersUI = new Tracker.Dependency;
 Template.list_customers.helpers({
   getMyCustomers: function(searchTerm) {
-    customersUI.depend();
+    //customersUI.depend();
     //Get all the BP's which the logged in BP sells to
     currentUserBPId = Session.get("loggedInBPId");
 
-    handlePagination = Meteor.subscribeWithPagination("getCustomers", currentUserBPId, searchTerm, 25);
+    // Tracker.autorun(function(){
+        handlePagination = Meteor.subscribeWithPagination("getCustomers", currentUserBPId, searchTerm, 25);
+    // });
+
 
     customers = [];
     Tracker.autorun(function() {
@@ -87,9 +90,11 @@ Template.list_customers.helpers({
           }
         }).fetch();
       }
+      Session.set('getMyCustomers',customers);
     });
-
-    return customers;
+    console.log('Well ', customers);
+    //return customers;
+    return Session.get('getMyCustomers');
   },
   allCustomersLoaded: function() {
     if (BusinessPartners.find().count() == handlePagination.loaded()) {
@@ -194,11 +199,11 @@ Template.list_customers.events({
   },
   'click #load_more': function(event) {
     event.preventDefault();
-    Tracker.autorun(function() {
+    Tracker.autorun(function(){
       handlePagination.loadNextPage();
+      Template.list_customers.__helpers[" getMyCustomers"]();
     });
 
-    //customersUI.changed();
   },
   'click #btnSearch': function(event) {
     event.preventDefault();
