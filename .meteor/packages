@@ -33,7 +33,6 @@ aldeed:autoform
 autoupdate
 natestrauser:filepicker-plus
 fortawesome:fontawesome
-mdg:camera
 email
 meteorhacks:npm
 
@@ -45,8 +44,6 @@ tsega:bootstrap3-datetimepicker@=3.1.3_3
 mrt:moment-timezone
 stylus
 meteorhacks:kadira
-miro:mailchimp
-percolate:paginated-subscription
 okgrow:analytics
 rajit:bootstrap3-datepicker
 easy:search
@@ -54,5 +51,4 @@ zuuk:stale-session
 houston:admin
 simple:reactive-method
 kadira:debug
-alethes:pages
 u2622:persistent-session

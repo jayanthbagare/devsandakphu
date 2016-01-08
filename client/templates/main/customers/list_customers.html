@@ -4,17 +4,17 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Search" id="customerSearch">
-        <span class="input-group-addon">
-          <i class="fa fa-search" id="btnSearch"></i>
+        <span class="input-group-addon" id="btnSearch">
+          <i class="fa fa-search"></i>
         </span>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      <h4>
+      <h6>
         <small>Your Customers - (Total {{getCustomerCount}}/{{getCustomerTotalCount}})</small>
-      </h4>
+      </h6>
       <a href="/main/customers/add" id="add_customer" class="pull-right">
         <span>
           <i class="fa fa-plus action_buttons"> Add a Customer</i>
@@ -83,27 +83,17 @@
     {{/each}}
   </div>
 
-  <!-- <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      {{#unless allCustomersLoaded}}
-      <a href="#" id="load_more" class="btn btn-default btn-tiny footer-icons ">
-        <i class="glyphicon glyphicon-more"></i>
-        <span>Load More</span>
-      </a>
-      {{/unless}}
-    </div>
-    {{> pages}}
-    {{> pagesNav}}
-  </div> -->
   <div class="row">
     <a href="#" id="btnPrevious" class="btn btn-default btn-tiny">
       <i class="fa fa-arrow-left"></i>
       <span>Prev</span>
     </a>
+    {{#if loadedState}}
     <a href="#" id="btnNext" class="btn btn-default btn-tiny">
       <i class="fa fa-arrow-right"></i>
       <span>Next</span>
     </a>
+    {{/if}}
   </div>
   <!-- </div> -->
 

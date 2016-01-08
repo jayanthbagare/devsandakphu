@@ -55,7 +55,7 @@ AutoForm.addHooks(['add_customer_form'], {
 });
 
 Template.list_customers.rendered = function() {
-  Session.set('searchTerm', '');
+  Session.setTemp('searchTerm', '');
   Tracker.autorun(function() {
     Template.list_customers.__helpers[" getMyCustomers"]();
   });
@@ -68,51 +68,84 @@ Template.list_customers.helpers({
   getMyCustomers: function(searchTerm) {
     //Get all the BP's which the logged in BP sells to
     currentUserBPId = Session.get("loggedInBPId");
+    if (!searchTerm){
+      var currentPage = parseInt(Router.current().params.page) || 1;
+      var skipCount = (currentPage) * 25; //
 
-    var currentPage = parseInt(Router.current().params.page) || 1;
-    var skipCount = (currentPage) * 25; //
+      handlePagination = Meteor.subscribe("getCustomers", currentUserBPId, searchTerm, skipCount, 25);
 
-    handlePagination = Meteor.subscribe("getCustomers", currentUserBPId, searchTerm,skipCount,25);
-
-    customers = [];
-    Tracker.autorun(function() {
-      if (Session.get("searchTerm")) {
-        customers = BusinessPartners.find({
-          score: {
-            "$exists": true
-          }
-        }).fetch();
-      } else {
+      customers = [];
+      Tracker.autorun(function() {
         customers = BusinessPartners.find({}, {
           sort: {
             name: 1
           }
         }).fetch();
-      }
-      Session.set('getMyCustomers',customers);
-    });
+        Session.setAuth('getMyCustomers', customers);
+      });
 
-    //return customers;
-    return Session.get('getMyCustomers');
-  },
-  allCustomersLoaded: function() {
-    console.log('Total ', Session.get('customerTotalCount'),Session.get('getMyCustomers').length);
-    if (Session.get('getMyCustomers').length == Session.get('customerTotalCount')) {
-      return true;
-    } else {
-      return false;
+      //return customers;
+      return Session.get('getMyCustomers');
     }
+    else //Search Term if check
+    {
+      Tracker.autorun(function() {
+        if (Session.get("searchTerm")) {
+          console.log('Inside Customers ', Session.get("searchTerm"));
+
+          var currentPage = parseInt(Router.current().params.page) || 1;
+          var skipCount = (currentPage) * 25; //
+
+          handlePagination = Meteor.subscribe("getCustomers", currentUserBPId, searchTerm, skipCount, 25);
+
+          customers = BusinessPartners.find({
+            score: {
+              "$exists": true
+            }
+          }).fetch();
+          console.log('Customers are ', customers);
+        }
+        Session.setAuth('getMyCustomers', customers);
+      }); //Tracker closing
+    } //else closing
   },
   getCustomerCount: function() {
-    return BusinessPartners.find().count();
+    if(Session.get("searchTerm") == ''){
+      var currentPage = parseInt(Router.current().params.page) || 1;
+      var skipCount = (currentPage) * 25;
+      Session.setTemp('loadedCount',skipCount);
+      return skipCount;
+    }
+    else {
+      var skipCount = Session.get('getMyCustomers').length
+      Session.setTemp('loadedCount',skipCount)
+      return skipCount;
+    }
   },
 
   getCustomerTotalCount: function() {
     //Call the Server method to get Customer Count rather than calling subscribe
-    currentbpId = Session.get("loggedInBPId");
-    Meteor.call("getCustomerTotalCount", currentbpId,function(error,result){
-      Session.set('customerTotalCount',result);
-      return result;
+    if(Session.get("searchTerm") == ""){
+      currentbpId = Session.get("loggedInBPId");
+      Meteor.call("getCustomerTotalCount", currentbpId, function(error, result) {
+        Session.setTemp('customerTotalCount', result);
+      });
+      return Session.get('customerTotalCount');
+    }
+    else{
+      Session.setTemp('customerTotalCount',Session.get('getMyCustomers').length);
+      return Session.get('customerTotalCount');
+    }
+  },
+  loadedState: function(){
+    Tracker.autorun(function(){
+      if(Session.get('loadedCount') == Session.get('customerTotalCount'))
+      {
+        return true;
+      }
+      else{
+        return false;
+      }
     });
   }
 });
@@ -192,43 +225,42 @@ Template.list_customers.events({
   },
   'click #view_timeline': function(event) {
     //Set the client session id to be retrieved in timeline.
-    Session.set('customerId', this._id);
+    Session.setAuth('customerId', this._id);
   },
   //Handle the SMS and messaging feature.
   'click #sms_message': function(event) {
     //Call the Modal for SMS here.
     $('#smsModal').modal("show");
-    Session.set('customerId', this._id);
+    Session.setAuth('customerId', this._id);
   },
-  'click #load_more': function(event) {
+  'click #btnNext': function(event) {
     event.preventDefault();
-     Tracker.autorun(function(){
-      handlePagination.loadNextPage();
-      Template.list_customers.__helpers[" getMyCustomers"]();
-     });
-
-      Session.set('searchTerm', searchTerm);
+    var currentPage = parseInt(Router.current().params.page) || 1;
+    currentPage = currentPage + 1;
+    Router.go('/main/customers/' + currentPage);
+  },
+  'click #btnPrevious': function(event) {
+    event.preventDefault();
+    var currentPage = parseInt(Router.current().params.page) || 1;
+    currentPage = currentPage - 1;
+    Router.go('/main/customers/' + currentPage);
+  },
+  'click #btnSearch': function(event) {
+    event.preventDefault();
+    searchTerm = $('#customerSearch').val();
+    Session.setTemp('searchTerm', searchTerm);
+    console.log('Setting search term ', Session.get('searchTerm'));
+    Tracker.autorun(function() {
       Template.list_customers.__helpers[" getMyCustomers"](searchTerm);
-    },
-    'click #btnNext': function(event){
-      event.preventDefault();
-      var currentPage = parseInt(Router.current().params.page) || 1;
-      currentPage = currentPage + 1;
-      Router.go('/main/customers/' + currentPage);
-    },
-    'click #btnPrevious': function(event){
-      event.preventDefault();
-      var currentPage = parseInt(Router.current().params.page) || 1;
-      currentPage = currentPage - 1;
-      Router.go('/main/customers/' + currentPage);
-    }
+    });
+  }
 });
 
 Template.timeline.events({
   'click .timeline-panel': function(event) {
     var imageURL = this.imageURL;
-    Session.set("imageModal", imageURL);
-    Session.set("mimeType", this.mimeType);
+    Session.setAuth("imageModal", imageURL);
+    Session.setAuth("mimeType", this.mimeType);
     $("#imageModal").modal("show");
   }
 });
