@@ -1,5 +1,5 @@
 <template name="sidebar">
-
+  {{#if currentUser}}
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
@@ -23,5 +23,13 @@
         <li><a class="logout">Logout</a></li>
       </ul>
     </div>
+    {{else}}
+    <div id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+        <li><a href="{{pathFor 'login'}}">Login</a></li>
+      </ul>
+    </div>
+    {{/if}}
+
     <!-- /#sidebar-wrapper -->
 </template>

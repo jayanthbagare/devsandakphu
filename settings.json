@@ -6,6 +6,9 @@
     "analyticsSettings":{
       "Google Analytics" : {"trackingId":"UA-71196130-1"}
     },
+    "persistent_session":{
+      "default_method":"persistent"
+    },
     "MAIL_URL":"smtp://info:happyinf@secure.emailsrvr.com:465",
     "staleSessionInactivityTimeout": 1800000,
     "staleSessionHeartbeatInterval": 180000,

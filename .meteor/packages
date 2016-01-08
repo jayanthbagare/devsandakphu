@@ -44,7 +44,6 @@ aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3
 mrt:moment-timezone
 stylus
-kadira:debug
 meteorhacks:kadira
 miro:mailchimp
 percolate:paginated-subscription
@@ -54,3 +53,6 @@ easy:search
 zuuk:stale-session
 houston:admin
 simple:reactive-method
+kadira:debug
+alethes:pages
+u2622:persistent-session

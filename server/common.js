@@ -119,10 +119,11 @@ if (Meteor.isServer) {
       },
 
       getCustomerTotalCount: function(bp){
-        return BusinessPartnerRelations.find({
+        var totalCount = BusinessPartnerRelations.find({
           bp_subject:bp,
           relation:'sells_to'
         }).count();
+        return totalCount;
       },
       getProducTotalCount: function(bp){
         return BusinessPartnerProductRelation.find({
@@ -137,5 +138,4 @@ if (Meteor.isServer) {
       _id: userId
     });
   });
-
 }

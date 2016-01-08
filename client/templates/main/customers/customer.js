@@ -66,14 +66,13 @@ Template.list_customers.rendered = function() {
 customersUI = new Tracker.Dependency;
 Template.list_customers.helpers({
   getMyCustomers: function(searchTerm) {
-    //customersUI.depend();
     //Get all the BP's which the logged in BP sells to
     currentUserBPId = Session.get("loggedInBPId");
 
-    // Tracker.autorun(function(){
-        handlePagination = Meteor.subscribeWithPagination("getCustomers", currentUserBPId, searchTerm, 25);
-    // });
+    var currentPage = parseInt(Router.current().params.page) || 1;
+    var skipCount = (currentPage) * 25; //
 
+    handlePagination = Meteor.subscribe("getCustomers", currentUserBPId, searchTerm,skipCount,25);
 
     customers = [];
     Tracker.autorun(function() {
@@ -92,15 +91,16 @@ Template.list_customers.helpers({
       }
       Session.set('getMyCustomers',customers);
     });
-    console.log('Well ', customers);
+
     //return customers;
     return Session.get('getMyCustomers');
   },
   allCustomersLoaded: function() {
-    if (BusinessPartners.find().count() == handlePagination.loaded()) {
-      return false
-    } else {
+    console.log('Total ', Session.get('customerTotalCount'),Session.get('getMyCustomers').length);
+    if (Session.get('getMyCustomers').length == Session.get('customerTotalCount')) {
       return true;
+    } else {
+      return false;
     }
   },
   getCustomerCount: function() {
@@ -110,7 +110,10 @@ Template.list_customers.helpers({
   getCustomerTotalCount: function() {
     //Call the Server method to get Customer Count rather than calling subscribe
     currentbpId = Session.get("loggedInBPId");
-    return Meteor.call("getCustomerTotalCount", currentbpId);
+    Meteor.call("getCustomerTotalCount", currentbpId,function(error,result){
+      Session.set('customerTotalCount',result);
+      return result;
+    });
   }
 });
 
@@ -199,25 +202,26 @@ Template.list_customers.events({
   },
   'click #load_more': function(event) {
     event.preventDefault();
-    Tracker.autorun(function(){
+     Tracker.autorun(function(){
       handlePagination.loadNextPage();
       Template.list_customers.__helpers[" getMyCustomers"]();
-    });
+     });
 
-  },
-  'click #btnSearch': function(event) {
-    event.preventDefault();
-    searchTerm = $('#customerSearch').val();
-    Tracker.autorun(function() {
       Session.set('searchTerm', searchTerm);
       Template.list_customers.__helpers[" getMyCustomers"](searchTerm);
-    });
-
-  },
-  'click #btnBack': function(event) {
-    event.preventDefault();
-    history.back();
-  }
+    },
+    'click #btnNext': function(event){
+      event.preventDefault();
+      var currentPage = parseInt(Router.current().params.page) || 1;
+      currentPage = currentPage + 1;
+      Router.go('/main/customers/' + currentPage);
+    },
+    'click #btnPrevious': function(event){
+      event.preventDefault();
+      var currentPage = parseInt(Router.current().params.page) || 1;
+      currentPage = currentPage - 1;
+      Router.go('/main/customers/' + currentPage);
+    }
 });
 
 Template.timeline.events({
