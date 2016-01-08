@@ -39,6 +39,14 @@ Template.layout.events({
       FlashMessages.sendError(err.reason);
     }
     else {
+      Session.clear('getMyCustomers');
+      Session.clear('loadedCount');
+      Session.clear('customerTotalCount');
+      Session.clear('loggedInUser');
+      Session.clear('loggedInBPId');
+      Session.clear('searchTerm');
+      Session.clear('productSearchTerm');
+
       FlashMessages.sendSuccess('You are now logged out');
       Router.go('/main');
     }

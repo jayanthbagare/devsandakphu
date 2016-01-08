@@ -138,13 +138,15 @@ Template.list_customers.helpers({
     }
   },
   loadedState: function(){
+    console.log('Loaded Count ', Session.get('loadedCount'));
+    console.log('Total Count ', Session.get('customerTotalCount'));
     Tracker.autorun(function(){
       if(Session.get('loadedCount') == Session.get('customerTotalCount'))
       {
-        return true;
+        return false;
       }
       else{
-        return false;
+        return true;
       }
     });
   }
