@@ -125,21 +125,18 @@ if (Meteor.isServer) {
         }).count();
         return totalCount;
       },
+      getCampaignTotalCount: function(bp){
+        var totalCount = BusinessPartnerCampaignRelations.find({
+          bp_subject:bp,
+          relation:'owns'
+        }).count();
+        return totalCount;
+      },
       getProducTotalCount: function(bp){
         return BusinessPartnerProductRelation.find({
           bp_subject:bp,
           relation:"sells"
         }).count();
-      },
-      clearAllSessions : function(){
-        //Explicitly clear all the sessions
-        // Session.clear('getMyCustomers');
-        // Session.clear('loadedCount');
-        // Session.clear('cutomerTotalCount');
-        // Session.clear('loggedInUser');
-        // Session.clear('loggedInBPId');
-        // Session.clear('searchTerm');
-        // Session.clear('productSearchTerm');
       }
   });
 

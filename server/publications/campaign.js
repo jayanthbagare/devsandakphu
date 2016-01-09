@@ -13,13 +13,17 @@ if(Meteor.isServer) {
   Meteor.publish('getMyCampaigns', function(currentUserBPId, searchTerm, skipCount, limit) {
     if (!searchTerm) {
       var current_bp = currentUserBPId;
+      //Check if only 25 records are there
+      var first_count = BusinessPartnerCampaignRelations.find({
+        bp_subject: current_bp,
+        relation: 'owns' }).count();
+      if(first_count < 25)
+      {
+        skipCount = 0;
+      }
       relations = BusinessPartnerCampaignRelations.find({
         bp_subject: current_bp,
-        relation: 'owns'
-      }, {
-        limit: limit,
-        skip: skipCount
-      });
+        relation: 'owns' },{limit:limit,skip:skipCount});
 
       campaignIds = relations.map(function(c) {
         return c.campaign[0]
