@@ -1,9 +1,8 @@
-<template name="list_customers">
-  {{> smsModal}}
+<template name="list_campaigns">
   <div class="row">
     <div class="col-lg-12 col-md-12 col-xs-12">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" id="customerSearch">
+        <input type="text" class="form-control" placeholder="Search" id="campaignSearch">
         <span class="input-group-addon" id="btnSearch">
           <i class="fa fa-search"></i>
         </span>
@@ -13,12 +12,11 @@
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <h6>
-        <small>Your Customers - (Total {{getCustomerCount}}/{{getCustomerTotalCount}})</small>
+        <small>Your Campaigns - (Total {{getCampaignCount}}/{{getCampaignTotalCount}})</small>
       </h6>
-
-      <a href="/main/customers/add" id="add_customer" class="pull-right">
+      <a href="/main/campaigns/add" id="add_campaign" class="pull-right">
         <span>
-          <i class="fa fa-plus action_buttons"> Add a Customer</i>
+          <i class="fa fa-plus action_buttons"> Add a Campaign</i>
         </span>
       </a>
     </div>
@@ -27,12 +25,12 @@
   <br/>
 
   <div class="row">
-    {{#each getMyCustomers}}
+    {{#each getMyCampaigns}}
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 small_card">
       <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
         <h6 class="main_value">
           <small>
-            <a href="/main/customers/{{_id}}/edit">
+            <a href="/main/campaigns/{{_id}}/edit">
               {{this.name}}
             </a>
           </small>
@@ -40,12 +38,12 @@
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
         <h6 class="secondary_value">
-          <small>{{#if this.phones.[0]}} {{this.phones.[0]}} {{else}} No Number Found. {{/if}}</small>
+          <small>{{this.runDate}}</small>
         </h6>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
         <h6 class="tertiary_value">
-          <small>{{#if this.emails.[0]}} {{this.emails.[0]}} {{else}} No Emails Found. {{/if}}</small>
+          <small>{{this.runTag.[0]}}</small>
         </h6>
       </div>
 
@@ -53,28 +51,13 @@
 
         <td>
           <h6>
-            <small><a href="tel:{{phone}}" id="external_call"><i class="fa fa-phone card_action_buttons pull-right"></i></a></small>
+            <small><a href="#" id="run_campaign"><i class="fa fa-envelope card_action_buttons pull-right"></i></a></small>
           </h6>
         </td>
 
         <td>
           <h6>
-            <small><a href="#" id="attach_doc"><i class="fa fa-paperclip card_action_buttons pull-right"></i></a></small>
-          </h6>
-        </td>
-        <td>
-          <h6>
-            <small><a href="/main/events/add" id="add_event"><i class="fa fa-calendar card_action_buttons pull-right"></i></a></small>
-          </h6>
-        </td>
-        <td>
-          <h6>
-            <small><a href="#" id="sms_message"><i class="fa fa-comment card_action_buttons pull-right"></i></a></small>
-          </h6>
-        </td>
-        <td>
-          <h6>
-            <small><a href="#" id="add_invoice"><i class="fa fa-credit-card card_action_buttons pull-right"></i></a></small>
+            <small><a href="#" id="analyse_campaign"><i class="fa fa-bar-chart card_action_buttons pull-right"></i></a></small>
           </h6>
         </td>
       </div>
@@ -96,6 +79,4 @@
     </a>
     {{/unless}}
   </div>
-  <!-- </div> -->
-
 </template>

@@ -38,4 +38,10 @@ Products._ensureIndex({
   name:'text'
 },{name:'productSearchIdx'});
 
+Campaigns._ensureIndex({
+  name:'text',
+  description:'text',
+  runTag:'text'
+},{name:'campaignSearchIdx'});
+
 });

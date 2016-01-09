@@ -138,8 +138,6 @@ Template.list_customers.helpers({
     }
   },
   loadedState: function(){
-    console.log('Loaded Count ', Session.get('loadedCount'));
-    console.log('Total Count ', Session.get('customerTotalCount'));
     Tracker.autorun(function(){
       if(Session.get('loadedCount') == Session.get('customerTotalCount'))
       {
@@ -153,6 +151,10 @@ Template.list_customers.helpers({
 });
 
 Template.list_customers.events({
+  // 'click #add_customer': function(event){
+  //   event.preventDefault();
+  //   Router.go('add_customer');
+  // },
   'click add_event': function(event) {
     customerId = new ReactiveVar('');
     customerId.set(this._id);
