@@ -1,5 +1,4 @@
 <template name="sidebar">
-  {{#if currentUser}}
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
@@ -8,27 +7,25 @@
                         Feliz
                     </a>
         </li>
+        {{#if currentUser}}
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown">
-                    <td><i class="fa fa-users action_buttons"></i></td><td>Business Partner<b class="caret"></b></td></a>
+          <a class="dropdown-toggle action_buttons" data-toggle="dropdown">
+                    <td><i class="fa fa-users"></i></td><td>Business Partner<b class="caret"></b></td></a>
           <ul class="dropdown-menu sidebar-brand">
             <li><a href="{{pathFor 'list_customers'}}">Customers</a></li>
             <!-- <li><a href="{{pathFor 'list_vendors'}}">Vendors</a></li> -->
           </ul>
         </li>
-        <li><a href="{{pathFor 'list_events'}}"><td><i class="fa fa-calendar action_buttons"></i></td> <td>Appointments</td></a></li>
-        <li><a href="{{pathFor 'list_campaigns'}}"><td><i class="fa fa-bullhorn action_buttons"></i></td> <td>Campaigns</td></a></li>
-        <li><a href="{{pathFor 'list_products'}}"><td><i class="fa fa-product-hunt action_buttons"></i></td> <td>Products</td></a></li>
-        <li><a class="logout"><td><i class="fa fa-power-off action_buttons"></i></td> <td>Logout</td></a></li>
+        <li><a href="{{pathFor 'list_events'}}" class="action_buttons"><td><i class="fa fa-calendar"></i></td> <td>Appointments</td></a></li>
+        <li><a href="{{pathFor 'list_campaigns'}}" class="action_buttons"><td><i class="fa fa-bullhorn"></i></td> <td>Campaigns</td></a></li>
+        <li><a href="{{pathFor 'list_products'}}" class="action_buttons"><td><i class="fa fa-product-hunt"></i></td> <td>Products</td></a></li>
+        <li><a class="logout action_buttons"><td><i class="fa fa-power-off"></i></td> <td>Logout</td></a></li>
+        {{else}}
+            <li><a href="{{pathFor 'login'}}" class="action_buttons"><td><i class="fa fa-power-off"></i></td><td>Login</td></a></li>
+        {{/if}}
       </ul>
     </div>
-    {{else}}
-    <div id="sidebar-wrapper">
-      <ul class="sidebar-nav">
-        <li><a href="{{pathFor 'login'}}">Login</a></li>
-      </ul>
-    </div>
-    {{/if}}
+
 
     <!-- /#sidebar-wrapper -->
 </template>
