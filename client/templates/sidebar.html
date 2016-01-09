@@ -10,18 +10,16 @@
         </li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown">
-                    Business Partner
-                    <b class="caret"></b>
-                  </a>
+                    <td><i class="fa fa-users action_buttons"></i></td><td>Business Partner<b class="caret"></b></td></a>
           <ul class="dropdown-menu sidebar-brand">
             <li><a href="{{pathFor 'list_customers'}}">Customers</a></li>
             <!-- <li><a href="{{pathFor 'list_vendors'}}">Vendors</a></li> -->
           </ul>
         </li>
-        <li><a href="{{pathFor 'list_events'}}">Appointments</a></li>
-        <li><a href="{{pathFor 'list_campaigns'}}">Campaigns</a></li>
-        <li><a href="{{pathFor 'list_products'}}">Products</a></li>
-        <li><a class="logout">Logout</a></li>
+        <li><a href="{{pathFor 'list_events'}}"><td><i class="fa fa-calendar action_buttons"></i></td> <td>Appointments</td></a></li>
+        <li><a href="{{pathFor 'list_campaigns'}}"><td><i class="fa fa-bullhorn action_buttons"></i></td> <td>Campaigns</td></a></li>
+        <li><a href="{{pathFor 'list_products'}}"><td><i class="fa fa-product-hunt action_buttons"></i></td> <td>Products</td></a></li>
+        <li><a class="logout"><td><i class="fa fa-power-off action_buttons"></i></td> <td>Logout</td></a></li>
       </ul>
     </div>
     {{else}}
