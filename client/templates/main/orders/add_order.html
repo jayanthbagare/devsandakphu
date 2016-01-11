@@ -1,0 +1,34 @@
+<template name="add_order">
+  {{#autoForm collection="OrderHeaders" id="add_order_form" type="insert"}}
+  <div class="container pt">
+      <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-4 col-lg-offset-3">
+              <h3>New Order</h3>
+              <div class="form-group">
+                {{>afQuickField name="documentNumber"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="type" options=orderType}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="businessPartnerId"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="docmentDate"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="status" options=orderStatus}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="companyID"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="lines"}}
+              </div>
+              <button type="order_submit" class="btn btn-primary">Submit</button>
+              <a href="/main/orders" class="btn btn-primary">Go Back</a>
+          </div>
+      </div>
+  </div>
+  {{/autoForm}}
+</template>

@@ -137,7 +137,14 @@ if (Meteor.isServer) {
           bp_subject:bp,
           relation:"sells"
         }).count();
+      },
+
+      getOrdersTotalCount: function(bp){
+        return OrderHeaders.find({
+          companyID:bp
+        }).count();
       }
+
   });
 
   Meteor.publish("getUser", function(userId) {
