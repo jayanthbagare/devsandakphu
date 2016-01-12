@@ -17,9 +17,9 @@ Template.login.events({
           _id: Meteor.userId()
         }).fetch();
 
-        Session.set("loggedInUser",currentUser[0]._id);
+        Session.setPersistent("loggedInUser",currentUser[0]._id);
         //Set the Session for current user BP Id
-        Session.set("loggedInBPId",currentUser[0].profile.BusinessPartnerId);
+        Session.setPersistent("loggedInBPId",currentUser[0].profile.BusinessPartnerId);
 
         Router.go('/main');
       }
@@ -39,6 +39,14 @@ Template.layout.events({
       FlashMessages.sendError(err.reason);
     }
     else {
+      Session.clear('getMyCustomers');
+      Session.clear('loadedCount');
+      Session.clear('customerTotalCount');
+      Session.clear('loggedInUser');
+      Session.clear('loggedInBPId');
+      Session.clear('searchTerm');
+      Session.clear('productSearchTerm');
+
       FlashMessages.sendSuccess('You are now logged out');
       Router.go('/main');
     }

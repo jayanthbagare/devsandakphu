@@ -1,52 +1,82 @@
 if (Meteor.isServer) {
   //Call the publish methods here.
 
-  Meteor.publish("getOneBP",function(bp){
-    bp = BusinessPartners.find({_id:bp});
+  Meteor.publish("getOneBP", function(bp) {
+    bp = BusinessPartners.find({
+      _id: bp
+    });
     return bp;
     this.ready();
   });
 
 
-  Meteor.publish("getCustomerRelations",function(bp){
+  Meteor.publish("getCustomerRelations", function(bp) {
     relations = BusinessPartnerRelations.find({
-      bp_subject:bp,
-      relation:'sells_to'
+      bp_subject: bp,
+      relation: 'sells_to'
     });
     return relations;
     this.ready();
   });
 
-  Meteor.publish("getCustomers",function(currentUserBPId,searchTerm,limit){
-    var current_bp = currentUserBPId;
-    relations = BusinessPartnerRelations.find({
-      bp_subject:current_bp,
-      relation:'sells_to'
-    },{limit:limit});
+  Meteor.publish("getCustomers", function(currentUserBPId, searchTerm, skipCount, limit) {
+    if (!searchTerm) {
+      var current_bp = currentUserBPId;
+      relations = BusinessPartnerRelations.find({
+        bp_subject: current_bp,
+        relation: 'sells_to'
+      }, {
+        limit: limit,
+        skip: skipCount
+      });
 
-    customerIds = relations.map(function(c) {
-      return c.bp_predicate[0]
-    });
+      customerIds = relations.map(function(c) {
+        return c.bp_predicate[0]
+      });
 
-
-    if(!searchTerm){
       return BusinessPartners.find({
-        _id:{$in:customerIds}
-      },{limit:limit});
+        _id: {
+          $in: customerIds
+        }
+      }, {
+        limit: limit
+      });
       this.ready();
-    }
-    else{
+    } else {
+      var current_bp = currentUserBPId;
+      relations = BusinessPartnerRelations.find({
+        bp_subject: current_bp,
+        relation: 'sells_to'
+      });
+
+      customerIds = relations.map(function(c) {
+        return c.bp_predicate[0]
+      });
+
       customers = BusinessPartners.find({
-        _id:{$in:customerIds},
-        $text:{$search:searchTerm}
-      },
-      {fields:{score:{$meta:"textScore"}},
-       sort:{score:{$meta:"textScore"}}
-      },
-      {limit:limit});
+        _id: {
+          $in: customerIds
+        },
+        $text: {
+          $search: searchTerm
+        }
+      }, {
+        fields: {
+          score: {
+            $meta: "textScore"
+          }
+        },
+        sort: {
+          score: {
+            $meta: "textScore"
+          }
+        }
+      }, {
+        limit: limit,
+        skip: skipCount
+      });
       return customers;
       this.ready();
     }
   });
-
 }
