@@ -1631,9 +1631,9 @@
          if (!this.$sidebarMenu.length) return;
 
          // apply perfectScrollbar plugin only for desktops
-         ($.Pages.getUserAgent() == 'desktop') && this.$sidebarMenu.scrollbar({
+         /*($.Pages.getUserAgent() == 'desktop') && this.$sidebarMenu.scrollbar({
              ignoreOverlay: false
-         });
+         });*/
 
 
          if (!Modernizr.csstransitions)
