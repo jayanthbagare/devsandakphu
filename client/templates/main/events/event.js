@@ -197,6 +197,24 @@ Template.list_events.helpers({
     Meteor.subscribe("getOneProduct",productId);
     product = Products.find({_id:productId}).fetch();
     return product[0].name;
+  },
+  getYears: function(){
+    var years = [];
+    var current = moment().year();
+    var from = current-7;
+    var to = current+3;
+    for (var i = from; i <= to; i++) {
+      years.push(i);
+    }
+    return years;
+  },
+  getMonths: function(){
+    var m = moment();
+    var months = [];
+    for (var i = 0; i < 12; i++) {
+     months.push(m.months(i).format('MMM'));
+    }
+    return months;
   }
 });
 

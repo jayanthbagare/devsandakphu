@@ -46,6 +46,12 @@ Template.layout.events({
 }
 });
 
+Template.header.helpers({
+  current_user: function(){
+    return currentUser[0].username;
+  }
+})
+
 Template.main.rendered = function(){
     if($(window).width() > 739)
     {
