@@ -1,15 +1,9 @@
+<template name="breadcrumb">Appointments</template>
 <template name="list_events">
   <div class="container pt">
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12">
-        {{#each getYears}}
-          <span class="year-single">{{this}}</span>
-        {{/each}}
-      </div>
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        {{#each getMonths}}
-          <span class="month-single">{{this}}</span>
-        {{/each}}
+        <div id="calendar"></div>
       </div>
     </div>
     <div class="row">
@@ -83,7 +77,4 @@
       </div>
     </div>
   </div>
-
-
-
 </template>

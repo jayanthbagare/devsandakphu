@@ -38,7 +38,23 @@ Template.list_events.onRendered(function(event) {
     todayHighlight:true,
     zIndexOffset:1000
   });
-
+  //Initialize calendar picker
+  var calendarPicker1 = this.$("#calendar").calendarPicker({
+    monthNames:["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    //useWheel:true,
+    //callbackDelay:500,
+    years:5,
+    months:6,
+    days:15,
+    showDayArrows:true,
+    callback:function(cal) {
+      console.log(cal);
+      $('#chosenDate').text(moment(cal.currentDate).format("DD.MM.YYYY"));
+      Template.list_events.__helpers[" getEvents"]();
+      eventsUI.changed();
+    }
+  });
   //Set the chosen date to today, if there is no chosen date.
   var chosenDate = $('#chosenDate').text();
   if ($('#chosenDate').text() === '') {
@@ -198,24 +214,6 @@ Template.list_events.helpers({
     product = Products.find({_id:productId}).fetch();
     return product[0].name;
   },
-  getYears: function(){
-    var years = [];
-    var current = moment().year();
-    var from = current-7;
-    var to = current+3;
-    for (var i = from; i <= to; i++) {
-      years.push(i);
-    }
-    return years;
-  },
-  getMonths: function(){
-    var m = moment();
-    var months = [];
-    for (var i = 0; i < 12; i++) {
-     months.push(m.months(i).format('MMM'));
-    }
-    return months;
-  }
 });
 
 //List Events Events
