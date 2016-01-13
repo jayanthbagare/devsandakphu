@@ -1,0 +1,108 @@
+base-color = #DB2880
+.calBox {
+  background-color: none;
+  padding: 2px;
+  -moz-border-radius: 4px;
+  text-align: center;
+  color: #000;
+}
+
+.calElement {
+  margin: 1px;
+  display: inline-block;
+  overflow:hidden;
+  font-size: 20px;
+  padding-bottom: 5px;
+  margin-bottom: 5px
+}
+
+.calYear {
+  font-size: 20px;
+  padding-bottom: 1px;
+}
+
+.calYear .calElement {
+  font-size: 0.6em;
+  font-weight: normal;
+  color: #999;
+}
+
+.calMonth {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.calMonth .calElement {
+  font-size: 0.6em;
+  color:#999;
+}
+
+.calDay {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+}
+
+.calDay .calElement {
+  font-size:0.7em;
+  margin: 0;
+}
+
+.calDay .calElement.prev {
+  background: transparent url(images/prev.png) no-repeat 0 18px;
+  width: 6px;
+  height: 35px
+}
+
+.calDay .calElement.next {
+  background: transparent url(images/next.png) no-repeat 0 18px;
+  width: 6px;
+  height: 35px;
+}
+
+span.calElement.next:hover, span.calElement.prev:hover {
+  border: 1px solid #999999;
+  cursor: pointer;
+}
+
+
+.calDay .calElement .dayNumber {
+  color:#666;
+}
+.calDay .calElement .dayDay {
+  text-transform: uppercase;
+  color:#999;
+}
+.calDay .calElement.week-gap {
+  margin-left:20px;
+  .dayDay, .dayNumber{
+    color:#f00;
+  }
+}
+.calDay .calElement.today{
+  border-bottom: 2px solid base-color;
+}
+.calDay .calElement.selected{
+  background:base-color;
+}
+.calDay .calElement.selected .dayDay, .calDay .calElement.selected .dayNumber{
+  color:#fff;
+}
+.calElement.today {
+  /*border-bottom:1px solid base-color;*/
+  font-weight: bold;
+  color:#333;
+}
+
+.calElement.selected {
+  background-color: none;
+  font-size: 0.8em;
+  font-weight: bold;
+  border-bottom: 2px solid base-color;
+  color:#333;
+}
+
+.calElement:hover, .calElement:hover .dayDay, .calElement:hover .dayNumber{
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+}

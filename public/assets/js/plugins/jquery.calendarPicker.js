@@ -111,7 +111,7 @@ jQuery.fn.calendarPicker = function(options) {
         } else if (i == options.days && options.showDayArrows) {
           span.addClass("next");
         } else {
-          span.html("<span class=dayNumber>" + d.getDate() + "</span><br>" + options.dayNames[d.getDay()]).css("width",w);
+          span.html("<span class=dayDay>" + options.dayNames[d.getDay()] + "</span><br/><span class=dayNumber>" + d.getDate() + "</span>").css("width",w);
           if (d.getYear() == t.getYear() && d.getMonth() == t.getMonth() && d.getDate() == t.getDate())
             span.addClass("today");
           if (d.getYear() == calendar.currentDate.getYear() && d.getMonth() == calendar.currentDate.getMonth() && d.getDate() == calendar.currentDate.getDate())

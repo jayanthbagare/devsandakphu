@@ -1,4 +1,3 @@
-<template name="breadcrumb">Appointments</template>
 <template name="list_events">
   <div class="container pt">
     <div class="row">
@@ -8,23 +7,15 @@
     </div>
     <div class="row">
       <div class="col-md-12 col-lg-12 col-sm-12">
-        <h4>Appointments For
-          <span id="chosenDate" class="chosenDate set-due-date" data-provide="datepicker" data-date-format="DD.MM.YYYY"></span>
-        </h4>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 col-lg-6 col-xs-6 pull-right">
-        <a href="#" class="btn btn-default btn-tiny footer-icons pull-right" id="chooseDate">
-          <i class="glyphicon glyphicon-calendar"></i>
-          <span class="hidden-xs">Choose a Date</span>
-        </a>
-        <div class="pull-right">
-          <a href="/main/events/add" class="btn btn-default btn-tiny footer-icons">
-            <i class="glyphicon glyphicon-plus"></i>
-            <span class="hidden-xs">Add an Appointment</span>
+        <h3 class="page-heading">
+          <span id="chosenDate" class="chosenDate set-due-date"></span>
+        </h3>
+        <span class="pull-right">
+          <a href="/main/events/add" class="btn btn-success btn-sm">
+            <i class="fa fa-plus"></i>
+            <span class="hidden-xs">Add</span>
           </a>
-        </div>
+        </span>
       </div>
     </div>
   </div>

@@ -26,7 +26,7 @@
   <div class=" pull-left sm-table">
     <div class="header-inner">
       <div class="brand inline">
-        <img src="/assets/img/logo.png" alt="logo" data-src="/assets/img/logo.png" data-src-retina="/assets/img/logo_2x.png" width="78" height="22">
+        <a href="/"><img src="/assets/img/logo.png" alt="logo" data-src="/assets/img/logo.png" data-src-retina="/assets/img/logo_2x.png" width="78" height="22"></a>
       </div>
       <!-- START NOTIFICATION LIST -->
       <ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">
@@ -165,7 +165,13 @@
     <!-- START User Info-->
     <div class="visible-lg visible-md m-t-10">
       <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
-        <span class="semi-bold">{{current_user}}</span>
+        <span class="semi-bold">
+          {{#if currentUser}}
+            {{current_user}}
+          {{else}}
+            <a href="/main">Login</a>
+          {{/if}}
+        </span>
       </div>
       <div class="dropdown pull-right">
         <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

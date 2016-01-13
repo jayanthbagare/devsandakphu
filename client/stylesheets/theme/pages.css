@@ -1799,6 +1799,12 @@ h5.block,
 h6.block {
   padding-bottom: 10px;
 }
+
+.page-heading{
+  font-size: 1.5em;
+  display: inline-block;
+  margin: 0;
+}
 /* Lins and Others
 ------------------------------------
 */

@@ -20,28 +20,11 @@ AutoForm.addHooks(['add_event_form'], {
   }
 });
 
-
-//When the Date changes call the datepicker function to set the hidden text field
-$('#chooseDate').datepicker().on('changeDate',function(e){
-  this.$('#chosenDate').text = $('#chooseDate').data('date');
-  this.$('#chooseDate').datepicker('hide');
-});
-
-
 Template.list_events.onRendered(function(event) {
-  //Initialize the Datepicker
-  this.$('#chooseDate').datepicker({
-    autoclose:true,
-    format:"dd/mm/yyyy",
-    orientation:"top right",
-    todayBtn:"linked",
-    todayHighlight:true,
-    zIndexOffset:1000
-  });
   //Initialize calendar picker
   var calendarPicker1 = this.$("#calendar").calendarPicker({
     monthNames:["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    dayNames: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
     //useWheel:true,
     //callbackDelay:500,
     years:5,
@@ -49,8 +32,11 @@ Template.list_events.onRendered(function(event) {
     days:15,
     showDayArrows:true,
     callback:function(cal) {
-      console.log(cal);
-      $('#chosenDate').text(moment(cal.currentDate).format("DD.MM.YYYY"));
+      $(".dayDay").removeClass("week-gap");
+      $(".dayDay:contains(Su)").each(function(){
+        $(this).parent().addClass("week-gap");
+      })
+      $('#chosenDate').text(moment(cal.currentDate).format("dddd MMMM D, YYYY"));
       Template.list_events.__helpers[" getEvents"]();
       eventsUI.changed();
     }
@@ -58,7 +44,7 @@ Template.list_events.onRendered(function(event) {
   //Set the chosen date to today, if there is no chosen date.
   var chosenDate = $('#chosenDate').text();
   if ($('#chosenDate').text() === '') {
-    this.$('#chosenDate').text(moment().format('DD.MM.YYYY'));
+    this.$('#chosenDate').text(moment().format('dddd MMMM D, YYYY'));
     Template.list_events.__helpers[" getEvents"]();
     eventsUI.changed();
   }
@@ -67,19 +53,6 @@ Template.list_events.onRendered(function(event) {
     Set the text field to hidden else it will look ugly.
   */
   this.$('#txtChosenDate').attr('type', 'hidden');
-
-  this.$('#chooseDate').on("changeDate", function(e) {
-    /* On change of the date
-       make the spinner change the date on the div area and
-       fire the eventUI changed event.
-    */
-    //when the date changes, change the span text as this is read before getEvents
-    //console.log('Date is changed ', moment(e.date).format("DD.MM.YYYY"));
-    $('#chosenDate').text(moment(e.date).format("DD.MM.YYYY"));
-
-    Template.list_events.__helpers[" getEvents"]();
-    eventsUI.changed();
-  });
   //End of Date Change in Datepicker.
 });
 
