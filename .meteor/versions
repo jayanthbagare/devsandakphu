@@ -61,6 +61,7 @@ es5-shim@4.1.14
 fastclick@1.0.7
 fortawesome:fontawesome@4.5.0
 geojson-utils@1.0.4
+gfk:mailgun-api@1.1.0
 handlebars@1.0.4
 hot-code-push@1.0.0
 houston:admin@2.0.6

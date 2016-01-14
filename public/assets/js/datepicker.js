@@ -4,7 +4,7 @@ $(document).ready(function() {
     $(window).on('focus', function(event) {
         $('.show-focus-status > .alert-danger').addClass('hidden');
         $('.show-focus-status > .alert-success').removeClass('hidden');
-    }).on('blur', function(event) {
+    }).on('blur', function(event){
         $('.show-focus-status > .alert-success').addClass('hidden');
         $('.show-focus-status > .alert-danger').removeClass('hidden');
     });

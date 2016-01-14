@@ -52,3 +52,4 @@ houston:admin
 simple:reactive-method
 kadira:debug
 u2622:persistent-session
+gfk:mailgun-api

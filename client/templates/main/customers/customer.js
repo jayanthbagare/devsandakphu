@@ -57,7 +57,7 @@ AutoForm.addHooks(['add_customer_form'], {
 Template.list_customers.rendered = function() {
   Session.setTemp('searchTerm', '');
   Tracker.autorun(function() {
-    Template.list_customers.__helpers["getMyCustomers"]();
+    Template.list_customers.__helpers[" getMyCustomers"]();
   });
 };
 
@@ -117,7 +117,8 @@ Template.list_customers.helpers({
       return skipCount;
     }
     else {
-      var skipCount = Session.get('getMyCustomers').length
+      //var skipCount = Session.get('getMyCustomers').length
+      var skipCount = 100;
       Session.setTemp('loadedCount',skipCount)
       return skipCount;
     }

@@ -21,7 +21,9 @@ if (Meteor.isServer) {
 
       currentUserBPId = currentUser[0].profile.BusinessPartnerId;
 
-      current_bp = BusinessPartners.find({_id:currentUserBPId}).fetch();
+      current_bp = BusinessPartners.find({
+        _id: currentUserBPId
+      }).fetch();
 
       var params = {
         'src': current_bp[0].phones[0],
@@ -52,98 +54,155 @@ if (Meteor.isServer) {
 
 
       var current_emails = current_bp[0].emails;
-      current_emails.map(function(current_email)
-      {
-          checkUserId = Meteor.users.find({
-            username: current_email
-          }).fetch();
+      current_emails.map(function(current_email) {
+        checkUserId = Meteor.users.find({
+          username: current_email
+        }).fetch();
 
 
-          if (!checkUserId || checkUserId == '') {
-            currentUserId = Accounts.createUser({
-              username: current_email,
-              email: current_email,
-              password: "initial12",
-              profile: {
-                BusinessPartnerId: bp
-              }
-            });
-
-            //Setup the account email template
-            var calling_bp_name = calling_bp[0].name;
-            var calling_bp_username = calling_user_bp[0].username;
-            var current_bp_name = current_bp[0].name;
-
-            Accounts.emailTemplates.siteName = "Feliz";
-            var emailFrom = calling_bp[0].name + ' <' + calling_user_bp[0].username + '>';
-            Accounts.emailTemplates.from = emailFrom;
-
-            var subject = "Welcome to " + calling_bp_name + ', ' + current_bp_name;
-            Accounts.emailTemplates.enrollAccount.subject = function(current_bp) {
-              return subject;
-            };
-
-            //Set the operation here so that we can word the email accrodingly.
-            var operation = '';
-            if (operationType == 'Customer') {
-              operation = 'Customer';
-            } else if (operationType == 'Vendor') {
-              operation = 'Supplier';
-            } else {
-              operation = 'New Business';
+        if (!checkUserId || checkUserId == '') {
+          currentUserId = Accounts.createUser({
+            username: current_email,
+            email: current_email,
+            password: "initial12",
+            profile: {
+              BusinessPartnerId: bp
             }
+          });
 
-            var body = calling_bp_name + " has invited you as a " + operation + ", to view your Documents, Appointments and other Business Transactions." + " Activate your account by Simply clicking the link below.\n\n"
-            Accounts.emailTemplates.enrollAccount.text = function(calling_bp_name, url) {
-              return body + url;
-            };
+          //Setup the account email template
+          var calling_bp_name = calling_bp[0].name;
+          var calling_bp_username = calling_user_bp[0].username;
+          var current_bp_name = current_bp[0].name;
 
-            try {
-              Accounts.urls.enrollAccount = function(token) {
-                var url = ROOT_URL + '#/enroll-account/' + token;
-                console.log(url);
-                return url;
-              };
+          Accounts.emailTemplates.siteName = "Feliz";
+          var emailFrom = calling_bp[0].name + ' <' + calling_user_bp[0].username + '>';
+          Accounts.emailTemplates.from = emailFrom;
 
-              /*Do not send email as this is for virgo publications*/
-              //Accounts.sendEnrollmentEmail(currentUserId, current_email);
-            } catch (e) {
-              console.log('Could not send enrollment Email ', e);
-            }
+          var subject = "Welcome to " + calling_bp_name + ', ' + current_bp_name;
+          Accounts.emailTemplates.enrollAccount.subject = function(current_bp) {
+            return subject;
+          };
+
+          //Set the operation here so that we can word the email accrodingly.
+          var operation = '';
+          if (operationType == 'Customer') {
+            operation = 'Customer';
+          } else if (operationType == 'Vendor') {
+            operation = 'Supplier';
           } else {
-            console.log('Could not create user after creating BP');
-            return false;
+            operation = 'New Business';
           }
-          return true;
-        });
-      },
 
-      getCustomerTotalCount: function(bp){
-        var totalCount = BusinessPartnerRelations.find({
-          bp_subject:bp,
-          relation:'sells_to'
-        }).count();
-        return totalCount;
-      },
-      getCampaignTotalCount: function(bp){
-        var totalCount = BusinessPartnerCampaignRelations.find({
-          bp_subject:bp,
-          relation:'owns'
-        }).count();
-        return totalCount;
-      },
-      getProducTotalCount: function(bp){
-        return BusinessPartnerProductRelation.find({
-          bp_subject:bp,
-          relation:"sells"
-        }).count();
-      },
+          var body = calling_bp_name + " has invited you as a " + operation + ", to view your Documents, Appointments and other Business Transactions." + " Activate your account by Simply clicking the link below.\n\n"
+          Accounts.emailTemplates.enrollAccount.text = function(calling_bp_name, url) {
+            return body + url;
+          };
 
-      getOrdersTotalCount: function(bp){
-        return OrderHeaders.find({
-          companyID:bp
-        }).count();
-      }
+          try {
+            Accounts.urls.enrollAccount = function(token) {
+              var url = ROOT_URL + '#/enroll-account/' + token;
+              console.log(url);
+              return url;
+            };
+
+            /*Do not send email as this is for virgo publications*/
+            //Accounts.sendEnrollmentEmail(currentUserId, current_email);
+          } catch (e) {
+            console.log('Could not send enrollment Email ', e);
+          }
+        } else {
+          console.log('Could not create user after creating BP');
+          return false;
+        }
+        return true;
+      });
+    },
+
+    getCustomerTotalCount: function(bp) {
+      var totalCount = BusinessPartnerRelations.find({
+        bp_subject: bp,
+        relation: 'sells_to'
+      }).count();
+      return totalCount;
+    },
+    getCampaignTotalCount: function(bp) {
+      var totalCount = BusinessPartnerCampaignRelations.find({
+        bp_subject: bp,
+        relation: 'owns'
+      }).count();
+      return totalCount;
+    },
+    getProducTotalCount: function(bp) {
+      return BusinessPartnerProductRelation.find({
+        bp_subject: bp,
+        relation: "sells"
+      }).count();
+    },
+
+    getOrdersTotalCount: function(bp) {
+      return OrderHeaders.find({
+        companyID: bp
+      }).count();
+    },
+
+    sendMailgun: function(bp) {
+        var options = {
+          apiKey: "key-397f965b04aec79a8cc8c9b687d00f4a",
+          domain: "sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org"
+        };
+        mg = new Mailgun(options);
+        listAddress = 'info@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org';
+        list = mg.api.lists(listAddress);
+
+
+
+      var campaign_tag = "IPTEX";
+      var current_bp = bp;
+      relations = BusinessPartnerRelations.find({
+        bp_subject: current_bp,
+        relation: 'sells_to'
+      });
+
+      customerIds = relations.map(function(c) {
+        return c.bp_predicate[0]
+      });
+
+      var bps = BusinessPartners.find({
+        _id: {
+          $in: customerIds
+        },
+        tags: campaign_tag
+      });
+
+      // bp = bps.map(function(b) {
+      //   try {
+      //     console.log('Before Mailgun insert ', b.emails[0]);
+      //     list.members.create({
+      //       subscribed:true,
+      //       address:b.emails[0]
+      //     },function(error,result){
+      //         if(error){
+      //           console.log('Ouch');
+      //           throw new Meteor.Error(500, 'Mailgun Error', error);
+      //         }else{
+      //           console.log(result);
+      //         }
+      //       });
+      //   } catch (e) {}
+      // });
+      // console.log('After insert');
+
+      mg.send({
+        from:'postmaster@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org',
+        to:listAddress,
+        subject:"Test Mail",
+        text:"Wow this works",
+        html:"<html><head><meta name='viewport' content='width=device-width' /><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><style type='text/css'>body {-webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em;}@media only screen and (max-width: 480px){.emailImage{height:auto !important;max-width:600px !important;width: 100% !important;}}</style><title>IPTEX GRINDEX EXPO 2016</title></head><body itemscope itemtype='http://schema.org/EmailMessage'><img src ='https://2777bef025b7fc1ddf008df44ef3f140a7215d13-www.googledrive.com/host/0B7HdYZc_RjyleEVpSllaMGVpbjQ' class='emailImage'/><form><input type='text' label='Your Name'/></form></body></html>"
+      },function(error,body){
+        console.log(body);
+      });
+    }
 
   });
 
