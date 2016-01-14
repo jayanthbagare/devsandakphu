@@ -125,8 +125,18 @@ Template.list_campaigns.events({
   'click #run_campaign':function(event){
     event.preventDefault();
     currentbpId = Session.get("loggedInBPId");
-    console.log('Mailgun call ' , currentbpId);
     Meteor.call("sendMailgun",currentbpId, function(error, result) {
     });
+  },
+  'click #add_members':function(event){
+    event.preventDefault();
+    currentbpId = Session.get("loggedInBPId");
+    Meteor.call('addMembersMailgun',currentbpId,this._id,function(error,result){
+      if(error){
+        FlashMessages.sendError(error);
+      }else{
+        FlashMessages.sendSuccess('Added members to your campaign');
+      }
+    })
   }
 });

@@ -146,18 +146,23 @@ if (Meteor.isServer) {
       }).count();
     },
 
-    sendMailgun: function(bp) {
-        var options = {
-          apiKey: "key-397f965b04aec79a8cc8c9b687d00f4a",
-          domain: "sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org"
-        };
-        mg = new Mailgun(options);
-        listAddress = 'info@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org';
-        list = mg.api.lists(listAddress);
+    addMembersMailgun:function(bp,campaignId){
+      this.unblock();
+      var options = {
+        apiKey: "key-397f965b04aec79a8cc8c9b687d00f4a",
+        domain: "sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org"
+      };
+      var mg = new Mailgun(options);
+      var listAddress = 'info@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org';
+      var list = mg.api.lists(listAddress);
+
+      var tags = Campaigns.find({
+          _id:campaignId
+      },{runTag:1}).fetch();
+
+      console.log('Tags ',tags[0].runTag);
 
 
-
-      var campaign_tag = "IPTEX";
       var current_bp = bp;
       relations = BusinessPartnerRelations.find({
         bp_subject: current_bp,
@@ -168,30 +173,37 @@ if (Meteor.isServer) {
         return c.bp_predicate[0]
       });
 
+      console.log(customerIds);
       var bps = BusinessPartners.find({
         _id: {
           $in: customerIds
         },
-        tags: campaign_tag
-      });
+        tags: {$in:tags[0].runTag}
+      }).fetch();
 
-      // bp = bps.map(function(b) {
-      //   try {
-      //     console.log('Before Mailgun insert ', b.emails[0]);
-      //     list.members.create({
-      //       subscribed:true,
-      //       address:b.emails[0]
-      //     },function(error,result){
-      //         if(error){
-      //           console.log('Ouch');
-      //           throw new Meteor.Error(500, 'Mailgun Error', error);
-      //         }else{
-      //           console.log(result);
-      //         }
-      //       });
-      //   } catch (e) {}
-      // });
-      // console.log('After insert');
+      console.log(bps);
+
+      bp = bps.map(function(b) {
+        try {
+          var bp_mailgun = {
+            subscribed: true,
+            address: b.emails[0]
+          };
+          list.members().create(bp_mailgun, function(error, result) {
+            console.log(result);
+          });
+        } catch (e) {}
+      });
+    },
+    sendMailgun: function(bp,campaignId) {
+      this.unblock();
+      var options = {
+        apiKey: "key-397f965b04aec79a8cc8c9b687d00f4a",
+        domain: "sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org"
+      };
+      var mg = new Mailgun(options);
+      var listAddress = 'info@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org';
+      var list = mg.api.lists(listAddress);
 
       mg.send({
         from:'postmaster@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org',
@@ -200,6 +212,7 @@ if (Meteor.isServer) {
         text:"Wow this works",
         html:"<html><head><meta name='viewport' content='width=device-width' /><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><style type='text/css'>body {-webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em;}@media only screen and (max-width: 480px){.emailImage{height:auto !important;max-width:600px !important;width: 100% !important;}}</style><title>IPTEX GRINDEX EXPO 2016</title></head><body itemscope itemtype='http://schema.org/EmailMessage'><img src ='https://2777bef025b7fc1ddf008df44ef3f140a7215d13-www.googledrive.com/host/0B7HdYZc_RjyleEVpSllaMGVpbjQ' class='emailImage'/><form><input type='text' label='Your Name'/></form></body></html>"
       },function(error,body){
+        FlashMessages.sendSuccess('Campaign executed Successfully');
         console.log(body);
       });
     }

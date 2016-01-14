@@ -117,8 +117,7 @@ Template.list_customers.helpers({
       return skipCount;
     }
     else {
-      //var skipCount = Session.get('getMyCustomers').length
-      var skipCount = 100;
+      var skipCount = Session.get('getMyCustomers').length
       Session.setTemp('loadedCount',skipCount)
       return skipCount;
     }
