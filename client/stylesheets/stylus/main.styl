@@ -253,10 +253,6 @@ abefore, aafter
   background-color panel-footer-bgcolor
   color panel-footer-text
 
-.panel-heading
-  background-color panel-heading-bgcolor !important
-  color panel-heading-text !important
-
 .client-card
   font-family base-font-family
   color panel-body-text-primary
@@ -299,7 +295,7 @@ input[type="text"]focus, search_glow
 .chosenDate
   display inline-block
   text-align justify
-  font-size panel-font-size - 0.1
+  //font-size panel-font-size - 0.1
 
 .cal_spinner
   background-color panel-heading-text
@@ -511,7 +507,9 @@ td.active, td > button.btn-primary
 
 .sidebar-nav li a:hover
     text-decoration none
-    color #FFFFFF
+    cusror pointer !important
+    background #CCCCCC !important
+    color #DD4814 !important
     //background rgba(255,255,255,0.2)
 
 .sidebar-nav li a:active,.sidebar-nav li a:focus
@@ -686,3 +684,37 @@ td.active, td > button.btn-primary
 .small_card:hover
   color #FFFFFF
   background-color #EEEEEE
+
+//Searchable Options List CSS Begins
+.sol-option:hover
+  background #CCCCCC !important
+  color #DD4814 !important
+
+.sol-label-text:hover
+  color #DD4814 !important
+
+.sol-radio:hover
+  color #DD4814 !important
+
+.sol-selected-display-item:hover,.sol-selected-display-item-text:hover,.sol-quick-delete:hover
+  background #CCCCCC !important
+  color #DD4814 !important
+//Searchable Options List CSS Ends
+
+.modal-body
+  background #CCCCCC !important
+  color #DD4814 !important
+
+//Styling for labels and form components begins
+.control-label,.panel-title,.panel-heading
+  color #777777 !important
+
+.autoform-remove-item,.autoform-add-item
+  border-color #CCCCCC !important
+  color #777777 !important
+
+.autoform-remove-item:hover,.autoform-add-item:hover
+  background-color #E6E6E6 !important
+  border-color #ADADAD !important
+  color #DD4814 !important
+//Styling for labels and form components ends

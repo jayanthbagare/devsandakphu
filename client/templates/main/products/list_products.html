@@ -12,9 +12,9 @@
     </div>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12">
-        <h3>Your Products</h3>
-        <a href="/main/products/add" class="btn btn-default btn-tiny footer-icons pull-right">
-          <i class="glyphicon glyphicon-plus"></i>
+        <h6><small>Your Products</small></h6>
+        <a href="/main/products/add" class="btn btn-default btn-tiny action_buttons pull-right">
+          <i class="fa fa-plus"></i>
           <span class="hidden-xs">Add a Product</span>
         </a>
         <br>
@@ -35,9 +35,7 @@
           <div class="panel-heading customer-card-heading">
             <h3 class="panel-title client-card-header">{{this.name}}</h3>
             <a href="/main/clients/timeline" id="view_timeline" class="btn btn-default btn-tiny btn-circle footer-icons pull-right">
-              <!-- <i class="fa fa-1x fa-history timeline-font"></i> -->
               <i class="fa fa-history timeline-font"></i>
-              <!-- <span class="hidden-xs hidden-sm hidden-md small">History</span> -->
             </a>
           </div>
           <!-- panel-heading -->
@@ -53,20 +51,13 @@
             <!-- panel body -->
           </a>
           <div class="panel-footer">
-            <!-- For now commenting the schedule functionality, need a redesign thought-->
-            <!-- <a href="/main/events/add" id="add_event"
-                  class="btn btn-default btn-tiny footer-icons ">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                    <span class="hidden-xs hidden-sm hidden-md small">Schedule</span>
-                  </a> -->
-
-            <a href="#" id="attach_doc" class="btn btn-default btn-tiny footer-icons ">
-              <i class="glyphicon glyphicon-shopping-cart"></i>
+            <a href="#" id="attach_doc" class="btn btn-default btn-tiny action_buttons ">
+              <i class="fa fa-shopping-cart"></i>
               <span class="hidden-xs hidden-sm hidden-md small">Add to Cart</span>
             </a>
 
-            <a href="#" id="add_event" class="btn btn-default btn-tiny footer-icons ">
-              <i class="glyphicon glyphicon-credit-card"></i>
+            <a href="#" id="add_event" class="btn btn-default btn-tiny action_buttons">
+              <i class="fa fa-credit-card"></i>
               <span class="hidden-xs hidden-sm hidden-md small">Invoice</span>
             </a>
           </div>
@@ -82,8 +73,8 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           {{#unless allProductsLoaded}}
-          <a href="#" id="load_more" class="btn btn-default btn-tiny footer-icons ">
-            <i class="glyphicon glyphicon-more"></i>
+          <a href="#" id="load_more" class="btn btn-default btn-tiny action_buttons">
+            <i class="fa fa-more"></i>
             <span>Load More</span>
           </a>
           {{/unless}}
