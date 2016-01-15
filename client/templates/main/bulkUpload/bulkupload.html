@@ -1,0 +1,24 @@
+<template name="bulk_upload">
+  <div class="container pt">
+    <div class="row">
+      {{> formats}}
+      <div class="col-lg-6 col-md-6 col-sm-4 col-lg-offset-3">
+        <h3>Bulk Upload your Data from CSV</h3>
+        <br/><br/>
+        <div class="form-group">
+          <span>
+          <select id="uploadOptions" name="character">
+            <option value="Customers">Customers</option>
+            <option value="Events">Events</option>
+            <option value="Orders">Orders</option>
+            <option value="Campaigns">Campaigns</option>
+            <option value="Vendors">Vendors</option>
+          </select><a href="#" id="formatHelp"><i class="action_buttons fa fa-info-circle"></i></a>
+          </span>
+        </div>
+        <button type="customer_submit" class="btn btn-primary">Submit</button>
+        <a href="/main/customers" class="btn btn-primary">Go Back</a>
+      </div>
+    </div>
+  </div>
+</template>
