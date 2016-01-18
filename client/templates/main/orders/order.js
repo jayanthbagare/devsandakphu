@@ -60,14 +60,14 @@ Template.list_orders.helpers({
 
       if(dbCount <= 25)
       {
-      	Session.setTemp('loadedCount',dbCount);
-      	return dbCount;
+        Session.setTemp('loadedCount',dbCount);
+        return dbCount;
       }
       else
-      {	
-      	Session.setTemp('loadedCount',skipCount);
-      	return skipCount;
-  	  }
+      { 
+        Session.setTemp('loadedCount',skipCount);
+        return skipCount;
+      }
     }
     else {
       var skipCount = Session.get('getMyOrders').length;
@@ -92,7 +92,7 @@ Template.list_orders.helpers({
   },
 
   getCustomer: function(bpId){
-  	Meteor.subscribe("getOneBP",bpId);
+    Meteor.subscribe("getOneBP",bpId);
     bp = BusinessPartners.find({_id: bpId},{name:1}).fetch();
     return bp[0].name;
   },
@@ -122,7 +122,13 @@ Template.registerHelper("formatDate", function(givenDate) {
 // Create Order 
 
 AutoForm.addHooks(['add_order_form'], {
-  onSuccess: function(operation, result, template) {
+  /*before: {
+      insert: function (doc) {
+        doc.type = 'sales';
+        doc.
+        return doc; // Must return the resulting doc.
+  },
+*/  onSuccess: function(operation, result, template) {
     FlashMessages.sendSuccess('Order Created Successfully');
     Router.go('/main/orders');
   },
@@ -133,8 +139,93 @@ AutoForm.addHooks(['add_order_form'], {
 });
 
 Template.add_order.helpers({
+//Document Date
+documentDate: function () {
+  return new Date();
+  
+  },
+
+getOrderNo:function(){
+  return Math.floor((Math.random() * 1000000) + 1);
+},
+
+getBPID: function(){
+  return Session.get("loggedInBPId");
+},
+
+getMyCustomers: function() {
+  var options = [];
+
+  currentUserBPId = Session.get("loggedInBPId");
+  
+  //Get all the BP's which the logged in BP sells to
+  Meteor.subscribe("getCustomerRelations", currentUserBPId);
+  customer_cursor = BusinessPartnerRelations.find({
+    "bp_subject": currentUserBPId,
+    "relation": "sells_to"
+  }).fetch();
+  bp_predicates = customer_cursor.map(function(c) {
+    return c.bp_predicate[0]
+  });
+
+  Meteor.subscribe("getMyCustomersForOrder", bp_predicates);
+  customers = BusinessPartners.find({
+    _id: {
+      $in: bp_predicates
+    }
+  }).fetch();
+
+  customers.map(function(element) {
+    options.push({
+      label: element.name,
+      value: element._id
+    });
+  });
+
+  return options;
+},
+
+
+getMyProducts: function() {
+  var options = [];
+
+  Meteor.subscribe("getUser", Meteor.userId());
+  currentUser = Meteor.users.find({
+    _id: Meteor.userId()
+  }).fetch();
+
+  currentUserBPId = currentUser[0].profile.BusinessPartnerId;
+  //Get all the BP's which the logged in BP sells to
+
+  Meteor.subscribe("getProductRelations", currentUserBPId);
+  product_cursor = BusinessPartnerProductRelation.find({
+    "bp_subject": currentUserBPId,
+    "relation": "sells"
+  }).fetch();
+
+  products = product_cursor.map(function(c) {
+    return c.product[0]
+  });
+
+  Meteor.subscribe("getProducts", products);
+  products = Products.find({
+    _id: {
+      $in: products
+    }
+  }).fetch();
+
+  products.map(function(element) {
+    options.push({
+      label: element.name,
+      value: element._id
+    });
+  });
+
+  return options;
+},
+
 // For Order Type
-orderType: function () {
+/*orderType: function () {
     return [
       {label: "Sales Order", value: "sales"},
       {label: "Purchase Order", value: "purchase"}
@@ -144,9 +235,9 @@ orderType: function () {
       
     ];
   },
-
+*/
 // For Order status
-orderStatus: function () {
+/*orderStatus: function () {
     return [
       {label: "Draft", value: "draft"},
       {label: "Confirmed", value: "confirmed"},
@@ -154,7 +245,7 @@ orderStatus: function () {
       {label: "Completed", value: "completed"}
     ];
   },
-
+*/
 });
 
 // Create Order End
@@ -162,8 +253,9 @@ orderStatus: function () {
 
 // Edit Order Begin
 Template.edit_order.helpers({
+
 // For Order Type
-orderType: function () {
+/*orderType: function () {
     return [
       {label: "Sales Order", value: "sales"},
       {label: "Purchase Order", value: "purchase"}
@@ -173,9 +265,9 @@ orderType: function () {
       
     ];
   },
-
+*/
 // For Order status
-orderStatus: function () {
+/*orderStatus: function () {
     return [
       {label: "Draft", value: "draft"},
       {label: "Confirmed", value: "confirmed"},
@@ -184,10 +276,10 @@ orderStatus: function () {
     ];
   },
 
+*/  
+// Edit template Select Order
   selectedOrder: function() {
-  	console.log(this._id);
-
-  	Meteor.subscribe("getOneOrder",this._id);
+    Meteor.subscribe("getOneOrder",this._id);
     return OrderHeaders.find({
       _id: this._id
     });
@@ -196,3 +288,25 @@ orderStatus: function () {
 });
 
 //Edit Order End
+
+
+/*AutoForm.hooks({
+  add_orderForm: {
+    onChange: function (insertDoc, updateDoc, currentDoc) {
+      if (customHandler(insertDoc)) {
+        this.done();
+      } else {
+        this.done(new Error("Submission failed"));
+      }
+      return false;
+    }
+  }
+});
+*/
+
+Template.add_order.events({
+    "change #lines":function(event){
+      console.log('In select');
+      return false;
+    },
+});

@@ -7,7 +7,6 @@ Meteor.publish("getOrders", function(currentUserBPId, searchTerm, skipCount, lim
        orders = OrderHeaders.find({companyID:current_bp}, {
           limit: limit
         });
-
      return orders;
       this.ready();
     } else {
@@ -38,12 +37,25 @@ Meteor.publish("getOrders", function(currentUserBPId, searchTerm, skipCount, lim
     }
   });
 
- // Return Single Order
+ // Return Single Order 
  Meteor.publish("getOneOrder", function(order) {
     order = OrderHeaders.find({
       _id: order
     });
     return order;
+    this.ready();
+  });
+
+ Meteor.publish("getMyCustomersForOrder", function(bp) {
+    customers = BusinessPartners.find({_id: {$in: bp}});
+    return customers;
+    this.ready();
+  });
+
+ Meteor.publish("getMyProductsForOrder", function(prod) {
+    products = Products.find({_id: {$in: prod}});
+    console.log('prod: ' + products);
+    return products;
     this.ready();
   });
 

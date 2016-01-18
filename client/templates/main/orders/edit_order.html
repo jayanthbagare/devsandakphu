@@ -1,5 +1,5 @@
 <template name="edit_order">
-  {{#autoForm collection="OrderHeaders" id="edit_order_form" type="update" }}
+  {{#autoForm collection="OrderHeaders" id="edit_order_form" type="update"}}
   <!--doc=selectedOrder  Error because of this, Needs to be solved-->
   <div class="container pt">
       <div class="row">
@@ -9,7 +9,9 @@
                 {{>afQuickField name="documentNumber"}}
               </div>
               <div class="form-group">
-                {{>afQuickField name="type" options=orderType}}
+                {{>afQuickField name="type"}}
+                
+                <!-- {{>afQuickField name="type" options=orderType}}-->
               </div>
               <div class="form-group">
                 {{>afQuickField name="businessPartnerId"}}
@@ -18,7 +20,8 @@
                 {{>afQuickField name="docmentDate"}}
               </div>
               <div class="form-group">
-                {{>afQuickField name="status" options=orderStatus}}
+                <!--{{>afQuickField name="status" options=orderStatus}}-->
+                {{>afQuickField name="status"}}
               </div>
               <div class="form-group">
                 {{>afQuickField name="companyID"}}
