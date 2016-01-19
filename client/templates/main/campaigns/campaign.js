@@ -1,4 +1,4 @@
-AutoForm.addHooks(['add_campaign_form'], {
+var hookObject = {
   onSuccess: function(operation, result, template) {
     //See if the customer is already onboarded
 
@@ -31,7 +31,8 @@ AutoForm.addHooks(['add_campaign_form'], {
 
     FlashMessages.sendError('Could not create your campaign' + result);
   }
-});
+};
+AutoForm.addHooks(['add_campaign_form'], hookObject, true);
 
 
 Template.list_campaigns.rendered = function() {
@@ -122,19 +123,18 @@ Template.list_campaigns.helpers({
 
 
 Template.list_campaigns.events({
-  'click #run_campaign':function(event){
+  'click #run_campaign': function(event) {
     event.preventDefault();
     currentbpId = Session.get("loggedInBPId");
-    Meteor.call("sendMailgun",currentbpId, function(error, result) {
-    });
+    Meteor.call("sendMailgun", currentbpId, function(error, result) {});
   },
-  'click #add_members':function(event){
+  'click #add_members': function(event) {
     event.preventDefault();
     currentbpId = Session.get("loggedInBPId");
-    Meteor.call('addMembersMailgun',currentbpId,this._id,function(error,result){
-      if(error){
+    Meteor.call('addMembersMailgun', currentbpId, this._id, function(error, result) {
+      if (error) {
         FlashMessages.sendError(error);
-      }else{
+      } else {
         FlashMessages.sendSuccess('Added members to your campaign');
       }
     })

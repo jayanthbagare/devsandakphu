@@ -198,24 +198,25 @@ if (Meteor.isServer) {
     sendMailgun: function(bp,campaignId) {
       this.unblock();
       var options = {
-        apiKey: "key-397f965b04aec79a8cc8c9b687d00f4a",
-        domain: "sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org"
+        apiKey: "key-2b9223afb45b851fca181e48cda080f6",
+        domain: "sandbox12d313bd337643f2b03328f85003a535.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'info@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org';
+      var listAddress = 'communications@sandbox12d313bd337643f2b03328f85003a535.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       mg.send({
-        from:'postmaster@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org',
+        from:'postmaster@sandbox12d313bd337643f2b03328f85003a535.mailgun.org',
         to:listAddress,
-        subject:"Test Mail",
-        text:"Wow this works",
-        html:"<html><head><meta name='viewport' content='width=device-width' /><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><style type='text/css'>body {-webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em;}@media only screen and (max-width: 480px){.emailImage{height:auto !important;max-width:600px !important;width: 100% !important;}}</style><title>IPTEX GRINDEX EXPO 2016</title></head><body itemscope itemtype='http://schema.org/EmailMessage'><img src ='https://2777bef025b7fc1ddf008df44ef3f140a7215d13-www.googledrive.com/host/0B7HdYZc_RjyleEVpSllaMGVpbjQ' class='emailImage'/><form><input type='text' label='Your Name'/></form></body></html>"
+        subject:"A Pulsating 2 Events IPTEX and Grindex 2016",
+        text:"A Cordial invitation to experience world class innovation in Gears and Grinding Technologies. One Venue, Two mega events, Three days of pulsating experience.",
+        html:"<html><head><meta name='viewport' content='width=device-width' /><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><style type='text/css'>body {-webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em;}@media only screen and (max-width: 480px){.emailImage{height:auto !important;max-width:600px !important;width: 100% !important;}}</style><title>IPTEX GRINDEX EXPO 2016</title></head><body itemscope itemtype='http://schema.org/EmailMessage'><img style='display:block' src ='https://2777bef025b7fc1ddf008df44ef3f140a7215d13-www.googledrive.com/host/0B7HdYZc_RjyleEVpSllaMGVpbjQ' class='emailImage'/><form><input type='text' label='Your Name'/></form></body></html>"
       },function(error,body){
         FlashMessages.sendSuccess('Campaign executed Successfully');
         console.log(body);
       });
     },
+<<<<<<< HEAD
     bulkUploadCustomers : function(bp,customerList){
       console.log('Customers are ', customerList.length);
 
@@ -256,6 +257,11 @@ if (Meteor.isServer) {
         Meteor.call('createUserOnboardBP',new_bpId,'Customer');
       }
       console.log('Bulk Upload of Customers');
+=======
+    sendCampaignEmail: function(bp,campaignId){
+      //Used to send normal email based on campaign id tags.
+
+>>>>>>> e18d7982f49fd1193c4ce0f19a8981360111c213
     }
 
   });
