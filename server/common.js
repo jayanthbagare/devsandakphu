@@ -43,7 +43,6 @@ if (Meteor.isServer) {
       current_bp = BusinessPartners.find({
         _id: bp
       }).fetch();
-      console.log('Current BP is ', current_bp);
       calling_user_bp = Meteor.users.find({
         _id: this.userId
       }).fetch();
@@ -52,13 +51,11 @@ if (Meteor.isServer) {
         _id: calling_user_bp[0].profile.BusinessPartnerId
       }).fetch();
 
-
       var current_emails = current_bp[0].emails;
       current_emails.map(function(current_email) {
         checkUserId = Meteor.users.find({
           username: current_email
         }).fetch();
-
 
         if (!checkUserId || checkUserId == '') {
           currentUserId = Accounts.createUser({
@@ -102,7 +99,6 @@ if (Meteor.isServer) {
           try {
             Accounts.urls.enrollAccount = function(token) {
               var url = ROOT_URL + '#/enroll-account/' + token;
-              console.log(url);
               return url;
             };
 
@@ -160,9 +156,6 @@ if (Meteor.isServer) {
           _id:campaignId
       },{runTag:1}).fetch();
 
-      console.log('Tags ',tags[0].runTag);
-
-
       var current_bp = bp;
       relations = BusinessPartnerRelations.find({
         bp_subject: current_bp,
@@ -173,15 +166,12 @@ if (Meteor.isServer) {
         return c.bp_predicate[0]
       });
 
-      console.log(customerIds);
       var bps = BusinessPartners.find({
         _id: {
           $in: customerIds
         },
         tags: {$in:tags[0].runTag}
       }).fetch();
-
-      console.log(bps);
 
       bp = bps.map(function(b) {
         try {
@@ -190,7 +180,6 @@ if (Meteor.isServer) {
             address: b.emails[0]
           };
           list.members().create(bp_mailgun, function(error, result) {
-            console.log(result);
           });
         } catch (e) {}
       });
@@ -213,13 +202,10 @@ if (Meteor.isServer) {
         html:"<html><head><meta name='viewport' content='width=device-width' /><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><style type='text/css'>body {-webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em;}@media only screen and (max-width: 480px){.emailImage{height:auto !important;max-width:600px !important;width: 100% !important;}}</style><title>IPTEX GRINDEX EXPO 2016</title></head><body itemscope itemtype='http://schema.org/EmailMessage'><img style='display:block' src ='https://2777bef025b7fc1ddf008df44ef3f140a7215d13-www.googledrive.com/host/0B7HdYZc_RjyleEVpSllaMGVpbjQ' class='emailImage'/><form><input type='text' label='Your Name'/></form></body></html>"
       },function(error,body){
         FlashMessages.sendSuccess('Campaign executed Successfully');
-        console.log(body);
       });
     },
 
     bulkUploadCustomers : function(bp,customerList){
-      console.log('Customers are ', customerList.length);
-
       for(i=0;i<customerList.length;i++){
         var data = customerList[i];
         var name = data.Name,
@@ -230,7 +216,6 @@ if (Meteor.isServer) {
 
         var currentBPId = bp;
 
-        console.log('Values are ', name,phone,address,email,tags);
         //Create the Business Partner
         var new_bpId = BusinessPartners.insert({
           name:name,
@@ -256,11 +241,9 @@ if (Meteor.isServer) {
         //Create the user now.
         Meteor.call('createUserOnboardBP',new_bpId,'Customer');
       }
-      console.log('Bulk Upload of Customers');
     },
     sendCampaignEmail: function(bp,campaignId){
       //Used to send normal email based on campaign id tags.
-
 
     }
 
