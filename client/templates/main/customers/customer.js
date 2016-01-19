@@ -1,7 +1,5 @@
 //Generic variable definition for Pagination handler
 handlePagination = '';
-
-
 AutoForm.addHooks(['add_customer_form'], {
   onSuccess: function(operation, result, template) {
     //See if the customer is already onboarded
@@ -54,6 +52,17 @@ AutoForm.addHooks(['add_customer_form'], {
   }
 });
 
+AutoForm.addHooks(['edit_customer_form'], {
+  onSuccess: function(operation, result, template){
+    console.log(operation,result,template,event);
+    FlashMessages.sendSuccess('Customer details changed successfully');
+    Router.go('/main/customers');
+  },
+  onError:function(operation, result, template){
+    FlashMessages.sendError('Could not save customer, please check the error ', result);
+  }
+});
+
 Template.list_customers.rendered = function() {
   Session.setTemp('searchTerm', '');
   Tracker.autorun(function() {
@@ -81,7 +90,6 @@ Template.list_customers.helpers({
             name: 1
           }
         }).fetch();
-        console.log(customers);
         Session.setAuth('getMyCustomers', customers);
       });
 
@@ -92,8 +100,6 @@ Template.list_customers.helpers({
     {
       Tracker.autorun(function() {
         if (Session.get("searchTerm")) {
-          console.log('Inside Customers ', Session.get("searchTerm"));
-
           var currentPage = parseInt(Router.current().params.page) || 1;
           var skipCount = (currentPage) * 25; //
 
@@ -104,24 +110,22 @@ Template.list_customers.helpers({
               "$exists": true
             }
           }).fetch();
-          console.log('Customers are ', customers);
         }
         Session.setAuth('getMyCustomers', customers);
       }); //Tracker closing
     } //else closing
   },
   getCustomerCount: function() {
-    if(Session.get("searchTerm") == '' || !Session.get("searchTerm")){
-      var currentPage = parseInt(Router.current().params.page) || 1;
-      var skipCount = (currentPage) * 25;
-      Session.setTemp('loadedCount',skipCount);
-      return skipCount;
+    var pageCount = BusinessPartners.find().count();
+    var currentPage = parseInt(Router.current().params.page) || 1;
+    if(currentPage > 1)
+    {
+        var skipCount = (currentPage - 1) * 25
+        var loadedCount = skipCount + pageCount
+    }else {
+        var loadedCount = pageCount;
     }
-    else {
-      var skipCount = Session.get('getMyCustomers').length
-      Session.setTemp('loadedCount',skipCount);
-      return skipCount;
-    }
+    return loadedCount;
   },
 
   getCustomerTotalCount: function() {
@@ -254,7 +258,6 @@ Template.list_customers.events({
     event.preventDefault();
     searchTerm = $('#customerSearch').val();
     Session.setTemp('searchTerm', searchTerm);
-    console.log('Setting search term ', Session.get('searchTerm'));
     Tracker.autorun(function() {
       Template.list_customers.__helpers[" getMyCustomers"](searchTerm);
     });
