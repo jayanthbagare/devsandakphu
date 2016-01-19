@@ -62,11 +62,16 @@ label
   color base-text-color
 
 /* Titles */
-h1,h2,h3,h4,h5,h6,.date-color
+h1,h2,h3,h4,h5,.date-color
   color base-text-color
   font-family base-font-family
   font-weight base-font-weight - 100
   font-size base-font-size + 1.4
+
+h6
+  font-family base-font-family
+  font-weight base-font-weight - 100
+  font-size base-font-size + 0.7
 
 h1
   font-weight base-font-weight - 300
@@ -653,14 +658,26 @@ td.active, td > button.btn-primary
 .action_buttons
   color #7C7C7C !important
   cursor pointer !important
+  padding-right 15px
 
 .action_buttons:hover
   color #DD4814 !important
   cursor pointer !important
+  padding-right 15px
+
+.action_buttons_disabled
+  color #CCCCCC !important
+  cursor not-allowed !important
+  padding-right 15px
+
+.action_buttons_disabled:hover
+color #CCCCCC !important
+cursor not-allowed !important
+padding-right 15px
 
 .main_value
   color #7C7C7C
-  font-size 2.3rem !important
+  font-size base-font-size + 0.7 !important
 
 .secondary_value
   color #7C7C7C
@@ -671,9 +688,9 @@ td.active, td > button.btn-primary
   font-size 2.3rem !important
 
 .main_divider
-  color #A2A2A2 !important
-  width 75% !important
-  left 25% !important
+  color #7C7C7C !important
+  width 85% !important
+  right 5% !important
 
 .card_action_buttons
   color #7C7C7C

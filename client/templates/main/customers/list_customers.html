@@ -12,9 +12,9 @@
   </div>
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      <h6>
+      <h5>
         <small>Your Customers - (Total {{getCustomerCount}}/{{getCustomerTotalCount}})</small>
-      </h6>
+      </h5>
 
       <a href="/main/customers/add" id="add_customer" class="pull-right">
         <span>
@@ -53,23 +53,31 @@
 
         <td>
           <h6>
-            <small><a href="tel:{{phone}}" id="external_call"><i class="fa fa-phone card_action_buttons pull-right"></i></a></small>
+            {{#if this.phones.[0]}}
+            <small><a href="tel:{{phone}}" id="external_call"><i class="fa fa-phone action_buttons pull-right"></i></a></small>
+            {{else}}
+            <small><a href="#" id="external_call_disabled"><i class="fa fa-phone action_buttons_disabled pull-right"></i></a></small>
+            {{/if}}
           </h6>
         </td>
 
         <td>
           <h6>
-            <small><a href="#" id="attach_doc"><i class="fa fa-paperclip card_action_buttons pull-right"></i></a></small>
+            <small><a href="#" id="attach_doc"><i class="fa fa-paperclip action_buttons pull-right"></i></a></small>
           </h6>
         </td>
         <td>
           <h6>
-            <small><a href="/main/events/add" id="add_event"><i class="fa fa-calendar card_action_buttons pull-right"></i></a></small>
+            <small><a href="/main/events/add" id="add_event"><i class="fa fa-calendar action_buttons pull-right"></i></a></small>
           </h6>
         </td>
         <td>
           <h6>
-            <small><a href="#" id="sms_message"><i class="fa fa-comment card_action_buttons pull-right"></i></a></small>
+            {{#if this.phones.[0]}}
+            <small><a href="#" id="sms_message"><i class="fa fa-comment action_buttons pull-right"></i></a></small>
+            {{else}}
+            <small><a href="#" id="sms_message_disabled"><i class="fa fa-comment action_buttons_disabled pull-right"></i></a></small>
+            {{/if}}
           </h6>
         </td>
         <td>

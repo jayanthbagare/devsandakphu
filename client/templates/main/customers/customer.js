@@ -100,7 +100,8 @@ Template.list_customers.helpers({
     {
       Tracker.autorun(function() {
         if (Session.get("searchTerm")) {
-          var currentPage = parseInt(Router.current().params.page) || 1;
+          // var currentPage = parseInt(Router.current().params.page) || 1;
+          var currentPage = 1;
           var skipCount = (currentPage) * 25; //
 
           handlePagination = Meteor.subscribe("getCustomers", currentUserBPId, searchTerm, skipCount, 25);
@@ -110,11 +111,14 @@ Template.list_customers.helpers({
               "$exists": true
             }
           }).fetch();
+          console.log('Customers are ', customers);
         }
-        Session.setAuth('getMyCustomers', customers);
+        //Session.setAuth('getMyCustomers', customers);
+
       }); //Tracker closing
+      Session.setAuth('getMyCustomers', customers);
     } //else closing
-  },
+  }, //getMyCustomers closing
   getCustomerCount: function() {
     var pageCount = BusinessPartners.find().count();
     var currentPage = parseInt(Router.current().params.page) || 1;
