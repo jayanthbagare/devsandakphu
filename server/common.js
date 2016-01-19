@@ -43,7 +43,7 @@ if (Meteor.isServer) {
       current_bp = BusinessPartners.find({
         _id: bp
       }).fetch();
-
+      console.log('Current BP is ', current_bp);
       calling_user_bp = Meteor.users.find({
         _id: this.userId
       }).fetch();
@@ -215,6 +215,47 @@ if (Meteor.isServer) {
         FlashMessages.sendSuccess('Campaign executed Successfully');
         console.log(body);
       });
+    },
+    bulkUploadCustomers : function(bp,customerList){
+      console.log('Customers are ', customerList.length);
+
+      for(i=0;i<customerList.length;i++){
+        var data = customerList[i];
+        var name = data.Name,
+            phone = data.Phone,
+            address = data.Address,
+            email = data.Email,
+            tags = data.Tags;
+
+        var currentBPId = bp;
+
+        console.log('Values are ', name,phone,address,email,tags);
+        //Create the Business Partner
+        var new_bpId = BusinessPartners.insert({
+          name:name,
+          address:address,
+          phones:[phone],
+          emails:[email],
+          tags:[tags]
+        });
+
+        //Maintain the relations
+        var relations = BusinessPartnerRelations.insert({
+          bp_subject:[currentBPId],
+          relation:'sells_to',
+          bp_predicate:[new_bpId]
+        });
+
+        var reverse_relation = BusinessPartnerRelations.insert({
+          bp_subject:[new_bpId],
+          relation:'buys_from',
+          bp_predicate:[currentBPId]
+        });
+
+        //Create the user now.
+        Meteor.call('createUserOnboardBP',new_bpId,'Customer');
+      }
+      console.log('Bulk Upload of Customers');
     }
 
   });
