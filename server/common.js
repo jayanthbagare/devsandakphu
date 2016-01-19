@@ -216,7 +216,7 @@ if (Meteor.isServer) {
         console.log(body);
       });
     },
-<<<<<<< HEAD
+
     bulkUploadCustomers : function(bp,customerList){
       console.log('Customers are ', customerList.length);
 
@@ -257,11 +257,11 @@ if (Meteor.isServer) {
         Meteor.call('createUserOnboardBP',new_bpId,'Customer');
       }
       console.log('Bulk Upload of Customers');
-=======
+    },
     sendCampaignEmail: function(bp,campaignId){
       //Used to send normal email based on campaign id tags.
 
->>>>>>> e18d7982f49fd1193c4ce0f19a8981360111c213
+
     }
 
   });
