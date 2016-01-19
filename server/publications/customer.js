@@ -21,15 +21,29 @@ if (Meteor.isServer) {
 
   Meteor.publish("getCustomers", function(currentUserBPId, searchTerm, skipCount, limit) {
     if (!searchTerm) {
-      var current_bp = currentUserBPId;
-      relations = BusinessPartnerRelations.find({
-        bp_subject: current_bp,
-        relation: 'sells_to'
-      }, {
-        limit: limit,
-        skip: skipCount
-      });
 
+      var current_bp = currentUserBPId;
+      //Get the count to determine to use limit and skip
+      var relationCount = BusinessPartnerRelations.find({bp_subject: current_bp,relation: 'sells_to'}).count();
+      if(relationCount < skipCount)
+      {
+        relations = BusinessPartnerRelations.find({
+          bp_subject: current_bp,
+          relation: 'sells_to'
+        }
+      );
+      }
+      else {
+        relations = BusinessPartnerRelations.find({
+          bp_subject: current_bp,
+          relation: 'sells_to'
+        }
+        ,{
+          limit: limit,
+          skip: skipCount
+        });
+      }
+      
       customerIds = relations.map(function(c) {
         return c.bp_predicate[0]
       });

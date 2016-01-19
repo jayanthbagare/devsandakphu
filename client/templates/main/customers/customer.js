@@ -81,6 +81,7 @@ Template.list_customers.helpers({
             name: 1
           }
         }).fetch();
+        console.log(customers);
         Session.setAuth('getMyCustomers', customers);
       });
 
@@ -110,7 +111,7 @@ Template.list_customers.helpers({
     } //else closing
   },
   getCustomerCount: function() {
-    if(Session.get("searchTerm") == ''){
+    if(Session.get("searchTerm") == '' || !Session.get("searchTerm")){
       var currentPage = parseInt(Router.current().params.page) || 1;
       var skipCount = (currentPage) * 25;
       Session.setTemp('loadedCount',skipCount);
@@ -118,7 +119,7 @@ Template.list_customers.helpers({
     }
     else {
       var skipCount = Session.get('getMyCustomers').length
-      Session.setTemp('loadedCount',skipCount)
+      Session.setTemp('loadedCount',skipCount);
       return skipCount;
     }
   },
