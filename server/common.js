@@ -145,8 +145,8 @@ if (Meteor.isServer) {
     addMembersMailgun:function(bp,campaignId){
       this.unblock();
       var options = {
-        apiKey: "key-397f965b04aec79a8cc8c9b687d00f4a",
-        domain: "sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org"
+        apiKey: "key-8beb7265d9fbc24819529a3a661b0fb0",
+        domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
       var listAddress = 'info@sandbox952804fadf53453286bcc30b1cffc16b.mailgun.org';
