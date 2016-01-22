@@ -111,12 +111,12 @@ Template.list_customers.helpers({
               "$exists": true
             }
           }).fetch();
-          console.log('Customers are ', customers);
+          //Session.setAuth('getMyCustomers', customers);
         }
-        //Session.setAuth('getMyCustomers', customers);
+        console.log('Customers are ', customers);
+        Session.setAuth('getMyCustomers', customers);
 
       }); //Tracker closing
-      Session.setAuth('getMyCustomers', customers);
     } //else closing
   }, //getMyCustomers closing
   getCustomerCount: function() {
