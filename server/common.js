@@ -244,8 +244,23 @@ if (Meteor.isServer) {
     },
     sendCampaignEmail: function(bp,campaignId){
       //Used to send normal email based on campaign id tags.
-
+    },
+    sendEventSMS: function(){
+      console.log('send the SMS');
+    },
+    //To run the sync jobs
+    syncJob: function(){
+      SyncedCron.add({
+        name:'Send SMS every once in 2 hours through the day',
+        schedule: function(parser){
+            return parser.text('every 2 hours');
+        },
+        job: function(){
+          Meteor.Call('sendEventSMS');
+        }
+      });
     }
+
 
   });
 
