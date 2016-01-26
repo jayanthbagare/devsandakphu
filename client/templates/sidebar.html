@@ -39,6 +39,7 @@
     <!-- START SIDEBAR MENU -->
     <div class="sidebar-menu">
       <!-- BEGIN SIDEBAR MENU ITEMS-->
+      {{#if currentUser}}
       <ul class="menu-items">
         <li class="m-t-30">
           <a href="{{pathFor 'list_customers'}}"><span class="title">Customers</span></a>
@@ -56,6 +57,24 @@
           <a href="" class="logout"><span class="title">Logout</span></a>
           <span class="icon-thumbnail "><i class="fa fa-sign-out"></i></span>
         </li>
+        <li class="">
+          <a href="{{pathFor 'list_campaigns'}}" class=""><span class="title">Campaigns</span></a>
+          <span class="icon-thumbnail "><i class="fa fa-bullhorn"></i></span>
+        </li>
+        <li class="">
+          <a href="{{pathFor 'list_orders'}}" class=""><span class="title">Orders</span></a>
+          <span class="icon-thumbnail "><i class="fa fa-circle-o-notch"></i></span>
+        </li>
+        <li class="">
+          <a href="{{pathFor 'bulk_upload'}}" class=""><span class="title">Bulk Upload</span></a>
+          <span class="icon-thumbnail "><i class="fa fa-cloud-upload"></i></span>
+        </li>
+        {{else}}
+          <li class="">
+            <a href="{{pathFor 'login'}}" class=""><span class="title">Login</span></a>
+            <span class="icon-thumbnail "><i class="fa fa-power-off"></i></span>
+          </li>
+        {{/if}}
       </ul>
       <div class="clearfix"></div>
     </div>

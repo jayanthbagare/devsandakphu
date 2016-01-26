@@ -525,331 +525,59 @@ Campaigns.attachSchema(new SimpleSchema({
       }
     }));
 
-
-
-/* Order Collection */
-// Order Line
-
-//AddressSchema Definition
-Schema.OrderLines = new SimpleSchema({
-  lineNumber: {
-    type: String,
-    optional: false,
-    label: 'Line Number',
-    autoValue: function() {
-        return Math.floor((Math.random() * 1000000) + 1).toString();
-    }
-  },
-  product: {
-    //type: [Products],
-    type:String,
-    optional: false,
-    label: 'Item',
-    autoform: {
-      options: function () {
-        
-        var options = [];
-
-        Meteor.subscribe("getUser", Meteor.userId());
-        currentUser = Meteor.users.find({
-          _id: Meteor.userId()
-        }).fetch();
-
-        currentUserBPId = currentUser[0].profile.BusinessPartnerId;
-        //Get all the BP's which the logged in BP sells to
-        console.log('BP: ' + currentUserBPId);
-
-        Meteor.subscribe("getProductRelations", currentUserBPId);
-        product_cursor = BusinessPartnerProductRelation.find({
-          "bp_subject": currentUserBPId,
-          "relation": "sells"
-        }).fetch();
-
-        console.log('PC: ' + product_cursor);
-
-        products = product_cursor.map(function(c) {
-          return c.product[0]
-        });
-
-        console.log('pr1: ' + products);
-
-        Meteor.subscribe("getMyProductsForOrder", products);
-        products1 = Products.find({
-          _id: {
-            $in: products
-          }
-        }).fetch();
-
-        console.log('P: ' + products1);
-
-        products1.map(function(element) {
-          options.push({
-            label: element.name,
-            value: element._id
-          });
-        });
-
-        console.log('o: ' + options);
-
-        return options;
-    }
-  }
-},
-  type:{
-    type:String,
-    max:100,
-    optional:false,
-    allowedValues:['product','service'],
-    label: 'Item Type',
-    autoValue: function() {
-          return 'product'
+    //Invoice Collection
+    Invoice = new Mongo.Collection('invoice');
+    Invoice.attachSchema(new SimpleSchema({
+      bp_predicate: {
+        //type: [BusinessPartners], Do this in the future to add multiple parties to an event
+        type: String,
+        max: 100,
+        label: 'Choose a Customer'
+      },
+      type: {
+        type: String,
+        label: 'Associated Product'
+      },
+      userId: {
+        type: String,
+        autoValue: function() {
+          return this.userId
         }
-  },  
-  description:{
-    type:String,
-    max:5000,
-    optional:true,
-    label: 'Description'
-  },  
-  quantity:{
-    type:Number,
-    decimal: true,
-    optional:false,
-    min:0,
-    label: 'Quantity'
-  },  
-  unitPrice:{
-    type:Number,
-    decimal: true,
-    optional:false,
-    min:0,
-    label: 'Unit Price'
-  },  
-  tax:{
-    type:Number,
-    decimal: true,
-    optional:false,
-    min:0,
-    label: 'Tax'
-  },  
-  discount:{
-    type:Number,
-    decimal: true,
-    optional:true,
-    min:0,
-    label: 'Discount'
-    
-  },  
-  netPrice:{
-    type:Number,
-    decimal: true,
-    optional:false,
-    min:0,
-    label: 'Net Price'
-  },  
-  status:{
-    type: String,
-    max:100,
-    optional:true,
-    allowedValues:['open','cancelled','completed'],
-    label: 'Status',
-    autoValue: function() {
-          return 'open'
-    }
-  },
-  deliveryStatus:{
-    type: String,
-    max:100,
-    optional:true,
-    allowedValues:['open','cancelled','partial','completed'],
-    label: 'Delivery Status',
-    autoValue: function() {
-          return 'open'
-    }
-  },
-  invoiceStatus:{
-    type: String,
-    max:100,
-    optional:true,
-    allowedValues:['open','cancelled','partial','completed'],
-    label: 'Invoice Status',
-    autoValue: function() {
-          return 'open'
-    }
-  },
-  scheduledDeliveryDate:{
-    type: Date,
-    optional:true,
-    label: 'Scheduled Delivery Date'
-  },
-  destinationLocation:{
-    type: String,
-    max: 100,
-    optional:true,
-    label: 'Delivery Location'
-  },
-  availabilityStatus:{
-    type: String,
-    max:100,
-    optional:true,
-    allowedValues:['instock','outofstock'],
-    label: 'Availability'
-  }
-});
+      },
+      updatedAt: {
+        type: Date,
+        autoValue: function() {
+          return new Date()
+        }
+      }
+    }))
 
-
-// Order Header
-OrderHeaders = new Mongo.Collection('orderHeader');
-OrderHeaders.attachSchema(new SimpleSchema({
-  documentNumber:{
-    type:String,
-    max:100,
-    optional:false,
-    label: 'Order Number'
-  },
-  type:{
-    type:String,
-    max:100,
-    optional:false,
-    allowedValues:['sales','purchase','delivery','salesInvoice','purchaseInvoice'],
-    label: 'Order Type',
-  },  
-  businessPartnerId:{
-    //type: [BusinessPartners], -- To be done later
-    type:String,
-    optional:false,
-    label: 'Buyer/Seller'
-  },
-  docmentDate:{
-    type:Date,
-    optional:false,
-    label: 'Order Date'
-  },
-  externalRefNo:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'External Ref Number'
-  },
-  deliverTo:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'Delivered To'
-  },
-  status:{
-    type: String,
-    max:100,
-    optional:false,
-    allowedValues:['draft','in process','confirmed','cancelled','completed'],
-    label: 'Order Status'
-  },
-  termsandConditions:{
-    type: String,
-    max:1000,
-    optional:true,
-    label: 'Terms & Conditions'
-  },
-  currencyCode:{
-    type: String,
-    max:3,
-    optional:true,
-    label: 'Currency'
-  },
-  paymentTerm:{
-    type: String, // To be changed to payment terms table later
-    max:10,
-    optional:true,
-    label: 'Payment Term'
-  },
-  incoterm:{
-    type: String,
-    max:10,
-    optional:true,
-    label: 'Incoterm' //To be changed to Incoterm Table Later
-  },
-  shippingPolicy:{
-    type: String,
-    max:1000,
-    optional:true,
-    label: 'Shipping Policy'
-  },
-  companyID:{
-    type: String,
-    optional:false,
-    label: 'Buyer/Seller Company'
-  },
-  respPartnerID:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'Sales/Purchase Agent'
-  },
-  tag:{
-    type: [String],
-    optional:true,
-    label: 'Tag'
-  },
-  sourceDocument:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'Source Document'
-  },
-  invoiceStatus:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'Invoice Status'
-  },
-  deliveryStatus:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'Delivery Status'
-  },
-  scheduledDeliveryDate:{
-    type: Date,
-    optional:true,
-    label: 'Scheduled Delivery Date'
-  },
-  pickingType:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'picking Type'
-  },
-  priority:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'Priority'
-  },
-  deliveryMethod:{
-    type: String,
-    max:100,
-    optional:true,
-    label: 'Delivery Method'
-  },
-
-  lines: {
-    //type:[AddressSchema],
-    type: [Schema.OrderLines],
-    optional: true,
-    label: 'Order Lines'
-  },
-
-  updatedBy: {
-    type: String,
-    autoValue: function(){ return this.userId; }
-  },
-  updatedAt: {
-    type: Date,
-    autoValue: function(){ return new Date() }
-  }
-}));
-
-/* End of Order Collection */
+    //Invoice Products
+    InvoiceProducts = new Mongo.Collection('invoice_products');
+    InvoiceProducts.attachSchema(new SimpleSchema({
+      invoiceId:{
+        type: String
+      }
+      product: {
+        type: String,
+        label: 'Associated Product'
+      },
+      description:{
+        type: String
+      }
+      price:{
+        type: Number
+      }
+      tax:{
+        type: Number
+      }
+      updatedAt: {
+        type: Date,
+        autoValue: function() {
+          return new Date()
+        }
+      }
+    }))
 
     /*Security Callbacks for Collections Starts here*/
     BusinessPartners.allow({
@@ -877,6 +605,30 @@ OrderHeaders.attachSchema(new SimpleSchema({
     });
 
     Events.allow({
+      insert: function(userId, doc) {
+        return !!userId;
+      },
+      update: function(userId, doc) {
+        return !!userId;
+      },
+      remove: function(userId, doc) {
+        return !!userId;
+      }
+    });
+
+    Invoice.allow({
+      insert: function(userId, doc) {
+        return !!userId;
+      },
+      update: function(userId, doc) {
+        return !!userId;
+      },
+      remove: function(userId, doc) {
+        return !!userId;
+      }
+    });
+
+    InvoiceProducts.allow({
       insert: function(userId, doc) {
         return !!userId;
       },
@@ -960,17 +712,7 @@ OrderHeaders.attachSchema(new SimpleSchema({
       }
     });
 
-    OrderHeaders.allow({
-      insert:function(userId,doc){
-        return !!userId;
-      },
-      update:function(userId,doc){
-        return !!userId;
-      },
-      remove:function(userId,doc){
-        return !!userId;
-      }
-    });
+
     /*Security Callbacks for Collections Ends here*/
 
     /*Easy Indexes*/

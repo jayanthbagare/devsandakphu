@@ -1,0 +1,36 @@
+<template name="add_order">
+  {{#autoForm collection="OrderHeaders" id="add_order_form" type="insert"}}
+  <div class="container pt">
+      <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-4 col-lg-offset-3">
+              <h3>New Order</h3>
+              <div class="form-group">
+                {{>afQuickField name="documentNumber" value=getOrderNo readonly="true"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="type" value="sales" type="hidden"}}
+                <!--{{>afQuickField name="type" options=orderType value="sales"}}-->
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="businessPartnerId" label="Customer" options=getMyCustomers schema=Schemas.Select}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="docmentDate" value=documentDate}}
+              </div>
+              <div class="form-group">
+               {{>afQuickField name="status" value="confirmed" type="hidden"}}
+               <!-- {{>afQuickField name="status" options=orderStatus}} -->
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="companyID" value=getBPID  type="hidden"}}
+              </div>
+              <div class="form-group">
+                {{>afQuickField name="lines" id="lines" fields="lines.$.product,lines.$.description,lines.$.quantity,lines.$.unitPrice,lines.$.tax,lines.$.netPrice"  values="Products.$.name,Products.$.description"}}
+              </div>
+              <button type="order_submit" class="btn btn-primary">Submit</button>
+              <a href="/main/orders" class="btn btn-primary">Go Back</a>
+          </div>
+      </div>
+  </div>
+  {{/autoForm}}
+</template>

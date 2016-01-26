@@ -44,4 +44,7 @@ Campaigns._ensureIndex({
   runTag:'text'
 },{name:'campaignSearchIdx'});
 
+//Start the synced cron job on startup
+SyncedCron.start();
+
 });

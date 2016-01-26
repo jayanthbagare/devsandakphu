@@ -1,28 +1,33 @@
 /*@import url(http//fonts.googleapis.com/css?family=Montserrat400,700)
 @import url(http//fonts.googleapis.com/css?family=Roboto400,300)
-@import url(http//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css)*/
+@import url(http//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css)
+@import url(https://fonts.googleapis.com/css?family=Ubuntu)
 
 
-base-font-family = 'Roboto', sans-serif
+//base-font-family = 'Roboto', sans-serif
+base-font-family = 'Ubuntu',sans-serif
 base-font-weight = 400
 base-font-size = 1.0em
 
-panel-header-font-family = 'Roboto', sans-serif
+//panel-header-font-family = 'Roboto', sans-serif
+panel-header-font-family = 'Ubuntu',sans-serif
 panel-header-font-weight = 300
 panel-header-font-size = 1.2em
 
-panel-font-family = 'Roboto', sans-serif
+//panel-font-family = 'Roboto', sans-serif
+panel-font-family = 'Ubuntu', sans-serif
 panel-font-weight = 200
 panel-font-size = panel-header-font-size - 0.2
 
-panel-footer-font-family = 'Roboto', sans-serif
+//panel-footer-font-family = 'Roboto', sans-serif
+panel-footer-font-family = 'Ubuntu',sans-serif
 panel-footer-font-weight = 200
 panel-footer-font-size = panel-font-size - 0.2
 
 base-background-color = #FFFFFF
 base-text-color = #222222
 base-btn-color = #FFFFFF
-base-border-color = #792B17
+base-border-color = #CCCCCC
 base-footer-color = #2F2F2F
 
 panel-border = base-border-color
@@ -57,11 +62,16 @@ label
   color base-text-color
 
 /* Titles */
-h1,h2,h3,h4,h5,h6,.date-color
+h1,h2,h3,h4,h5,.date-color
   color base-text-color
   font-family base-font-family
   font-weight base-font-weight - 100
   font-size base-font-size + 1.4
+
+h6
+  font-family base-font-family
+  font-weight base-font-weight - 100
+  font-size base-font-size + 0.7
 
 h1
   font-weight base-font-weight - 300
@@ -248,10 +258,6 @@ abefore, aafter
   background-color panel-footer-bgcolor
   color panel-footer-text
 
-.panel-heading
-  background-color panel-heading-bgcolor !important
-  color panel-heading-text !important
-
 .client-card
   font-family base-font-family
   color panel-body-text-primary
@@ -294,7 +300,7 @@ input[type="text"]focus, search_glow
 .chosenDate
   display inline-block
   text-align justify
-  font-size panel-font-size - 0.1
+  //font-size panel-font-size - 0.1
 
 .cal_spinner
   background-color panel-heading-text
@@ -412,6 +418,12 @@ input[type="text"]focus, search_glow
 /*Message CSS Begins here*/
 .modalClose
   margin-top -18px
+  color: #777777 !important
+
+.modalClose:hover
+  background #CCCCCC !important
+  color #DD4814 !important
+
 
 .smsText
   font-family base-font-family
@@ -506,7 +518,9 @@ td.active, td > button.btn-primary
 
 .sidebar-nav li a:hover
     text-decoration none
-    color #FFFFFF
+    cusror pointer !important
+    background #CCCCCC !important
+    color #DD4814 !important
     //background rgba(255,255,255,0.2)
 
 .sidebar-nav li a:active,.sidebar-nav li a:focus
@@ -645,14 +659,26 @@ td.active, td > button.btn-primary
 .action_buttons
   color #7C7C7C !important
   cursor pointer !important
+  padding-right 15px
 
 .action_buttons:hover
   color #DD4814 !important
   cursor pointer !important
+  padding-right 15px
+
+.action_buttons_disabled
+  color #CCCCCC !important
+  cursor not-allowed !important
+  padding-right 15px
+
+.action_buttons_disabled:hover
+color #CCCCCC !important
+cursor not-allowed !important
+padding-right 15px
 
 .main_value
   color #7C7C7C
-  font-size 2.3rem !important
+  font-size base-font-size + 0.7 !important
 
 .secondary_value
   color #7C7C7C
@@ -663,9 +689,9 @@ td.active, td > button.btn-primary
   font-size 2.3rem !important
 
 .main_divider
-  color #A2A2A2 !important
-  width 75% !important
-  left 25% !important
+  color #7C7C7C !important
+  width 85% !important
+  right 5% !important
 
 .card_action_buttons
   color #7C7C7C
@@ -682,3 +708,37 @@ td.active, td > button.btn-primary
 .small_card:hover
   color #FFFFFF
   background-color #EEEEEE
+
+//Searchable Options List CSS Begins
+.sol-option:hover
+  background #CCCCCC !important
+  color #DD4814 !important
+
+.sol-label-text:hover
+  color #DD4814 !important
+
+.sol-radio:hover
+  color #DD4814 !important
+
+.sol-selected-display-item:hover,.sol-selected-display-item-text:hover,.sol-quick-delete:hover
+  background #CCCCCC !important
+  color #DD4814 !important
+//Searchable Options List CSS Ends
+
+.modal-body
+  background #CCCCCC !important
+  color #DD4814 !important
+
+//Styling for labels and form components begins
+.control-label,.panel-title,.panel-heading
+  color #777777 !important
+
+.autoform-remove-item,.autoform-add-item
+  border-color #CCCCCC !important
+  color #777777 !important
+
+.autoform-remove-item:hover,.autoform-add-item:hover
+  background-color #E6E6E6 !important
+  border-color #ADADAD !important
+  color #DD4814 !important
+//Styling for labels and form components ends

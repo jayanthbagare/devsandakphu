@@ -1,0 +1,106 @@
+<template name="list_orders">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-xs-12">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" id="ordersSearch">
+        <span class="input-group-addon" id="btnSearch">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <h6>
+        <small>Your Orders - (Total {{getOrdersCount}}/{{getOrdersTotalCount}})</small>
+      </h6>
+      <a href="/main/orders/add" id="add_order" class="pull-right">
+        <span>
+          <i class="fa fa-plus action_buttons"> New Order</i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <br/>
+  <br/>
+
+<!-- Table Header -->
+<div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+        <h6 class="secondary_value">
+          <small>
+            Order Number
+          </small>
+        </h6>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+        <h6 class="secondary_value">
+          <small>Date</small>
+        </h6>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+        <h6 class="tertiary_value">
+          <small>Customer</small>
+        </h6>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="right:-55px;">
+        <h6 class="tertiary_value">
+          <small>Status</small>
+        </h6>
+      </div>
+      <hr class="main_divider" />
+</div>
+<!-- </div> -->
+<!-- End Table Header -->
+
+  <div class="row">
+    {{#each getMyOrders}}
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 small_card">
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+        <h6 class="main_value">
+          <small>
+            <a href="/main/orders/{{_id}}/edit">
+              {{this.documentNumber}}
+            </a>
+          </small>
+        </h6>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+        <h6 class="secondary_value">
+          <small>{{formatDate this.docmentDate}}</small>
+        </h6>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs hidden-sm hidden-md">
+        <h6 class="tertiary_value">
+          <small>{{getCustomer this.businessPartnerId}}</small>
+        </h6>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="right:-55px;">
+        <h6 class="tertiary_value">
+          <small>{{this.status}}</small>
+        </h6>
+
+      </div>
+
+      <hr class="main_divider" />
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="row">
+    <a href="#" id="btnPrevious" class="btn btn-default btn-tiny">
+      <i class="fa fa-arrow-left"></i>
+      <span>Prev</span>
+    </a>
+    {{#unless loadedState}}
+    <a href="#" id="btnNext" class="btn btn-default btn-tiny">
+      <i class="fa fa-arrow-right"></i>
+      <span>Next</span>
+    </a>
+    {{/unless}}
+  </div>
+  <!-- </div> -->
+
+</template>
