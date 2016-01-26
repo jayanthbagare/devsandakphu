@@ -242,6 +242,42 @@ if (Meteor.isServer) {
         Meteor.call('createUserOnboardBP',new_bpId,'Customer');
       }
     },
+    getCampaignAnalysis: function(bp,campaignId){
+      this.unblock();
+      var options = {
+        apiKey: "key-8beb7265d9fbc24819529a3a661b0fb0",
+        domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
+      };
+      var domain = "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
+      var mg = new Mailgun(options);
+      var listAddress = 'iptexgrindex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var list = mg.api.lists(listAddress);
+      var resultData = {};
+
+
+      //Opened Data Starts
+      var resource = '/' + domain + '/' + 'events';
+      var data = {
+        event:['opened'],
+        pretty:true
+      };
+
+      mg.api.get(resource,data,function(error,result){
+        console.log(this);
+      });
+      //Opened data Ends
+
+      //Failed data Starts
+      var data = {
+        event:['failed'],
+        pretty:true
+      };
+      mg.api.get(resource,data,function(error,result){
+        resultData.failed = result;
+      });
+      //failed Data Ends
+      return resultData
+    },
     sendCampaignEmail: function(bp,campaignId){
       //Used to send normal email based on campaign id tags.
     },

@@ -137,6 +137,14 @@ Template.list_campaigns.events({
       } else {
         FlashMessages.sendSuccess('Added members to your campaign');
       }
-    })
+    });
+  },
+  'click #analyse_campaign': function(event){
+    console.log('Clicked analysis');
+    event.preventDefault();
+    currentbpId = Session.get("loggedInBPId");
+    Meteor.call('getCampaignAnalysis',currentbpId,this._id,function(error,result){
+        console.log(result);
+    });
   }
 });
