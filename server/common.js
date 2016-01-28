@@ -149,7 +149,7 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'do_not_touch@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'iptex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       var tags = Campaigns.find({
@@ -191,7 +191,7 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'do_not_touch@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'iptex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       mg.send({
