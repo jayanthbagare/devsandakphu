@@ -36,6 +36,7 @@ AutoForm.addHooks(['add_campaign_form'], hookObject, true);
 
 
 Template.list_campaigns.rendered = function() {
+  console.log(Meteor.settings.private);
   Session.setTemp('searchTerm', '');
   Tracker.autorun(function() {
     Template.list_campaigns.__helpers[" getMyCampaigns"]();

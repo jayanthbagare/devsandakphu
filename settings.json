@@ -16,10 +16,9 @@
     "staleSessionActivityEvents": "mousemove click keydown"
   },
   "private":{
-    "MAIL_URL":"",
     "mailgun":{
-      "apiKey":"key-bebff9df5d3bc724322937673ce1afb4",
-      "domain":"sandboxf747e88039a642a39fb7b661956020e9.mailgun.org"
+      "apiKey":"key-8beb7265d9fbc24819529a3a661b0fb0",
+      "domain":"sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
     }
   }
 }
