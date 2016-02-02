@@ -149,7 +149,7 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'iptex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'grindex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       var tags = Campaigns.find({
@@ -191,7 +191,7 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'iptex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'grindex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       mg.send({
@@ -250,7 +250,7 @@ if (Meteor.isServer) {
       };
       var domain = "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       var mg = new Mailgun(options);
-      var listAddress = 'iptexgrindex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'grindex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
       var resultData = {};
 
@@ -263,20 +263,25 @@ if (Meteor.isServer) {
       };
 
       mg.api.get(resource,data,function(error,result){
-        console.log(this);
+        // console.log(result);
+        // resultData.opened = result;
+        console.log(result);
+        return result;
       });
       //Opened data Ends
 
       //Failed data Starts
-      var data = {
-        event:['failed'],
-        pretty:true
-      };
-      mg.api.get(resource,data,function(error,result){
-        resultData.failed = result;
-      });
+      // var data = {
+      //   event:['failed'],
+      //   pretty:true
+      // };
+      // mg.api.get(resource,data,function(error,result){
+      //   //resultData.failed = result;
+      // });
       //failed Data Ends
-      return resultData
+
+      // console.log(resultData.opened);
+      // return resultData.opened;
     },
     sendCampaignEmail: function(bp,campaignId){
       //Used to send normal email based on campaign id tags.

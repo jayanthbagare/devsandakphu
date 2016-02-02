@@ -127,7 +127,9 @@ Template.list_campaigns.events({
   'click #run_campaign': function(event) {
     event.preventDefault();
     currentbpId = Session.get("loggedInBPId");
-    Meteor.call("sendMailgun", currentbpId, function(error, result) {});
+    Meteor.call("sendMailgun", currentbpId, function(error, result) {
+    });
+    FlashMessages.sendSuccess('Your Campaign has started successfully');
   },
   'click #add_members': function(event) {
     event.preventDefault();
