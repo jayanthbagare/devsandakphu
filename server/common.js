@@ -149,7 +149,7 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'grindex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'grindex2016@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       var tags = Campaigns.find({
@@ -191,7 +191,7 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'grindex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'grindex2016@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       mg.send({
@@ -250,7 +250,7 @@ if (Meteor.isServer) {
       };
       var domain = "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       var mg = new Mailgun(options);
-      var listAddress = 'grindex@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'grindex2016@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
       var resultData = {};
 
