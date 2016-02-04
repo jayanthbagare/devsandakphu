@@ -10,6 +10,7 @@ Template.login.events({
         event.target.password.value = password;
         FlashMessages.sendError(err.reason);
       }else{
+        console.log('Logged In');
         FlashMessages.sendSuccess('You are now logged in');
         //Set the session for currentUser Id
         Meteor.subscribe("getUser", Meteor.userId());
@@ -21,7 +22,10 @@ Template.login.events({
         //Set the Session for current user BP Id
         Session.setPersistent("loggedInBPId",currentUser[0].profile.BusinessPartnerId);
 
-        Router.go('/main');
+        Router.go('/');
+        Meteor.defer(function() {
+          $.Pages.init(); 
+        });
       }
     });
 
@@ -48,7 +52,7 @@ Template.layout.events({
       Session.clear('productSearchTerm');
 
       FlashMessages.sendSuccess('You are now logged out');
-      Router.go('/main');
+      Router.go('/login');
     }
   });
 }
