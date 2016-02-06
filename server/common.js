@@ -149,7 +149,25 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'grindex2016@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'do_not_touch@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+
+      console.log(options.domain);
+      var resource = '/' + options.domain + '/' + 'lists';
+      var data = {
+        address:'testbed@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org',
+        name:'Test Bench',
+        description:'Test Bench'
+      };
+
+      console.log(resource,data);
+      mg.api.post(resource,data,function(error,result){
+        if(error){
+          console.log(error);
+        }
+        console.log(result);
+        return result;
+      });
+
       var list = mg.api.lists(listAddress);
 
       var tags = Campaigns.find({
@@ -191,7 +209,7 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'grindex2016@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'do_not_touch@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       mg.send({
@@ -250,7 +268,7 @@ if (Meteor.isServer) {
       };
       var domain = "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       var mg = new Mailgun(options);
-      var listAddress = 'grindex2016@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+      var listAddress = 'do_not_touch@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
       var resultData = {};
 
