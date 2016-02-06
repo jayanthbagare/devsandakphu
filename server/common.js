@@ -142,6 +142,34 @@ if (Meteor.isServer) {
       }).count();
     },
 
+    createMailingList:function(campaignId){
+      this.unblock();
+      var options = {
+        apiKey: "key-8beb7265d9fbc24819529a3a661b0fb0",
+        domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
+      };
+      var mg = new Mailgun(options);
+
+      campaign = Campaigns.find({
+        _id:campaignId
+    },{title:1,description:1}).fetch();
+
+      var name_stripped = campaign[0].title.replace(/\s+/g, '');
+      var data = {
+        address: name_stripped + '@' + options.domain,
+        name: campaign[0].title,
+        description: campaign[0].description,
+        access_level: 'readonly'
+      };
+
+      mg.api.lists().create(data,function(error,response){
+        if(error){
+          return false
+        }else{
+          return true
+        }
+      });
+    },
     addMembersMailgun:function(bp,campaignId){
       this.unblock();
       var options = {
@@ -150,24 +178,6 @@ if (Meteor.isServer) {
       };
       var mg = new Mailgun(options);
       var listAddress = 'do_not_touch@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
-
-      console.log(options.domain);
-      var resource = '/' + options.domain + '/' + 'lists';
-      var data = {
-        address:'testbed@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org',
-        name:'Test Bench',
-        description:'Test Bench'
-      };
-
-      console.log(resource,data);
-      mg.api.post(resource,data,function(error,result){
-        if(error){
-          console.log(error);
-        }
-        console.log(result);
-        return result;
-      });
-
       var list = mg.api.lists(listAddress);
 
       var tags = Campaigns.find({

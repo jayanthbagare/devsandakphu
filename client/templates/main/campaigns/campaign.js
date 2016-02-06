@@ -23,6 +23,15 @@ var hookObject = {
       throw new Meteor.Error(500, 'Could not state the relation 1', e);
     }
 
+
+    console.log('Result is ', vresult);
+    //Call to create the Mailing list for the campaign
+    Meteor.call('createMailingList',vresult,function(error,response){
+      if(response){
+
+      }
+    });
+
     //If all is well Flash a Success message.
     FlashMessages.sendSuccess('Campaign created successfully');
     Router.go('/main/campaigns');
