@@ -177,7 +177,14 @@ if (Meteor.isServer) {
         domain: "sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org"
       };
       var mg = new Mailgun(options);
-      var listAddress = 'do_not_touch@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
+
+      campaign = Campaigns.find({
+        _id:campaignId
+    },{title:1,description:1}).fetch();
+
+      var name_stripped = campaign[0].title.replace(/\s+/g, '');
+
+      var listAddress = name_stripped + '@sandbox000117f9cb6740c3b179ba343156c7ab.mailgun.org';
       var list = mg.api.lists(listAddress);
 
       var tags = Campaigns.find({
@@ -291,25 +298,15 @@ if (Meteor.isServer) {
       };
 
       mg.api.get(resource,data,function(error,result){
-        // console.log(result);
-        // resultData.opened = result;
-        console.log(result);
-        return result;
+        if(error)
+        {
+          console.log(error);
+        }
+        else{
+            return result;
+        }
+
       });
-      //Opened data Ends
-
-      //Failed data Starts
-      // var data = {
-      //   event:['failed'],
-      //   pretty:true
-      // };
-      // mg.api.get(resource,data,function(error,result){
-      //   //resultData.failed = result;
-      // });
-      //failed Data Ends
-
-      // console.log(resultData.opened);
-      // return resultData.opened;
     },
     sendCampaignEmail: function(bp,campaignId){
       //Used to send normal email based on campaign id tags.
