@@ -3,7 +3,6 @@ eventPagination = '';
 AutoForm.addHooks(['add_event_form'], {
   onSuccess: function(operation, result, template) {
     /*Get the customer to message */
-    console.log(result);
     Meteor.subscribe("getEvent",result);
     last_event = Events.find({_id:result}).fetch();
 
@@ -11,7 +10,6 @@ AutoForm.addHooks(['add_event_form'], {
     toPhone = BusinessPartners.find({
       _id:result[0].bp_predicate
     }).fetch();
-    console.log('Phone number is ', toPhone);
     FlashMessages.sendSuccess('Appointment Added');
     Router.go('/main/events');
   },
@@ -167,8 +165,7 @@ Template.list_events.helpers({
     var till = moment(now).add(1, 'days').toDate();
 
     Deps.autorun(function() {
-      console.log('Current user is ', currentUser);
-      eventPagination = Meteor.subscribeWithPagination('getMyEvents', currentUser[0].profile.BusinessPartnerId, now, till, 10);
+      eventPagination = Meteor.subscribe('getMyEvents', currentUser[0].profile.BusinessPartnerId, now, till, 10);
     });
 
     events = Events.find({
@@ -177,7 +174,8 @@ Template.list_events.helpers({
         $lte: till
       },
       bp_subject: currentUser[0].profile.BusinessPartnerId
-    });
+    }).fetch();
+
     return events;
   },
   allEventsLoaded: function() {
@@ -226,21 +224,20 @@ Template.registerHelper("getToday", function() {
 //New Event Model Methods, delete the earlier ones, once done
 Template.registerHelper("getMyCustomers", function() {
   var options = [];
-
   currentUserBPId = Session.get("loggedInBPId");
-  console.log(currentUserBPId);
+
   //Get all the BP's which the logged in BP sells to
   Meteor.subscribe("getCustomerRelations", currentUserBPId);
   customer_cursor = BusinessPartnerRelations.find({
     "bp_subject": currentUserBPId,
     "relation": "sells_to"
   }).fetch();
-  console.log(customer_cursor);
+
   bp_predicates = customer_cursor.map(function(c) {
     return c.bp_predicate[0]
   });
 
-  Meteor.subscribe("getCustomers", bp_predicates);
+  Meteor.subscribe("getCustomers", currentUserBPId, '', 0, 100);
   customers = BusinessPartners.find({
     _id: {
       $in: bp_predicates
@@ -253,7 +250,6 @@ Template.registerHelper("getMyCustomers", function() {
       value: element._id
     });
   });
-  console.log(options);
   return options;
 });
 
@@ -261,12 +257,7 @@ Template.registerHelper("getMyCustomers", function() {
 Template.registerHelper("getMyProducts", function() {
   var options = [];
 
-  Meteor.subscribe("getUser", Meteor.userId());
-  currentUser = Meteor.users.find({
-    _id: Meteor.userId()
-  }).fetch();
-
-  currentUserBPId = currentUser[0].profile.BusinessPartnerId;
+  currentUserBPId = Session.get("loggedInBPId");
   //Get all the BP's which the logged in BP sells to
 
   Meteor.subscribe("getProductRelations", currentUserBPId);
@@ -299,9 +290,10 @@ Template.registerHelper("getMyProducts", function() {
 Template.editEvent.helpers({
   selectedEvent: function() {
     Meteor.subscribe("getEvent",this._id);
-    return Events.find({
+    event = Events.find({
       _id: this._id
-    });
+    }).fetch();
+    return event[0];
   },
   getCustomer: function(){
 
